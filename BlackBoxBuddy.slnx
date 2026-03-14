@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="global.json" />
+  </Folder>
+  <Folder Name="/Solution Items/src/">
+    <File Path="src/.editorconfig" />
+    <File Path="src/Directory.Build.props" />
+    <File Path="src/Directory.Packages.props" />
+  </Folder>
+  <Project Path="src/BlackBoxBuddy.Android/BlackBoxBuddy.Android.csproj" />
+  <Project Path="src/BlackBoxBuddy.Desktop/BlackBoxBuddy.Desktop.csproj" />
+  <Project Path="src/BlackBoxBuddy/BlackBoxBuddy.csproj" />
+</Solution>
