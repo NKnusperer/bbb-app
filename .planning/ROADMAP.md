@@ -70,7 +70,15 @@ Plans:
   3. User can tap a recording to open a detail view with a working video player and full metadata
   4. Consecutive recordings are automatically grouped into virtual trips with aggregated stats, accessible from the same detail UI as a single recording
   5. User can archive a single recording or an entire trip to local device storage
-**Plans**: TBD
+**Plans**: 5 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — Data models (Recording, EventType, TripGroup), IDeviceFileSystem refactor, MockDashcamDevice Bogus expansion, NuGet packages
+- [ ] 03-02-PLAN.md — TripGroupingService, ArchiveService, NavigationService implementation, value converters, DI registrations
+- [ ] 03-03-PLAN.md — RecordingsViewModel with filtering and trip grouping, RecordingsPage XAML with card list and filter chips
+- [ ] 03-04-PLAN.md — RecordingDetailViewModel with playback controls, RecordingDetailPage with LibVLCSharp VideoView, DesktopMediaPlayerService
+- [ ] 03-05-PLAN.md — Multi-select archive flow, archived badges, archive progress overlay, visual verification
+
 **UI hint**: yes
 
 ### Phase 4: Live Feed and Dashboard
@@ -93,5 +101,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/4 | In Progress|  |
 | 2. Settings | 4/5 | In Progress|  |
-| 3. Recordings | 0/TBD | Not started | - |
+| 3. Recordings | 0/5 | Not started | - |
 | 4. Live Feed and Dashboard | 0/TBD | Not started | - |
