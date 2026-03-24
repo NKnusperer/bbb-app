@@ -2,9 +2,9 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Ready to execute
-stopped_at: Completed 02-settings-02-04-PLAN.md
-last_updated: "2026-03-24T13:14:07.499Z"
+status: Phase complete — ready for verification
+stopped_at: Completed 02-settings-02-05-PLAN.md
+last_updated: "2026-03-24T13:19:40.242Z"
 progress:
   total_phases: 4
   completed_phases: 1
@@ -54,6 +54,7 @@ Plan: 5 of 5
 | Phase 02-settings P01 | 8min | 2 tasks | 19 files |
 | Phase 02-settings P03 | 8min | 1 tasks | 3 files |
 | Phase 02-settings P04 | 15min | 2 tasks | 6 files |
+| Phase 02-settings P05 | 5min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -83,6 +84,9 @@ Recent decisions affecting current work:
 - [Phase 02-settings]: OnPropertyChanged override chosen for SettingsViewModel dirty tracking — single intercept for 20+ properties; _settingsLoaded guard prevents load from triggering dirty state
 - [Phase 02-settings]: ProgressRing not in Avalonia 12 RC1; use ProgressBar IsIndeterminate=True for loading indicators
 - [Phase 02-settings]: EnumBooleanConverter pattern used for all RadioButton-to-enum bindings; SpeedUnit also uses RadioButton pair instead of ComboBox
+- [Phase 02-settings]: CommunityToolkit.Mvvm partial void OnSelectedTabIndexChanged used for tab change detection — cleanest integration with existing ObservableProperty pattern
+- [Phase 02-settings]: _isHandlingNavigation bool flag prevents re-entrance when reverting tab index programmatically during dialog display
+- [Phase 02-settings]: DiscardChanges() is a public method on SettingsViewModel (not a command) consumed by AppShellViewModel directly
 
 ### Pending Todos
 
@@ -95,6 +99,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-24T13:14:07.497Z
-Stopped at: Completed 02-settings-02-04-PLAN.md
+Last session: 2026-03-24T13:19:40.240Z
+Stopped at: Completed 02-settings-02-05-PLAN.md
 Resume file: None
