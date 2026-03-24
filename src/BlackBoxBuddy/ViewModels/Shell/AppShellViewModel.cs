@@ -12,6 +12,12 @@ public partial class AppShellViewModel : ViewModelBase
     private readonly IDeviceService _deviceService;
     private readonly INavigationService _navigationService;
 
+    private const int SettingsTabIndex = 3;
+    private bool _isHandlingNavigation;
+
+    [ObservableProperty]
+    private int _selectedTabIndex;
+
     [ObservableProperty]
     private ConnectionState _connectionState = ConnectionState.Searching;
 
@@ -50,6 +56,45 @@ public partial class AppShellViewModel : ViewModelBase
         LiveFeedVm = liveFeedVm;
         SettingsVm = settingsVm;
         _deviceService.ConnectionStateChanged += OnConnectionStateChanged;
+    }
+
+    partial void OnSelectedTabIndexChanged(int oldValue, int newValue)
+    {
+        if (_isHandlingNavigation) return;
+
+        // Only guard when leaving Settings tab with unsaved changes
+        if (oldValue == SettingsTabIndex && SettingsVm.HasUnsavedChanges)
+        {
+            _ = HandleUnsavedChangesNavigationAsync(newValue);
+        }
+    }
+
+    private async Task HandleUnsavedChangesNavigationAsync(int requestedIndex)
+    {
+        _isHandlingNavigation = true;
+
+        // Revert to Settings tab immediately to prevent navigation
+        SelectedTabIndex = SettingsTabIndex;
+
+        var shouldSave = await DialogService.ShowConfirmAsync(
+            "Unsaved Settings",
+            "You have unsaved settings. What would you like to do?",
+            confirmText: "Save & Leave",
+            cancelText: "Discard Changes",
+            isDestructive: false);
+
+        if (shouldSave)
+        {
+            if (SettingsVm.SaveCommand.CanExecute(null))
+                await SettingsVm.SaveCommand.ExecuteAsync(null);
+        }
+        else
+        {
+            SettingsVm.DiscardChanges();
+        }
+
+        SelectedTabIndex = requestedIndex;
+        _isHandlingNavigation = false;
     }
 
     private void OnConnectionStateChanged(object? sender, ConnectionState state)

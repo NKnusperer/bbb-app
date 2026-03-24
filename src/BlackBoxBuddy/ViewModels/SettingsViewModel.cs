@@ -120,6 +120,13 @@ public partial class SettingsViewModel : ViewModelBase
 
     public bool HasUnsavedChanges => _isDirty;
 
+    public void DiscardChanges()
+    {
+        _isDirty = false;
+        OnPropertyChanged(new PropertyChangedEventArgs(nameof(HasUnsavedChanges)));
+        SaveCommand.NotifyCanExecuteChanged();
+    }
+
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);

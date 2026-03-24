@@ -31,7 +31,8 @@
                                  Margin="0,4"/>
 
       <!-- TabbedPage with 4 icon-only tabs per D-01, D-02 -->
-      <TabbedPage Grid.Row="1" TabPlacement="Auto">
+      <TabbedPage Grid.Row="1" TabPlacement="Auto"
+                  SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}">
         <views:DashboardPage DataContext="{Binding DashboardVm}" IconTemplate="{StaticResource IconTemplate}">
           <ContentPage.Icon>
             <DrawingImage>
