@@ -3,8 +3,9 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
-using BlackBoxBuddy.ViewModels;
+using BlackBoxBuddy.ViewModels.Shell;
 using BlackBoxBuddy.Views;
+using BlackBoxBuddy.Views.Shell;
 
 namespace BlackBoxBuddy;
 
@@ -30,17 +31,19 @@ public class App : Application
         var provider = AppServices.ConfigureServices(PlatformServices);
         Ioc.Default.ConfigureServices(provider);
 
+        var shellVm = Ioc.Default.GetRequiredService<AppShellViewModel>();
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new MainWindow { DataContext = new MainViewModel() };
+            desktop.MainWindow = new MainWindow { Content = new AppShellView { DataContext = shellVm } };
         }
         else if (ApplicationLifetime is IActivityApplicationLifetime activityLifetime)
         {
-            activityLifetime.MainViewFactory = () => new MainView { DataContext = new MainViewModel() };
+            activityLifetime.MainViewFactory = () => new AppShellView { DataContext = shellVm };
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
-            singleViewPlatform.MainView = new MainView { DataContext = new MainViewModel() };
+            singleViewPlatform.MainView = new AppShellView { DataContext = shellVm };
         }
 
         base.OnFrameworkInitializationCompleted();
