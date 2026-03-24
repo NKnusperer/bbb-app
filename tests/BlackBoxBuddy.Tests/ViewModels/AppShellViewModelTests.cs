@@ -1,3 +1,4 @@
+using BlackBoxBuddy.Device;
 using BlackBoxBuddy.Models;
 using BlackBoxBuddy.Navigation;
 using BlackBoxBuddy.Services;
@@ -25,7 +26,8 @@ public class AppShellViewModelTests
         var dashboardVm = new DashboardViewModel();
         var recordingsVm = new RecordingsViewModel();
         var liveFeedVm = new LiveFeedViewModel();
-        var settingsVm = new SettingsViewModel();
+        var device = Substitute.For<IDashcamDevice>();
+        var settingsVm = new SettingsViewModel(device, _dialogService);
         _viewModel = new AppShellViewModel(
             _deviceService, _navigationService, _dialogService,
             dashboardVm, recordingsVm, liveFeedVm, settingsVm);
