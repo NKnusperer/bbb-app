@@ -49,7 +49,15 @@ Plans:
   3. User can adjust all sensor sensitivities (driving shock, parking shock, radar) using a 1-5 scale
   4. User can toggle any video overlay (date, time, GPS, speed) and choose speed unit (km/h or mph)
   5. User can perform factory reset or SD card wipe from a clearly labelled Danger Zone section after a confirmation prompt
-**Plans**: TBD
+**Plans**: 5 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Settings data models (typed records + enums), IDeviceCommands refactor, MockDashcamDevice update
+- [ ] 02-02-PLAN.md — DI refactor (remove Ioc.Default from Views), IDialogService + ConfirmDialog infrastructure
+- [ ] 02-03-PLAN.md — SettingsViewModel with all properties, dirty-state tracking, load/save/danger-zone commands, tests
+- [ ] 02-04-PLAN.md — SettingsPage XAML with 8 sections, sticky Save bar, Danger Zone styling, EnumBooleanConverter
+- [ ] 02-05-PLAN.md — Unsaved-changes navigation guard, visual verification checkpoint
+
 **UI hint**: yes
 
 ### Phase 3: Recordings
@@ -84,6 +92,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/4 | In Progress|  |
-| 2. Settings | 0/TBD | Not started | - |
+| 2. Settings | 0/5 | Not started | - |
 | 3. Recordings | 0/TBD | Not started | - |
 | 4. Live Feed and Dashboard | 0/TBD | Not started | - |
