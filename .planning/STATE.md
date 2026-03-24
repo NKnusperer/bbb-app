@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Ready to execute
-stopped_at: Completed 01-foundation/01-01-PLAN.md
-last_updated: "2026-03-24T09:50:14.167Z"
+status: Ready to plan
+stopped_at: Completed 01-foundation/01-04-PLAN.md
+last_updated: "2026-03-24T10:16:44.056Z"
 progress:
   total_phases: 4
   completed_phases: 0
   total_plans: 4
-  completed_plans: 1
+  completed_plans: 3
 ---
 
 # Project State
@@ -23,8 +23,8 @@ See: .planning/PROJECT.md (updated 2026-03-24)
 
 ## Current Position
 
-Phase: 01 (foundation) — EXECUTING
-Plan: 2 of 4
+Phase: 2
+Plan: Not started
 
 ## Performance Metrics
 
@@ -47,6 +47,9 @@ Plan: 2 of 4
 
 *Updated after each plan completion*
 | Phase 01-foundation P01 | 3 | 3 tasks | 19 files |
+| Phase 01-foundation P02 | -3min | 2 tasks | 5 files |
+| Phase 01-foundation P03 | 20 | 2 tasks | 23 files |
+| Phase 01-foundation P04 | 25 | 3 tasks | 15 files |
 
 ## Accumulated Context
 
@@ -61,6 +64,14 @@ Recent decisions affecting current work:
 - No single cross-platform video player — `IMediaPlayerService` must be defined in Phase 1 before any playback UI is built in Phase 3
 - [Phase 01-foundation]: Microsoft.Extensions.DependencyInjection requires explicit PackageVersion in Directory.Packages.props for CPM projects (used v10.0.0-rc.2.25502.107)
 - [Phase 01-foundation]: App.PlatformServices static property enables per-platform DI extension before Avalonia AppBuilder.Configure is called
+- [Phase 01-foundation]: MockDashcamDevice uses Task.Delay for cancellable async; TaskCanceledException is correct subtype of OperationCanceledException - use ThrowsAnyAsync in tests
+- [Phase 01-foundation]: DeviceService.SetState private helper fires ConnectionStateChanged on every transition ensuring no missed events
+- [Phase 01-foundation]: ContentPage uses Header (not Title) for tab strip label and Icon with PathGeometry for icon-only tabs in Avalonia 12 RC1
+- [Phase 01-foundation]: AdaptiveBehavior namespace is Avalonia.Xaml.Interactions.Responsive (Xaml.Behaviors.Interactions.Responsive package), not Avalonia.Xaml.Interactions.Core
+- [Phase 01-foundation]: ConnectionState-to-color mapping via IValueConverter is cleaner than multiple IsVisible-bound Ellipses
+- [Phase 01-foundation]: ManualConnectionViewModel constructed manually by AppShellViewModel with onClose Action callback — DI cannot supply per-instance callbacks
+- [Phase 01-foundation]: TextBox.Watermark deprecated in Avalonia 12 RC1; use PlaceholderText
+- [Phase 01-foundation]: Manual connection shown as IsManualConnectionVisible overlay in Panel rather than NavigationPage push
 
 ### Pending Todos
 
@@ -73,6 +84,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-24T09:50:14.166Z
-Stopped at: Completed 01-foundation/01-01-PLAN.md
+Last session: 2026-03-24T10:11:16.212Z
+Stopped at: Completed 01-foundation/01-04-PLAN.md
 Resume file: None

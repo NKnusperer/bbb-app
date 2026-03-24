@@ -9,25 +9,25 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Foundation
 
-- [ ] **FOUND-01**: App shell uses adaptive layout — vertical nav in portrait, horizontal nav in landscape
-- [ ] **FOUND-02**: Navigation bar uses icon-only centered icons
-- [ ] **FOUND-03**: Device connection indicator visible in nav bar at all times (Searching / Connected / Disconnected)
+- [x] **FOUND-01**: App shell uses adaptive layout — vertical nav in portrait, horizontal nav in landscape
+- [x] **FOUND-02**: Navigation bar uses icon-only centered icons
+- [x] **FOUND-03**: Device connection indicator visible in nav bar at all times (Searching / Connected / Disconnected)
 - [x] **FOUND-04**: App uses dark mode exclusively
-- [ ] **FOUND-05**: All content visible regardless of screen size or aspect ratio (responsive)
-- [ ] **FOUND-06**: Extended and compact views adapt to available screen space
+- [x] **FOUND-05**: All content visible regardless of screen size or aspect ratio (responsive)
+- [x] **FOUND-06**: Extended and compact views adapt to available screen space
 
 ### Device Connection
 
-- [ ] **CONN-01**: Dashcam is automatically discovered on app startup
-- [ ] **CONN-02**: If auto-discovery fails, user can manually configure the connection
-- [ ] **CONN-03**: Connection indicator serves as entry point to manual connection setup
-- [ ] **CONN-04**: Connection indicator provides entry point to SD Card mode
+- [x] **CONN-01**: Dashcam is automatically discovered on app startup
+- [x] **CONN-02**: If auto-discovery fails, user can manually configure the connection
+- [x] **CONN-03**: Connection indicator serves as entry point to manual connection setup
+- [x] **CONN-04**: Connection indicator provides entry point to SD Card mode
 - [x] **CONN-05**: Mock/demo device available for development and testing
 
 ### Provisioning
 
-- [ ] **PROV-01**: If discovered device is unconfigured, user is guided through provisioning wizard
-- [ ] **PROV-02**: Provisioning wizard walks user through essential device setup steps
+- [x] **PROV-01**: If discovered device is unconfigured, user is guided through provisioning wizard
+- [x] **PROV-02**: Provisioning wizard walks user through essential device setup steps
 
 ### Dashboard
 
@@ -171,19 +171,19 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOUND-01 | Phase 1 | Pending |
-| FOUND-02 | Phase 1 | Pending |
-| FOUND-03 | Phase 1 | Pending |
+| FOUND-01 | Phase 1 | Complete |
+| FOUND-02 | Phase 1 | Complete |
+| FOUND-03 | Phase 1 | Complete |
 | FOUND-04 | Phase 1 | Complete |
-| FOUND-05 | Phase 1 | Pending |
-| FOUND-06 | Phase 1 | Pending |
-| CONN-01 | Phase 1 | Pending |
-| CONN-02 | Phase 1 | Pending |
-| CONN-03 | Phase 1 | Pending |
-| CONN-04 | Phase 1 | Pending |
+| FOUND-05 | Phase 1 | Complete |
+| FOUND-06 | Phase 1 | Complete |
+| CONN-01 | Phase 1 | Complete |
+| CONN-02 | Phase 1 | Complete |
+| CONN-03 | Phase 1 | Complete |
+| CONN-04 | Phase 1 | Complete |
 | CONN-05 | Phase 1 | Complete |
-| PROV-01 | Phase 1 | Pending |
-| PROV-02 | Phase 1 | Pending |
+| PROV-01 | Phase 1 | Complete |
+| PROV-02 | Phase 1 | Complete |
 | WIFI-01 | Phase 2 | Pending |
 | WIFI-02 | Phase 2 | Pending |
 | WIFI-03 | Phase 2 | Pending |
