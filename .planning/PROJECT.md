@@ -12,22 +12,22 @@ Users can effortlessly manage their dashcam footage — browse recordings, combi
 
 ### Validated
 
-(None yet — ship to validate)
+- [x] Auto-discover dashcam on startup; fall back to manual connection if discovery fails — Phase 1
+- [x] Guide unconfigured devices through provisioning — Phase 1
+- [x] Configure WiFi (2.4/5 GHz, AP client or AP mode) — Phase 2
+- [x] Configure recording modes (driving: standard/racing; parking: standard/event-only) — Phase 2
+- [x] Configure recording channels (front only, front+rear) — Phase 2
+- [x] Configure rear camera orientation (0/180 degrees) — Phase 2
+- [x] Configure shock sensor sensitivity (driving 1-5, parking 1-5) — Phase 2
+- [x] Configure radar sensor sensitivity (1-5) — Phase 2
+- [x] Configure system settings (GPS, microphone, speaker volume) — Phase 2
+- [x] Configure video overlays (date, time, GPS position, speed in km/h or mph) — Phase 2
+- [x] Danger zone: factory reset, wipe SD card — Phase 2
+- [x] Mock/demo device for development and testing — Phase 1
 
 ### Active
 
-- [ ] Auto-discover dashcam on startup; fall back to manual connection if discovery fails
-- [ ] Guide unconfigured devices through provisioning
 - [ ] Dashboard showing recent recordings, trips, and events
-- [ ] Configure WiFi (2.4/5 GHz, AP client or AP mode)
-- [ ] Configure recording modes (driving: standard/racing; parking: standard/event-only)
-- [ ] Configure recording channels (front only, front+rear)
-- [ ] Configure rear camera orientation (0/180 degrees)
-- [ ] Configure shock sensor sensitivity (driving 1-5, parking 1-5)
-- [ ] Configure radar sensor sensitivity (1-5)
-- [ ] Configure system settings (GPS, microphone, speaker volume)
-- [ ] Configure video overlays (date, time, GPS position, speed in km/h or mph)
-- [ ] Danger zone: factory reset, wipe SD card
 - [ ] Live video feed from front or rear camera with toggle
 - [ ] List recordings filterable by event type (radar, g-shock, parking)
 - [ ] Show recording metadata: thumbnail, date/time, duration, file size, avg speed, peak G-force, distance
@@ -37,7 +37,6 @@ Users can effortlessly manage their dashcam footage — browse recordings, combi
 - [ ] Dark mode only, responsive layout (desktop + mobile)
 - [ ] Icon-only nav bar (vertical in portrait, horizontal in landscape) with device connection indicator
 - [ ] SD Card mode entry point from connection indicator
-- [ ] Mock/demo device for development and testing
 
 ### Out of Scope
 
@@ -96,4 +95,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-24 after initialization*
+*Last updated: 2026-03-24 after Phase 2 completion*
