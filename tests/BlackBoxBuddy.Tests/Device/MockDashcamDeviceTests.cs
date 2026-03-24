@@ -1,4 +1,5 @@
 using BlackBoxBuddy.Device.Mock;
+using BlackBoxBuddy.Models.Settings;
 using FluentAssertions;
 
 namespace BlackBoxBuddy.Tests.Device;
@@ -93,5 +94,89 @@ public class MockDashcamDeviceTests
         var device = new MockDashcamDevice();
 
         device.IsConnected.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task GetSettingsAsync_ReturnsTypedDeviceSettings()
+    {
+        var device = new MockDashcamDevice();
+
+        var settings = await device.GetSettingsAsync();
+
+        settings.Should().NotBeNull();
+        settings.Wifi.Should().NotBeNull();
+        settings.Recording.Should().NotBeNull();
+        settings.Channels.Should().NotBeNull();
+        settings.Camera.Should().NotBeNull();
+        settings.Sensors.Should().NotBeNull();
+        settings.System.Should().NotBeNull();
+        settings.Overlays.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task GetSettingsAsync_DefaultWifiBandIsFiveGHz()
+    {
+        var device = new MockDashcamDevice();
+
+        var settings = await device.GetSettingsAsync();
+
+        settings.Wifi.Band.Should().Be(WifiBand.FiveGHz);
+    }
+
+    [Fact]
+    public async Task GetSettingsAsync_DefaultSensorSensitivitiesAreThree()
+    {
+        var device = new MockDashcamDevice();
+
+        var settings = await device.GetSettingsAsync();
+
+        settings.Sensors.DrivingShockSensitivity.Should().Be(3);
+        settings.Sensors.ParkingShockSensitivity.Should().Be(3);
+        settings.Sensors.RadarSensitivity.Should().Be(3);
+    }
+
+    [Fact]
+    public async Task ApplySettingsAsync_PersistsNewSettings()
+    {
+        var device = new MockDashcamDevice();
+        var original = await device.GetSettingsAsync();
+        var updated = original with
+        {
+            Wifi = original.Wifi with { Band = WifiBand.TwoPointFourGHz }
+        };
+
+        await device.ApplySettingsAsync(updated);
+        var result = await device.GetSettingsAsync();
+
+        result.Wifi.Band.Should().Be(WifiBand.TwoPointFourGHz);
+    }
+
+    [Fact]
+    public async Task WipeSdCardAsync_ClearsRecordings()
+    {
+        var device = new MockDashcamDevice();
+
+        await device.WipeSdCardAsync();
+        var recordings = await device.ListRecordingsAsync();
+
+        recordings.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task FactoryResetAsync_ResetsSettingsToDefaults()
+    {
+        var device = new MockDashcamDevice();
+        var original = await device.GetSettingsAsync();
+        var custom = original with
+        {
+            Wifi = original.Wifi with { Band = WifiBand.TwoPointFourGHz, Ssid = "CustomNet" }
+        };
+        await device.ApplySettingsAsync(custom);
+
+        await device.FactoryResetAsync();
+        var result = await device.GetSettingsAsync();
+
+        result.Wifi.Band.Should().Be(WifiBand.FiveGHz);
+        result.Wifi.Ssid.Should().Be("DashcamAP");
     }
 }

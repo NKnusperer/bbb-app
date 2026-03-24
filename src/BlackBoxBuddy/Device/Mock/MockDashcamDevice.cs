@@ -1,4 +1,5 @@
 using BlackBoxBuddy.Models;
+using BlackBoxBuddy.Models.Settings;
 
 namespace BlackBoxBuddy.Device.Mock;
 
@@ -7,6 +8,24 @@ public class MockDashcamDevice : IDashcamDevice
     private readonly TimeSpan _discoveryDelay;
     private readonly bool _simulateFailure;
     private DeviceInfo? _deviceInfo;
+
+    private static readonly DeviceSettings DefaultSettings = new(
+        Wifi: new WifiSettings(WifiBand.FiveGHz, WifiMode.AccessPoint, "DashcamAP", ""),
+        Recording: new RecordingSettings(DrivingMode.Standard, ParkingMode.Standard),
+        Channels: new ChannelSettings(RecordingChannels.FrontAndRear),
+        Camera: new CameraSettings(RearOrientation.Normal),
+        Sensors: new SensorSettings(3, 3, 3),
+        System: new SystemSettings(true, true, 3),
+        Overlays: new OverlaySettings(true, true, false, false, SpeedUnit.KilometersPerHour));
+
+    private DeviceSettings _currentSettings = DefaultSettings;
+
+    private List<string> _recordings = new()
+    {
+        "/recordings/2026-03-24_08-30-00_front.mp4",
+        "/recordings/2026-03-24_08-33-00_front.mp4",
+        "/recordings/2026-03-24_08-30-00_rear.mp4"
+    };
 
     public MockDashcamDevice(
         TimeSpan? discoveryDelay = null,
@@ -48,16 +67,14 @@ public class MockDashcamDevice : IDashcamDevice
     }
 
     // IDeviceCommands
-    public Task<Dictionary<string, object>> GetSettingsAsync(CancellationToken ct = default)
-        => Task.FromResult(new Dictionary<string, object>
-        {
-            ["wifiBand"] = "5GHz",
-            ["drivingMode"] = "Standard",
-            ["parkingMode"] = "Standard"
-        });
+    public Task<DeviceSettings> GetSettingsAsync(CancellationToken ct = default)
+        => Task.FromResult(_currentSettings);
 
-    public Task<bool> ApplySettingsAsync(Dictionary<string, object> settings, CancellationToken ct = default)
-        => Task.FromResult(true);
+    public Task<bool> ApplySettingsAsync(DeviceSettings settings, CancellationToken ct = default)
+    {
+        _currentSettings = settings;
+        return Task.FromResult(true);
+    }
 
     public Task<bool> ProvisionAsync(Dictionary<string, object> provisioningData, CancellationToken ct = default)
     {
@@ -68,17 +85,19 @@ public class MockDashcamDevice : IDashcamDevice
     public Task<bool> FactoryResetAsync(CancellationToken ct = default)
     {
         if (_deviceInfo is not null) _deviceInfo.IsProvisioned = false;
+        _currentSettings = DefaultSettings;
+        return Task.FromResult(true);
+    }
+
+    public Task<bool> WipeSdCardAsync(CancellationToken ct = default)
+    {
+        _recordings.Clear();
         return Task.FromResult(true);
     }
 
     // IDeviceFileSystem
     public Task<IReadOnlyList<string>> ListRecordingsAsync(CancellationToken ct = default)
-        => Task.FromResult<IReadOnlyList<string>>(new List<string>
-        {
-            "/recordings/2026-03-24_08-30-00_front.mp4",
-            "/recordings/2026-03-24_08-33-00_front.mp4",
-            "/recordings/2026-03-24_08-30-00_rear.mp4"
-        });
+        => Task.FromResult<IReadOnlyList<string>>(_recordings.AsReadOnly());
 
     public Task<Stream> DownloadFileAsync(string path, CancellationToken ct = default)
         => Task.FromResult<Stream>(new MemoryStream(new byte[1024]));
