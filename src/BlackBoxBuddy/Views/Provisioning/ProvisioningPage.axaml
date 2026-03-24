@@ -30,10 +30,10 @@
                    GroupName="WifiMode"/>
 
       <TextBox Text="{Binding NetworkName, Mode=TwoWay}"
-               Watermark="Network Name"
+               PlaceholderText="Network Name"
                Margin="0,8,0,0"/>
       <TextBox Text="{Binding NetworkPassword, Mode=TwoWay}"
-               Watermark="Password"
+               PlaceholderText="Password"
                PasswordChar="*"/>
     </StackPanel>
 

@@ -12,7 +12,7 @@
       <TextBlock Text="Enter the dashcam's IP address or hostname:" FontSize="13"/>
 
       <TextBox Text="{Binding Host, Mode=TwoWay}"
-               Watermark="192.168.1.254"
+               PlaceholderText="192.168.1.254"
                FontSize="16"/>
 
       <TextBlock Text="{Binding ErrorMessage}"
