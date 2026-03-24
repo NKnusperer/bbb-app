@@ -1,13 +1,17 @@
 <Solution>
   <Folder Name="/Solution Items/">
-    <File Path="global.json" />
+    <File Path=".editorconfig"/>
+    <File Path="Directory.Build.props"/>
+    <File Path="Directory.Packages.props"/>
+    <File Path="global.json"/>
   </Folder>
-  <Folder Name="/Solution Items/src/">
-    <File Path="src/.editorconfig" />
-    <File Path="src/Directory.Build.props" />
-    <File Path="src/Directory.Packages.props" />
+  <Folder Name="/src/">
+    <File Path="src\Directory.Build.props"/>
+    <Project Path="src/BlackBoxBuddy.Android/BlackBoxBuddy.Android.csproj"/>
+    <Project Path="src/BlackBoxBuddy.Desktop/BlackBoxBuddy.Desktop.csproj"/>
+    <Project Path="src/BlackBoxBuddy/BlackBoxBuddy.csproj"/>
   </Folder>
-  <Project Path="src/BlackBoxBuddy.Android/BlackBoxBuddy.Android.csproj" />
-  <Project Path="src/BlackBoxBuddy.Desktop/BlackBoxBuddy.Desktop.csproj" />
-  <Project Path="src/BlackBoxBuddy/BlackBoxBuddy.csproj" />
+  <Folder Name="/tests/">
+    <Project Path="tests/BlackBoxBuddy.Tests/BlackBoxBuddy.Tests.csproj"/>
+  </Folder>
 </Solution>

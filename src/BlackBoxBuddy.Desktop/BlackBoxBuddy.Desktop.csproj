@@ -9,10 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia.Desktop" />
+    <PackageReference Include="Avalonia.Desktop"/>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlackBoxBuddy\BlackBoxBuddy.csproj" />
+    <ProjectReference Include="..\BlackBoxBuddy\BlackBoxBuddy.csproj"/>
   </ItemGroup>
 </Project>
