@@ -162,15 +162,15 @@ Source: CONTEXT.md D-09, D-12, D-13, D-14; Claude's discretion for exact wording
 | Save failure feedback | "Failed to save settings. Try again." (shown in Save bar, persists until next save attempt) |
 | Unsaved changes dialog title | "Unsaved Settings" |
 | Unsaved changes dialog body | "You have unsaved settings. What would you like to do?" |
-| Unsaved changes — discard action | "Discard" (secondary button) |
+| Unsaved changes — discard action | "Discard Changes" (secondary button) |
 | Unsaved changes — save action | "Save & Leave" (accent button) |
 | Factory Reset dialog title | "Factory Reset" |
 | Factory Reset dialog body | "This will erase all dashcam settings and cannot be undone. Are you sure?" |
-| Factory Reset — cancel | "Cancel" |
+| Factory Reset — cancel | "Keep My Settings" (secondary button) |
 | Factory Reset — confirm | "Reset to Factory Defaults" (destructive button) |
 | SD Card Wipe dialog title | "Wipe SD Card" |
 | SD Card Wipe dialog body | "This will permanently delete all recordings from the SD card. This cannot be undone. Are you sure?" |
-| SD Card Wipe — cancel | "Cancel" |
+| SD Card Wipe — cancel | "Keep My Recordings" (secondary button) |
 | SD Card Wipe — confirm | "Wipe SD Card" (destructive button) |
 | Speaker volume label when at 0 | "Disabled" (shown as value label next to Slider) |
 | Speed unit — visible condition | Speed Unit selector is only shown when Speed Overlay is enabled |
@@ -182,6 +182,8 @@ Source: CONTEXT.md D-09, D-12, D-13, D-14; Claude's discretion for exact wording
 ## Interaction States
 
 ### Settings Page
+
+**Primary focal point:** On initial load, the first visible section header ("WiFi") and its setting rows are the primary focal point — the ScrollViewer opens at the top, placing the WiFi section header at the topmost visible position with no content above it in view.
 
 | State | What user sees |
 |-------|----------------|
@@ -197,9 +199,9 @@ Source: CONTEXT.md D-09, D-12, D-13, D-14; Claude's discretion for exact wording
 
 | State | What user sees |
 |-------|----------------|
-| Dialog open | Modal overlay; Cancel (secondary) + confirm (destructive / accent) buttons |
+| Dialog open | Modal overlay; dismiss button (secondary) + confirm button (destructive / accent) |
 | Confirm tapped | Dialog closes; operation executes; loading state shown if long-running |
-| Cancel tapped | Dialog closes; no action taken; user returns to Settings page |
+| Dismiss tapped | Dialog closes; no action taken; user returns to Settings page |
 
 ---
 
