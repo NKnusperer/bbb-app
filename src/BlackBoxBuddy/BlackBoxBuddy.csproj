@@ -13,5 +13,7 @@
     <PackageReference Include="Avalonia.Fonts.Inter"/>
     <PackageReference Include="AvaloniaUI.DiagnosticsSupport" Condition="'$(Configuration)' == 'Debug'"/>
     <PackageReference Include="CommunityToolkit.Mvvm"/>
+    <PackageReference Include="Xaml.Behaviors.Avalonia"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection"/>
   </ItemGroup>
 </Project>

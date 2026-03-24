@@ -16,5 +16,13 @@
     <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.2.0.0"/>
     <!-- xUnit -->
     <PackageVersion Include="xunit.v3.mtp-v2" Version="3.2.2"/>
+    <!-- Responsive layout -->
+    <PackageVersion Include="Xaml.Behaviors.Avalonia" Version="12.0.0-rc1"/>
+    <!-- DI framework -->
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0-rc.2.25502.107"/>
+    <!-- Testing -->
+    <PackageVersion Include="NSubstitute" Version="5.3.0"/>
+    <PackageVersion Include="FluentAssertions" Version="8.9.0"/>
+    <PackageVersion Include="Bogus" Version="35.6.5"/>
   </ItemGroup>
 </Project>
