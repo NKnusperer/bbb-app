@@ -194,6 +194,10 @@ avalonia_xaml_diagnostic.AVLN2208.severity = warning
 # Obsolete
 avalonia_xaml_diagnostic.AVLN5001.severity = warning
 
+[*.{cs,vb}]
+# Consider calling ConfigureAwait on the awaited task
+dotnet_diagnostic.CA2007.severity = none
+
 # Xml project files
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,nativeproj,locproj}]
 indent_size = 2
