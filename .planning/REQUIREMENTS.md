@@ -171,13 +171,80 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (Populated during roadmap creation) | | |
+| FOUND-01 | Phase 1 | Pending |
+| FOUND-02 | Phase 1 | Pending |
+| FOUND-03 | Phase 1 | Pending |
+| FOUND-04 | Phase 1 | Pending |
+| FOUND-05 | Phase 1 | Pending |
+| FOUND-06 | Phase 1 | Pending |
+| CONN-01 | Phase 1 | Pending |
+| CONN-02 | Phase 1 | Pending |
+| CONN-03 | Phase 1 | Pending |
+| CONN-04 | Phase 1 | Pending |
+| CONN-05 | Phase 1 | Pending |
+| PROV-01 | Phase 1 | Pending |
+| PROV-02 | Phase 1 | Pending |
+| WIFI-01 | Phase 2 | Pending |
+| WIFI-02 | Phase 2 | Pending |
+| WIFI-03 | Phase 2 | Pending |
+| RMOD-01 | Phase 2 | Pending |
+| RMOD-02 | Phase 2 | Pending |
+| RMOD-03 | Phase 2 | Pending |
+| RMOD-04 | Phase 2 | Pending |
+| CHAN-01 | Phase 2 | Pending |
+| CHAN-02 | Phase 2 | Pending |
+| CAMR-01 | Phase 2 | Pending |
+| CAMR-02 | Phase 2 | Pending |
+| SENS-01 | Phase 2 | Pending |
+| SENS-02 | Phase 2 | Pending |
+| SENS-03 | Phase 2 | Pending |
+| SYST-01 | Phase 2 | Pending |
+| SYST-02 | Phase 2 | Pending |
+| SYST-03 | Phase 2 | Pending |
+| OVRL-01 | Phase 2 | Pending |
+| OVRL-02 | Phase 2 | Pending |
+| OVRL-03 | Phase 2 | Pending |
+| OVRL-04 | Phase 2 | Pending |
+| OVRL-05 | Phase 2 | Pending |
+| DNGR-01 | Phase 2 | Pending |
+| DNGR-02 | Phase 2 | Pending |
+| RECD-01 | Phase 3 | Pending |
+| RECD-02 | Phase 3 | Pending |
+| RECD-03 | Phase 3 | Pending |
+| RECD-04 | Phase 3 | Pending |
+| RECD-05 | Phase 3 | Pending |
+| RECD-06 | Phase 3 | Pending |
+| RECD-07 | Phase 3 | Pending |
+| RECD-08 | Phase 3 | Pending |
+| RECD-09 | Phase 3 | Pending |
+| RECD-10 | Phase 3 | Pending |
+| RECD-11 | Phase 3 | Pending |
+| RDTL-01 | Phase 3 | Pending |
+| RDTL-02 | Phase 3 | Pending |
+| RDTL-03 | Phase 3 | Pending |
+| RDTL-04 | Phase 3 | Pending |
+| RDTL-05 | Phase 3 | Pending |
+| RDTL-06 | Phase 3 | Pending |
+| RDTL-07 | Phase 3 | Pending |
+| RDTL-08 | Phase 3 | Pending |
+| TRIP-01 | Phase 3 | Pending |
+| TRIP-02 | Phase 3 | Pending |
+| TRIP-03 | Phase 3 | Pending |
+| ARCH-01 | Phase 3 | Pending |
+| ARCH-02 | Phase 3 | Pending |
+| ARCH-03 | Phase 3 | Pending |
+| LIVE-01 | Phase 4 | Pending |
+| LIVE-02 | Phase 4 | Pending |
+| LIVE-03 | Phase 4 | Pending |
+| DASH-01 | Phase 4 | Pending |
+| DASH-02 | Phase 4 | Pending |
+| DASH-03 | Phase 4 | Pending |
 
 **Coverage:**
-- v1 requirements: 55 total
-- Mapped to phases: 0
-- Unmapped: 55
+- v1 requirements: 68 total
+- Mapped to phases: 68
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-24*
-*Last updated: 2026-03-24 after initial definition*
+*Last updated: 2026-03-24 after roadmap creation*
