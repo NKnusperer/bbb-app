@@ -71,6 +71,16 @@ public class DeviceService : IDeviceService
         SetState(ConnectionState.Disconnected);
     }
 
+    public async Task<bool> ProvisionAsync(Dictionary<string, object> provisioningData, CancellationToken ct = default)
+    {
+        var success = await _device.ProvisionAsync(provisioningData, ct);
+        if (success)
+        {
+            SetState(ConnectionState.Connected);
+        }
+        return success;
+    }
+
     private void SetState(ConnectionState state)
     {
         ConnectionState = state;

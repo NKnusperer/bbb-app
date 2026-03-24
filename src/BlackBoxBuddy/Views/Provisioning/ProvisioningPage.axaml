@@ -1,0 +1,57 @@
+<ContentPage xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:BlackBoxBuddy.ViewModels.Provisioning"
+             x:Class="BlackBoxBuddy.Views.Provisioning.ProvisioningPage"
+             x:DataType="vm:ProvisioningViewModel">
+  <Grid RowDefinitions="Auto,*,Auto" Margin="24">
+    <!-- Step indicator -->
+    <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="8" Margin="0,0,0,24">
+      <Ellipse Width="12" Height="12" Classes.active="{Binding IsWelcomeStep}"/>
+      <Ellipse Width="12" Height="12" Classes.active="{Binding IsWifiStep}"/>
+      <Ellipse Width="12" Height="12" Classes.active="{Binding IsConfirmationStep}"/>
+    </StackPanel>
+
+    <!-- Step 0: Welcome -->
+    <StackPanel Grid.Row="1" IsVisible="{Binding IsWelcomeStep}" Spacing="16" VerticalAlignment="Center">
+      <TextBlock Text="Welcome!" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center"/>
+      <TextBlock Text="Let's set up your dashcam." FontSize="16" HorizontalAlignment="Center"/>
+      <TextBlock Text="{Binding DeviceName}" FontSize="14" HorizontalAlignment="Center" Opacity="0.7"/>
+      <TextBlock Text="{Binding FirmwareVersion, StringFormat='Firmware: {0}'}" FontSize="12" HorizontalAlignment="Center" Opacity="0.5"/>
+    </StackPanel>
+
+    <!-- Step 1: WiFi Setup -->
+    <StackPanel Grid.Row="1" IsVisible="{Binding IsWifiStep}" Spacing="16" VerticalAlignment="Center">
+      <TextBlock Text="WiFi Setup" FontSize="24" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+      <TextBlock Text="Choose how your dashcam connects to WiFi:" FontSize="14"/>
+
+      <RadioButton Content="Access Point Mode (dashcam creates its own network)"
+                   GroupName="WifiMode"/>
+      <RadioButton Content="Client Mode (dashcam joins your network)"
+                   GroupName="WifiMode"/>
+
+      <TextBox Text="{Binding NetworkName, Mode=TwoWay}"
+               Watermark="Network Name"
+               Margin="0,8,0,0"/>
+      <TextBox Text="{Binding NetworkPassword, Mode=TwoWay}"
+               Watermark="Password"
+               PasswordChar="*"/>
+    </StackPanel>
+
+    <!-- Step 2: Confirmation -->
+    <StackPanel Grid.Row="1" IsVisible="{Binding IsConfirmationStep}" Spacing="16" VerticalAlignment="Center">
+      <TextBlock Text="All Set!" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center"/>
+      <TextBlock Text="Your dashcam is ready to use." FontSize="16" HorizontalAlignment="Center"/>
+      <TextBlock Text="{Binding DeviceName}" FontSize="14" HorizontalAlignment="Center" Opacity="0.7"/>
+    </StackPanel>
+
+    <!-- Navigation buttons -->
+    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="0,24,0,0">
+      <Button Content="Back" Command="{Binding BackCommand}"/>
+      <Button Content="Next" Command="{Binding NextCommand}"
+              IsVisible="{Binding !IsConfirmationStep}"/>
+      <Button Content="Finish" Command="{Binding CompleteCommand}"
+              IsVisible="{Binding IsConfirmationStep}"
+              Classes="accent"/>
+    </StackPanel>
+  </Grid>
+</ContentPage>

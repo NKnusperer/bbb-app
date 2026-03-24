@@ -4,6 +4,7 @@ using BlackBoxBuddy.Navigation;
 using BlackBoxBuddy.Services;
 using BlackBoxBuddy.ViewModels;
 using BlackBoxBuddy.ViewModels.Shell;
+using BlackBoxBuddy.ViewModels.Provisioning;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BlackBoxBuddy;
@@ -31,6 +32,9 @@ public static class AppServices
         services.AddTransient<RecordingsViewModel>();
         services.AddTransient<LiveFeedViewModel>();
         services.AddTransient<SettingsViewModel>();
+        services.AddTransient<ProvisioningViewModel>();
+        // Note: ManualConnectionViewModel is NOT registered in DI.
+        // It is constructed manually by AppShellViewModel with a per-instance onClose callback.
 
         return services.BuildServiceProvider();
     }
