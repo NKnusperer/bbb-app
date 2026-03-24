@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using BlackBoxBuddy.Models;
 using BlackBoxBuddy.Navigation;
 using BlackBoxBuddy.Services;
+using BlackBoxBuddy.ViewModels.Provisioning;
 
 namespace BlackBoxBuddy.ViewModels.Shell;
 
@@ -19,6 +20,12 @@ public partial class AppShellViewModel : ViewModelBase
 
     [ObservableProperty]
     private string _connectionStatusText = "Searching...";
+
+    [ObservableProperty]
+    private bool _isManualConnectionVisible;
+
+    [ObservableProperty]
+    private ManualConnectionViewModel? _manualConnectionViewModel;
 
     public AppShellViewModel(IDeviceService deviceService, INavigationService navigationService)
     {
@@ -39,6 +46,13 @@ public partial class AppShellViewModel : ViewModelBase
             _ => "Unknown"
         };
         ConnectedDeviceName = _deviceService.ConnectedDevice?.DeviceName ?? string.Empty;
+
+        if (state == ConnectionState.NeedsProvisioning)
+        {
+            // Navigate to provisioning wizard per PROV-01
+            _ = _navigationService.PushAsync(
+                new ProvisioningViewModel(_deviceService, _navigationService));
+        }
     }
 
     [RelayCommand]
@@ -50,11 +64,14 @@ public partial class AppShellViewModel : ViewModelBase
     [RelayCommand]
     private async Task ConnectionIndicatorTappedAsync()
     {
-        // Tap on indicator opens manual connection (CONN-03) or retries
-        // Full implementation in Plan 04
+        // Tap on indicator: when Disconnected, show manual connection dialog (CONN-03)
         if (ConnectionState == ConnectionState.Disconnected)
         {
-            await _deviceService.StartDiscoveryAsync();
+            IsManualConnectionVisible = true;
+            ManualConnectionViewModel = new ManualConnectionViewModel(
+                _deviceService,
+                () => IsManualConnectionVisible = false);
         }
+        await Task.CompletedTask;
     }
 }

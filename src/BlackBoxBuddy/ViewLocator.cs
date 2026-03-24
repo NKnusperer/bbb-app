@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using BlackBoxBuddy.ViewModels;
 using BlackBoxBuddy.ViewModels.Shell;
+using BlackBoxBuddy.ViewModels.Provisioning;
 
 namespace BlackBoxBuddy;
 
@@ -15,6 +16,8 @@ public class ViewLocator : IDataTemplate
         RecordingsViewModel => new Views.RecordingsPage(),
         LiveFeedViewModel => new Views.LiveFeedPage(),
         SettingsViewModel => new Views.SettingsPage(),
+        ManualConnectionViewModel => new Views.Shell.ManualConnectionDialog(),
+        ProvisioningViewModel => new Views.Provisioning.ProvisioningPage(),
         _ => new TextBlock { Text = $"No view for {param?.GetType().Name}" }
     };
 

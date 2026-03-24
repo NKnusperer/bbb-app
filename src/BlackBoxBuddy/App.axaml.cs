@@ -47,5 +47,8 @@ public class App : Application
         }
 
         base.OnFrameworkInitializationCompleted();
+
+        // Trigger auto-discovery asynchronously after shell is displayed per CONN-01, D-12
+        _ = shellVm.StartDiscoveryCommand.ExecuteAsync(null);
     }
 }

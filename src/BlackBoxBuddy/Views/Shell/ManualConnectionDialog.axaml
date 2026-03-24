@@ -1,0 +1,36 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:BlackBoxBuddy.ViewModels.Shell"
+             x:Class="BlackBoxBuddy.Views.Shell.ManualConnectionDialog"
+             x:DataType="vm:ManualConnectionViewModel">
+  <Border Background="#CC000000" Padding="24" CornerRadius="8"
+          HorizontalAlignment="Center" VerticalAlignment="Center"
+          MaxWidth="400">
+    <StackPanel Spacing="16">
+      <TextBlock Text="Connect to Dashcam" FontSize="18" FontWeight="SemiBold"/>
+
+      <TextBlock Text="Enter the dashcam's IP address or hostname:" FontSize="13"/>
+
+      <TextBox Text="{Binding Host, Mode=TwoWay}"
+               Watermark="192.168.1.254"
+               FontSize="16"/>
+
+      <TextBlock Text="{Binding ErrorMessage}"
+                 Foreground="#FFF44336"
+                 IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                 FontSize="12"/>
+
+      <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
+        <Button Content="Cancel" Command="{Binding CancelCommand}"/>
+        <Button Content="Connect" Command="{Binding ConnectCommand}"
+                Classes="accent"/>
+      </StackPanel>
+
+      <Separator Margin="0,8"/>
+
+      <Button Content="SD Card Mode" Command="{Binding EnterSdCardModeCommand}"
+              HorizontalAlignment="Stretch"
+              HorizontalContentAlignment="Center"/>
+    </StackPanel>
+  </Border>
+</UserControl>
