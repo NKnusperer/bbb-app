@@ -1,10 +1,398 @@
 <ContentPage xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:BlackBoxBuddy.ViewModels"
+             xmlns:models="using:BlackBoxBuddy.Models.Settings"
+             xmlns:converters="using:BlackBoxBuddy.Converters"
              x:Class="BlackBoxBuddy.Views.SettingsPage"
              x:DataType="vm:SettingsViewModel">
-  <TextBlock Text="{Binding Title}"
-             HorizontalAlignment="Center"
-             VerticalAlignment="Center"
-             FontSize="24"/>
+
+  <Grid RowDefinitions="*,Auto">
+
+    <!-- Row 0: Loading state -->
+    <StackPanel Grid.Row="0"
+                IsVisible="{Binding IsLoading}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="16">
+      <ProgressBar IsIndeterminate="True" Width="160" Height="4"/>
+      <TextBlock Text="Loading settings..." FontSize="14" HorizontalAlignment="Center"/>
+    </StackPanel>
+
+    <!-- Row 0: Error state -->
+    <StackPanel Grid.Row="0"
+                IsVisible="{Binding LoadError, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="8">
+      <TextBlock Text="Could not load settings"
+                 FontSize="18" FontWeight="SemiBold"
+                 HorizontalAlignment="Center"/>
+      <TextBlock Text="Check that your dashcam is connected and try again."
+                 FontSize="14"
+                 HorizontalAlignment="Center"
+                 Opacity="0.7"/>
+    </StackPanel>
+
+    <!-- Row 0: Settings scroll — visible when not loading and no error -->
+    <ScrollViewer Grid.Row="0"
+                  Name="SettingsScrollViewer"
+                  IsVisible="{Binding !IsLoading}">
+      <StackPanel Margin="16" Spacing="32">
+
+        <!-- Section 1: WiFi -->
+        <StackPanel Spacing="16">
+          <TextBlock Text="WiFi" FontSize="18" FontWeight="SemiBold"/>
+          <Separator Height="1"/>
+
+          <!-- Band -->
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Text="Band" VerticalAlignment="Center" FontSize="14"/>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+              <RadioButton Content="2.4 GHz"
+                           GroupName="WifiBand"
+                           IsChecked="{Binding WifiBand, Mode=TwoWay,
+                             Converter={x:Static converters:EnumBooleanConverter.Instance},
+                             ConverterParameter={x:Static models:WifiBand.TwoPointFourGHz}}"/>
+              <RadioButton Content="5 GHz"
+                           GroupName="WifiBand"
+                           IsChecked="{Binding WifiBand, Mode=TwoWay,
+                             Converter={x:Static converters:EnumBooleanConverter.Instance},
+                             ConverterParameter={x:Static models:WifiBand.FiveGHz}}"/>
+            </StackPanel>
+          </Grid>
+
+          <!-- Mode -->
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Text="Mode" VerticalAlignment="Center" FontSize="14"/>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+              <RadioButton Content="Access Point"
+                           GroupName="WifiMode"
+                           IsChecked="{Binding WifiMode, Mode=TwoWay,
+                             Converter={x:Static converters:EnumBooleanConverter.Instance},
+                             ConverterParameter={x:Static models:WifiMode.AccessPoint}}"/>
+              <RadioButton Content="Client"
+                           GroupName="WifiMode"
+                           IsChecked="{Binding WifiMode, Mode=TwoWay,
+                             Converter={x:Static converters:EnumBooleanConverter.Instance},
+                             ConverterParameter={x:Static models:WifiMode.Client}}"/>
+            </StackPanel>
+          </Grid>
+
+          <!-- Network Name -->
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Text="Network Name" VerticalAlignment="Center" FontSize="14"/>
+            <TextBox Grid.Column="1"
+                     Text="{Binding WifiSsid, Mode=TwoWay}"
+                     PlaceholderText="Network name"
+                     MinWidth="200"/>
+          </Grid>
+
+          <!-- Password -->
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Text="Password" VerticalAlignment="Center" FontSize="14"/>
+            <TextBox Grid.Column="1"
+                     Text="{Binding WifiPassword, Mode=TwoWay}"
+                     PasswordChar="*"
+                     PlaceholderText="Password"
+                     MinWidth="200"/>
+          </Grid>
+        </StackPanel>
+
+        <!-- Section 2: Recording -->
+        <StackPanel Spacing="16">
+          <TextBlock Text="Recording" FontSize="18" FontWeight="SemiBold"/>
+          <Separator Height="1"/>
+
+          <!-- Driving Mode -->
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Text="Driving Mode" VerticalAlignment="Center" FontSize="14"/>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+              <RadioButton Content="Standard"
+                           GroupName="DrivingMode"
+                           IsChecked="{Binding DrivingMode, Mode=TwoWay,
+                             Converter={x:Static converters:EnumBooleanConverter.Instance},
+                             ConverterParameter={x:Static models:DrivingMode.Standard}}"/>
+              <RadioButton Content="Racing"
+                           GroupName="DrivingMode"
+                           IsChecked="{Binding DrivingMode, Mode=TwoWay,
+                             Converter={x:Static converters:EnumBooleanConverter.Instance},
+                             ConverterParameter={x:Static models:DrivingMode.Racing}}"/>
+            </StackPanel>
+          </Grid>
+
+          <!-- Parking Mode -->
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Text="Parking Mode" VerticalAlignment="Center" FontSize="14"/>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+              <RadioButton Content="Standard"
+                           GroupName="ParkingMode"
+                           IsChecked="{Binding ParkingMode, Mode=TwoWay,
+                             Converter={x:Static converters:EnumBooleanConverter.Instance},
+                             ConverterParameter={x:Static models:ParkingMode.Standard}}"/>
+              <RadioButton Content="Event Only"
+                           GroupName="ParkingMode"
+                           IsChecked="{Binding ParkingMode, Mode=TwoWay,
+                             Converter={x:Static converters:EnumBooleanConverter.Instance},
+                             ConverterParameter={x:Static models:ParkingMode.EventOnly}}"/>
+            </StackPanel>
+          </Grid>
+        </StackPanel>
+
+        <!-- Section 3: Channels -->
+        <StackPanel Spacing="16">
+          <TextBlock Text="Channels" FontSize="18" FontWeight="SemiBold"/>
+          <Separator Height="1"/>
+
+          <!-- Recording Channels -->
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Text="Recording Channels" VerticalAlignment="Center" FontSize="14"/>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+              <RadioButton Content="Front Only"
+                           GroupName="Channels"
+                           IsChecked="{Binding Channels, Mode=TwoWay,
+                             Converter={x:Static converters:EnumBooleanConverter.Instance},
+                             ConverterParameter={x:Static models:RecordingChannels.FrontOnly}}"/>
+              <RadioButton Content="Front + Rear"
+                           GroupName="Channels"
+                           IsChecked="{Binding Channels, Mode=TwoWay,
+                             Converter={x:Static converters:EnumBooleanConverter.Instance},
+                             ConverterParameter={x:Static models:RecordingChannels.FrontAndRear}}"/>
+            </StackPanel>
+          </Grid>
+        </StackPanel>
+
+        <!-- Section 4: Camera -->
+        <StackPanel Spacing="16">
+          <TextBlock Text="Camera" FontSize="18" FontWeight="SemiBold"/>
+          <Separator Height="1"/>
+
+          <!-- Rear Camera Orientation -->
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Text="Rear Camera Orientation" VerticalAlignment="Center" FontSize="14"/>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+              <RadioButton Content="Normal (0°)"
+                           GroupName="RearOrientation"
+                           IsChecked="{Binding RearOrientation, Mode=TwoWay,
+                             Converter={x:Static converters:EnumBooleanConverter.Instance},
+                             ConverterParameter={x:Static models:RearOrientation.Normal}}"/>
+              <RadioButton Content="Flipped (180°)"
+                           GroupName="RearOrientation"
+                           IsChecked="{Binding RearOrientation, Mode=TwoWay,
+                             Converter={x:Static converters:EnumBooleanConverter.Instance},
+                             ConverterParameter={x:Static models:RearOrientation.Flipped}}"/>
+            </StackPanel>
+          </Grid>
+        </StackPanel>
+
+        <!-- Section 5: Sensors -->
+        <StackPanel Spacing="16">
+          <TextBlock Text="Sensors" FontSize="18" FontWeight="SemiBold"/>
+          <Separator Height="1"/>
+
+          <!-- Driving Shock Sensitivity -->
+          <Grid ColumnDefinitions="*,Auto,Auto">
+            <TextBlock Text="Driving Shock Sensitivity" VerticalAlignment="Center" FontSize="14"/>
+            <Slider Grid.Column="1"
+                    Value="{Binding DrivingShockSensitivity, Mode=TwoWay}"
+                    Minimum="1" Maximum="5"
+                    IsSnapToTickEnabled="True"
+                    TickFrequency="1"
+                    Width="160"
+                    VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="2"
+                       Text="{Binding DrivingShockSensitivity}"
+                       FontSize="14"
+                       VerticalAlignment="Center"
+                       MinWidth="20"
+                       Margin="8,0,0,0"/>
+          </Grid>
+
+          <!-- Parking Shock Sensitivity -->
+          <Grid ColumnDefinitions="*,Auto,Auto">
+            <TextBlock Text="Parking Shock Sensitivity" VerticalAlignment="Center" FontSize="14"/>
+            <Slider Grid.Column="1"
+                    Value="{Binding ParkingShockSensitivity, Mode=TwoWay}"
+                    Minimum="1" Maximum="5"
+                    IsSnapToTickEnabled="True"
+                    TickFrequency="1"
+                    Width="160"
+                    VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="2"
+                       Text="{Binding ParkingShockSensitivity}"
+                       FontSize="14"
+                       VerticalAlignment="Center"
+                       MinWidth="20"
+                       Margin="8,0,0,0"/>
+          </Grid>
+
+          <!-- Radar Sensitivity -->
+          <Grid ColumnDefinitions="*,Auto,Auto">
+            <TextBlock Text="Radar Sensitivity" VerticalAlignment="Center" FontSize="14"/>
+            <Slider Grid.Column="1"
+                    Value="{Binding RadarSensitivity, Mode=TwoWay}"
+                    Minimum="1" Maximum="5"
+                    IsSnapToTickEnabled="True"
+                    TickFrequency="1"
+                    Width="160"
+                    VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="2"
+                       Text="{Binding RadarSensitivity}"
+                       FontSize="14"
+                       VerticalAlignment="Center"
+                       MinWidth="20"
+                       Margin="8,0,0,0"/>
+          </Grid>
+        </StackPanel>
+
+        <!-- Section 6: System -->
+        <StackPanel Spacing="16">
+          <TextBlock Text="System" FontSize="18" FontWeight="SemiBold"/>
+          <Separator Height="1"/>
+
+          <!-- GPS -->
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Text="GPS" VerticalAlignment="Center" FontSize="14"/>
+            <ToggleSwitch Grid.Column="1"
+                          IsChecked="{Binding GpsEnabled, Mode=TwoWay}"
+                          OnContent="On" OffContent="Off"/>
+          </Grid>
+
+          <!-- Microphone -->
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Text="Microphone" VerticalAlignment="Center" FontSize="14"/>
+            <ToggleSwitch Grid.Column="1"
+                          IsChecked="{Binding MicrophoneEnabled, Mode=TwoWay}"
+                          OnContent="On" OffContent="Off"/>
+          </Grid>
+
+          <!-- Speaker Volume -->
+          <Grid ColumnDefinitions="*,Auto,Auto">
+            <TextBlock Text="Speaker Volume" VerticalAlignment="Center" FontSize="14"/>
+            <Slider Grid.Column="1"
+                    Value="{Binding SpeakerVolume, Mode=TwoWay}"
+                    Minimum="0" Maximum="5"
+                    IsSnapToTickEnabled="True"
+                    TickFrequency="1"
+                    Width="160"
+                    VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="2"
+                       Text="{Binding SpeakerVolume}"
+                       FontSize="14"
+                       VerticalAlignment="Center"
+                       MinWidth="56"
+                       Margin="8,0,0,0"/>
+          </Grid>
+        </StackPanel>
+
+        <!-- Section 7: Overlays -->
+        <StackPanel Spacing="16">
+          <TextBlock Text="Overlays" FontSize="18" FontWeight="SemiBold"/>
+          <Separator Height="1"/>
+
+          <!-- Date Overlay -->
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Text="Date" VerticalAlignment="Center" FontSize="14"/>
+            <ToggleSwitch Grid.Column="1"
+                          IsChecked="{Binding DateOverlayEnabled, Mode=TwoWay}"
+                          OnContent="On" OffContent="Off"/>
+          </Grid>
+
+          <!-- Time Overlay -->
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Text="Time" VerticalAlignment="Center" FontSize="14"/>
+            <ToggleSwitch Grid.Column="1"
+                          IsChecked="{Binding TimeOverlayEnabled, Mode=TwoWay}"
+                          OnContent="On" OffContent="Off"/>
+          </Grid>
+
+          <!-- GPS Position Overlay -->
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Text="GPS Position" VerticalAlignment="Center" FontSize="14"/>
+            <ToggleSwitch Grid.Column="1"
+                          IsChecked="{Binding GpsPositionOverlayEnabled, Mode=TwoWay}"
+                          OnContent="On" OffContent="Off"/>
+          </Grid>
+
+          <!-- Speed Overlay -->
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Text="Speed" VerticalAlignment="Center" FontSize="14"/>
+            <ToggleSwitch Grid.Column="1"
+                          IsChecked="{Binding SpeedOverlayEnabled, Mode=TwoWay}"
+                          OnContent="On" OffContent="Off"/>
+          </Grid>
+
+          <!-- Speed Unit — only visible when Speed Overlay is on -->
+          <Grid ColumnDefinitions="*,Auto"
+                IsVisible="{Binding SpeedOverlayEnabled}">
+            <TextBlock Text="Speed Unit" VerticalAlignment="Center" FontSize="14"/>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+              <RadioButton Content="km/h"
+                           GroupName="SpeedUnit"
+                           IsChecked="{Binding SpeedUnit, Mode=TwoWay,
+                             Converter={x:Static converters:EnumBooleanConverter.Instance},
+                             ConverterParameter={x:Static models:SpeedUnit.KilometersPerHour}}"/>
+              <RadioButton Content="mph"
+                           GroupName="SpeedUnit"
+                           IsChecked="{Binding SpeedUnit, Mode=TwoWay,
+                             Converter={x:Static converters:EnumBooleanConverter.Instance},
+                             ConverterParameter={x:Static models:SpeedUnit.MilesPerHour}}"/>
+            </StackPanel>
+          </Grid>
+        </StackPanel>
+
+        <!-- Section 8: Danger Zone -->
+        <Border BorderBrush="#FFF44336"
+                BorderThickness="1"
+                Background="#19F44336"
+                CornerRadius="8"
+                Padding="24">
+          <StackPanel Spacing="16">
+            <TextBlock Text="Danger Zone"
+                       FontSize="18" FontWeight="SemiBold"
+                       Foreground="#FFF44336"/>
+            <TextBlock Text="These actions are permanent and cannot be undone."
+                       FontSize="12"
+                       Opacity="0.7"/>
+            <Button Content="Factory Reset..."
+                    Command="{Binding FactoryResetCommand}"
+                    Classes="destructive"
+                    HorizontalAlignment="Left"/>
+            <Button Content="Wipe SD Card..."
+                    Command="{Binding WipeSdCardCommand}"
+                    Classes="destructive"
+                    HorizontalAlignment="Left"/>
+          </StackPanel>
+        </Border>
+
+      </StackPanel>
+    </ScrollViewer>
+
+    <!-- Row 1: Sticky Save bar — visible only when dirty -->
+    <Border Grid.Row="1"
+            IsVisible="{Binding HasUnsavedChanges}"
+            Background="#1EFFFFFF"
+            Padding="16,8"
+            Height="64">
+      <StackPanel Orientation="Horizontal"
+                  HorizontalAlignment="Right"
+                  Spacing="8"
+                  VerticalAlignment="Center">
+        <TextBlock Text="Settings saved."
+                   IsVisible="{Binding IsSaveSuccess}"
+                   Foreground="LightGreen"
+                   VerticalAlignment="Center"
+                   FontSize="14"/>
+        <TextBlock Text="{Binding SaveError}"
+                   IsVisible="{Binding SaveError, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                   Foreground="#FFF44336"
+                   VerticalAlignment="Center"
+                   FontSize="14"/>
+        <Button Content="Save Settings"
+                Command="{Binding SaveCommand}"
+                Classes="accent"
+                IsEnabled="{Binding !IsSaving}"/>
+      </StackPanel>
+    </Border>
+
+  </Grid>
 </ContentPage>
