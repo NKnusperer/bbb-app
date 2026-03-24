@@ -52,7 +52,7 @@ Plans:
 **Plans**: 5 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Settings data models (typed records + enums), IDeviceCommands refactor, MockDashcamDevice update
+- [x] 02-01-PLAN.md — Settings data models (typed records + enums), IDeviceCommands refactor, MockDashcamDevice update
 - [x] 02-02-PLAN.md — DI refactor (remove Ioc.Default from Views), IDialogService + ConfirmDialog infrastructure
 - [ ] 02-03-PLAN.md — SettingsViewModel with all properties, dirty-state tracking, load/save/danger-zone commands, tests
 - [ ] 02-04-PLAN.md — SettingsPage XAML with 8 sections, sticky Save bar, Danger Zone styling, EnumBooleanConverter
@@ -92,6 +92,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/4 | In Progress|  |
-| 2. Settings | 0/5 | Not started | - |
+| 2. Settings | 2/5 | In Progress|  |
 | 3. Recordings | 0/TBD | Not started | - |
 | 4. Live Feed and Dashboard | 0/TBD | Not started | - |

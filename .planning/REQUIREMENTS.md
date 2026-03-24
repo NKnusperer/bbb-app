@@ -37,46 +37,46 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Settings — WiFi
 
-- [ ] **WIFI-01**: User can configure WiFi band (2.4 GHz or 5 GHz)
-- [ ] **WIFI-02**: User can connect device to an existing access point
-- [ ] **WIFI-03**: User can configure device to act as an access point
+- [x] **WIFI-01**: User can configure WiFi band (2.4 GHz or 5 GHz)
+- [x] **WIFI-02**: User can connect device to an existing access point
+- [x] **WIFI-03**: User can configure device to act as an access point
 
 ### Settings — Recording Modes
 
-- [ ] **RMOD-01**: User can set driving mode to Standard (front + rear @ 30 fps)
-- [ ] **RMOD-02**: User can set driving mode to Racing (front only @ 60 fps)
-- [ ] **RMOD-03**: User can set parking mode to Standard (radar monitoring, medium sensitivity)
-- [ ] **RMOD-04**: User can set parking mode to Event Only (vibration-triggered only)
+- [x] **RMOD-01**: User can set driving mode to Standard (front + rear @ 30 fps)
+- [x] **RMOD-02**: User can set driving mode to Racing (front only @ 60 fps)
+- [x] **RMOD-03**: User can set parking mode to Standard (radar monitoring, medium sensitivity)
+- [x] **RMOD-04**: User can set parking mode to Event Only (vibration-triggered only)
 
 ### Settings — Recording Channels
 
-- [ ] **CHAN-01**: User can configure recording to front camera only
-- [ ] **CHAN-02**: User can configure recording to front and rear cameras
+- [x] **CHAN-01**: User can configure recording to front camera only
+- [x] **CHAN-02**: User can configure recording to front and rear cameras
 
 ### Settings — Camera
 
-- [ ] **CAMR-01**: User can set rear camera orientation to 0 degrees
-- [ ] **CAMR-02**: User can set rear camera orientation to 180 degrees
+- [x] **CAMR-01**: User can set rear camera orientation to 0 degrees
+- [x] **CAMR-02**: User can set rear camera orientation to 180 degrees
 
 ### Settings — Sensors
 
-- [ ] **SENS-01**: User can configure driving shock sensor sensitivity (1-5)
-- [ ] **SENS-02**: User can configure parking shock sensor sensitivity (1-5)
-- [ ] **SENS-03**: User can configure radar sensor sensitivity (1-5)
+- [x] **SENS-01**: User can configure driving shock sensor sensitivity (1-5)
+- [x] **SENS-02**: User can configure parking shock sensor sensitivity (1-5)
+- [x] **SENS-03**: User can configure radar sensor sensitivity (1-5)
 
 ### Settings — System
 
-- [ ] **SYST-01**: User can enable/disable GPS
-- [ ] **SYST-02**: User can enable/disable microphone
-- [ ] **SYST-03**: User can set speaker volume (disabled, 1-5)
+- [x] **SYST-01**: User can enable/disable GPS
+- [x] **SYST-02**: User can enable/disable microphone
+- [x] **SYST-03**: User can set speaker volume (disabled, 1-5)
 
 ### Settings — Video Overlays
 
-- [ ] **OVRL-01**: User can enable/disable date overlay
-- [ ] **OVRL-02**: User can enable/disable time overlay
-- [ ] **OVRL-03**: User can enable/disable GPS position overlay
-- [ ] **OVRL-04**: User can enable/disable speed overlay
-- [ ] **OVRL-05**: User can choose speed display unit (km/h or mph)
+- [x] **OVRL-01**: User can enable/disable date overlay
+- [x] **OVRL-02**: User can enable/disable time overlay
+- [x] **OVRL-03**: User can enable/disable GPS position overlay
+- [x] **OVRL-04**: User can enable/disable speed overlay
+- [x] **OVRL-05**: User can choose speed display unit (km/h or mph)
 
 ### Settings — Danger Zone
 
@@ -184,28 +184,28 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CONN-05 | Phase 1 | Complete |
 | PROV-01 | Phase 1 | Complete |
 | PROV-02 | Phase 1 | Complete |
-| WIFI-01 | Phase 2 | Pending |
-| WIFI-02 | Phase 2 | Pending |
-| WIFI-03 | Phase 2 | Pending |
-| RMOD-01 | Phase 2 | Pending |
-| RMOD-02 | Phase 2 | Pending |
-| RMOD-03 | Phase 2 | Pending |
-| RMOD-04 | Phase 2 | Pending |
-| CHAN-01 | Phase 2 | Pending |
-| CHAN-02 | Phase 2 | Pending |
-| CAMR-01 | Phase 2 | Pending |
-| CAMR-02 | Phase 2 | Pending |
-| SENS-01 | Phase 2 | Pending |
-| SENS-02 | Phase 2 | Pending |
-| SENS-03 | Phase 2 | Pending |
-| SYST-01 | Phase 2 | Pending |
-| SYST-02 | Phase 2 | Pending |
-| SYST-03 | Phase 2 | Pending |
-| OVRL-01 | Phase 2 | Pending |
-| OVRL-02 | Phase 2 | Pending |
-| OVRL-03 | Phase 2 | Pending |
-| OVRL-04 | Phase 2 | Pending |
-| OVRL-05 | Phase 2 | Pending |
+| WIFI-01 | Phase 2 | Complete |
+| WIFI-02 | Phase 2 | Complete |
+| WIFI-03 | Phase 2 | Complete |
+| RMOD-01 | Phase 2 | Complete |
+| RMOD-02 | Phase 2 | Complete |
+| RMOD-03 | Phase 2 | Complete |
+| RMOD-04 | Phase 2 | Complete |
+| CHAN-01 | Phase 2 | Complete |
+| CHAN-02 | Phase 2 | Complete |
+| CAMR-01 | Phase 2 | Complete |
+| CAMR-02 | Phase 2 | Complete |
+| SENS-01 | Phase 2 | Complete |
+| SENS-02 | Phase 2 | Complete |
+| SENS-03 | Phase 2 | Complete |
+| SYST-01 | Phase 2 | Complete |
+| SYST-02 | Phase 2 | Complete |
+| SYST-03 | Phase 2 | Complete |
+| OVRL-01 | Phase 2 | Complete |
+| OVRL-02 | Phase 2 | Complete |
+| OVRL-03 | Phase 2 | Complete |
+| OVRL-04 | Phase 2 | Complete |
+| OVRL-05 | Phase 2 | Complete |
 | DNGR-01 | Phase 2 | Complete |
 | DNGR-02 | Phase 2 | Complete |
 | RECD-01 | Phase 3 | Pending |
