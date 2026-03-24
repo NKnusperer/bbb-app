@@ -29,7 +29,14 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. On startup the app attempts auto-discovery and connects to the mock device without user intervention
   4. If auto-discovery fails, user can tap the connection indicator to manually configure the connection
   5. When an unconfigured device is discovered, the app navigates to a provisioning wizard that walks the user through essential setup
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — DI bootstrap, AOT-safe ViewLocator, NuGet packages, device interface contracts
+- [ ] 01-02-PLAN.md — MockDashcamDevice implementation, DeviceService with auto-discovery, unit tests
+- [ ] 01-03-PLAN.md — App shell UI with TabbedPage, connection indicator, responsive layout, placeholder pages
+- [ ] 01-04-PLAN.md — Connection flow (auto-discovery, manual connection), provisioning wizard, visual verification
+
 **UI hint**: yes
 
 ### Phase 2: Settings
@@ -76,7 +83,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/TBD | Not started | - |
+| 1. Foundation | 0/4 | Planning complete | - |
 | 2. Settings | 0/TBD | Not started | - |
 | 3. Recordings | 0/TBD | Not started | - |
 | 4. Live Feed and Dashboard | 0/TBD | Not started | - |
