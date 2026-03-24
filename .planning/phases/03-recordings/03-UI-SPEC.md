@@ -5,6 +5,7 @@ status: draft
 shadcn_initialized: false
 preset: none
 created: 2026-03-24
+revised: 2026-03-24
 ---
 
 # Phase 3 — UI Design Contract
@@ -57,17 +58,19 @@ Source: Established from `SettingsPage.axaml` (`Margin="16"`, `Spacing="32"`, `S
 | Role | Size | Weight | Line Height |
 |------|------|--------|-------------|
 | Body | 14px | 400 (Regular) | 1.5 |
-| Label | 13px | 400 (Regular) | 1.4 |
+| Label | 12px | 400 (Regular) | 1.4 |
 | Heading | 18px | 600 (SemiBold) | 1.2 |
 | Display | 24px | 600 (SemiBold) | 1.2 |
 
 Usage mapping:
-- **Body (14px/400):** Card metadata text (date/time, duration, file size, speed, G-force, distance), detail view metadata values, player time display, archive progress label, section body text
-- **Label (13px/400):** Connection indicator text (established in `ConnectionIndicator.axaml` FontSize="13"), chip filter labels, metadata field keys, badge text, secondary captions
+- **Body (14px/400):** Card metadata text (date/time, duration, file size, speed, G-force, distance), detail view metadata values, player time display, archive progress label, section body text, chip filter labels, badge text, secondary captions
+- **Label (12px/400):** Connection indicator supplementary text, metadata field keys where reduced size is needed for secondary hierarchy — a clear two-step drop (14px → 12px) from body
 - **Heading (18px/600):** Section headers in detail view (e.g., "Front Camera", "Rear Camera", "Recording Details"), trip group header title, page section dividers — matches established SettingsPage `FontSize="18" FontWeight="SemiBold"`
-- **Display (24px/600):** Placeholder page title (existing RecordingsPage uses FontSize="24") — retained for NavigationPage pushed header or empty state heading
+- **Display (24px/600):** Empty state heading, NavigationPage pushed header — retained from existing `RecordingsPage.axaml` placeholder FontSize="24"
 
-Source: `SettingsPage.axaml` (FontSize 14 for body fields, 18/SemiBold for section headers); `ConnectionIndicator.axaml` (FontSize 13 for label); `RecordingsPage.axaml` (FontSize 24 placeholder).
+Note: The previous spec declared a 13px Label role. 13px and 14px are only 1px apart and create no meaningful visual hierarchy step. Label is now 12px, providing a clear two-step scale: 12 → 14 → 18 → 24. `ConnectionIndicator.axaml` uses `FontSize="13"` — that file is pre-existing and outside Phase 3 scope; new Phase 3 components use 12px for the Label role.
+
+Source: `SettingsPage.axaml` (FontSize 14 for body fields, 18/SemiBold for section headers); `RecordingsPage.axaml` (FontSize 24 placeholder).
 
 ---
 
@@ -110,12 +113,16 @@ Components needed for this phase, expressed as Avalonia controls and custom temp
 
 ### Recording List Page (`RecordingsPage.axaml`)
 
+**Focal Point**
+
+The recording card thumbnail is the primary focal point on the list page. Thumbnails occupy the full left column (160x90px on desktop, 120x68px on mobile), are color-coded by event type, and draw the eye before metadata text. On the detail page, the VideoView area is the primary focal point — it occupies the top half of the page and all other controls are subordinate to it.
+
 **Filter Chip Bar**
 - Container: `StackPanel Orientation="Horizontal" Spacing="8"` inside `ScrollViewer HorizontalScrollBarVisibility="Auto"` (allows overflow on very small screens)
 - Chip: `Button` with `CornerRadius="16"` and `Padding="12,8"` (8px vertical, 12px horizontal)
 - Inactive chip: `Background="#1EFFFFFF"` border-style button, `Foreground` from theme
 - Active chip: `Background="#2196F3"` (accent), `Foreground="White"`
-- Font: 13px/400
+- Font: 14px/400
 - Behavior: single-select; bound to `SelectedFilter` enum property on RecordingsViewModel
 
 **Recording Card** (standalone clip)
@@ -125,7 +132,7 @@ Components needed for this phase, expressed as Avalonia controls and custom temp
 - Metadata right column: `StackPanel Spacing="4"` — two rows of info
   - Row 1: date/time (14px/400) + duration + file size, `Opacity="0.85"`
   - Row 2: speed + G-force + distance, `Opacity="0.7"`
-- Event badge: `Border CornerRadius="4" Padding="4,2"` with `Background` from `EventTypeToBrushConverter`, `TextBlock` 13px/400, positioned top-right corner of thumbnail via `Panel`
+- Event badge: `Border CornerRadius="4" Padding="4,2"` with `Background` from `EventTypeToBrushConverter`, `TextBlock` 12px/400, positioned top-right corner of thumbnail via `Panel`
 - Archived badge: `Border CornerRadius="4" Padding="4,2" Background="#4CAF50"` with checkmark icon + "Archived" label, bottom-right of card
 - Multi-select checkbox: `CheckBox` overlaid top-left of thumbnail via `Panel`, visible only in multi-select mode
 
@@ -133,7 +140,7 @@ Components needed for this phase, expressed as Avalonia controls and custom temp
 - Container: `Border CornerRadius="8" Padding="12" Background="#26FFFFFF"` (slightly more prominent than clip cards — 15% white vs 12%)
 - Trip icon + "Trip" label: `StackPanel Orientation="Horizontal" Spacing="8"` with PathGeometry route icon
 - Aggregated stats: same two-row metadata layout as recording card
-- Clip count: "N clips" label, 13px/400, Opacity="0.7"
+- Clip count: "N clips" label, 12px/400, Opacity="0.7"
 - Expand/collapse chevron: right-aligned `PathGeometry` icon, rotates 90deg when expanded
 
 **Nested Clip Row** (inside trip group)
@@ -150,6 +157,7 @@ Components needed for this phase, expressed as Avalonia controls and custom temp
 - PathGeometry filmstrip/recording icon, `Width="64" Height="64" Opacity="0.4"`
 - Heading: 24px/600
 - Body: 14px/400, `Opacity="0.7"`, `MaxWidth="280"` centered
+- Two variants driven by ViewModel state: `IsDeviceConnected` false → no-device copy; `IsDeviceConnected` true + active filter → filter-active copy
 
 **Error State** (see Copywriting section for text)
 - Same layout as SettingsPage error state: heading 18px/600 + body 14px/400 centered
@@ -170,14 +178,14 @@ Components needed for this phase, expressed as Avalonia controls and custom temp
 **Player Controls**
 - Container: `StackPanel Spacing="8"` below VideoView area, full width
 - Row 1 (seek): `Slider` with `Background="#2196F3"` track fill, `Padding="0,4"`, full width
-  - Time labels: current/total displayed as `TextBlock 13px/400` flanking the slider
+  - Time labels: current/total displayed as `TextBlock 12px/400` flanking the slider
 - Row 2 (buttons): `StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center"`
-  - Previous Frame: PathGeometry icon button, 44px hit area
-  - Play/Pause: PathGeometry icon button, 44px hit area (larger visual — 32px icon)
-  - Next Frame: PathGeometry icon button, 44px hit area
-  - Fullscreen Toggle: PathGeometry icon button, 44px hit area, right-aligned
+  - Previous Frame: PathGeometry icon button, 44px hit area — `ToolTip.Tip="Previous frame"` + `AutomationProperties.Name="Previous frame"`
+  - Play/Pause: PathGeometry icon button, 44px hit area (larger visual — 32px icon) — `ToolTip.Tip="Play"` / `"Pause"` (bound to playback state) + `AutomationProperties.Name` bound to same
+  - Next Frame: PathGeometry icon button, 44px hit area — `ToolTip.Tip="Next frame"` + `AutomationProperties.Name="Next frame"`
+  - Fullscreen Toggle: PathGeometry icon button, 44px hit area, right-aligned — `ToolTip.Tip="Enter fullscreen"` / `"Exit fullscreen"` (bound to fullscreen state) + `AutomationProperties.Name` bound to same
 - Row 3 (speed): `StackPanel Orientation="Horizontal" Spacing="4" HorizontalAlignment="Center"`
-  - Speed buttons: `0.5x` `1x` `2x` as toggle-style `Button` controls, 13px/400
+  - Speed buttons: `0.5x` `1x` `2x` as toggle-style `Button` controls, 12px/400
   - Active speed: `Background="#2196F3"` (accent)
 
 **Metadata Section**
@@ -196,7 +204,7 @@ Components needed for this phase, expressed as Avalonia controls and custom temp
 - Inner: `StackPanel` centered with `Spacing="16"`
   - Label: 14px/400 "Archiving clip N of M..."
   - `ProgressBar Value="{Binding ArchiveProgress}" Height="4"` with accent fill
-  - `Button Content="Cancel"` (text style, no fill)
+  - `Button Content="Stop Archiving"` (text style, no fill)
 
 ---
 
@@ -235,7 +243,8 @@ Breakpoint at 600px (established in Phase 1, `AdaptiveClassSetter MaxWidth="599"
 | Primary CTA (list) | "Archive Recording" |
 | Primary CTA (multi-select) | "Archive Selected (N)" |
 | Primary CTA (trip detail) | "Archive Entire Trip" |
-| Empty state heading | "No recordings found" |
+| Empty state heading (no device) | "Your dashcam recordings will appear here" |
+| Empty state heading (filter active) | "No matches for this filter" |
 | Empty state body (no device) | "Connect your dashcam to browse recordings." |
 | Empty state body (filter active) | "No recordings match this filter. Try selecting All." |
 | Error state heading | "Could not load recordings" |
@@ -244,8 +253,8 @@ Breakpoint at 600px (established in Phase 1, `AdaptiveClassSetter MaxWidth="599"
 | Archive in progress | "Archiving clip N of M..." |
 | Archive complete toast/label | "Archived successfully" |
 | Archive error | "Archive failed. Check available storage and try again." |
-| Multi-select enter button | "Select" |
-| Multi-select exit button | "Cancel" |
+| Multi-select enter button | "Select Clips" |
+| Multi-select exit button | "Done Selecting" |
 | Select all | "Select All" |
 | Trip group header | "Trip · N clips" |
 | Archived badge | "Archived" |
