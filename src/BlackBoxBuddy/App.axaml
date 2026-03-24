@@ -11,5 +11,9 @@
 
   <Application.Styles>
     <FluentTheme />
+    <Style Selector="Button.destructive">
+      <Setter Property="Background" Value="#FFF44336"/>
+      <Setter Property="Foreground" Value="White"/>
+    </Style>
   </Application.Styles>
 </Application>
