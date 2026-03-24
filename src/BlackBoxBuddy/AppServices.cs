@@ -1,3 +1,6 @@
+using BlackBoxBuddy.Navigation;
+using BlackBoxBuddy.ViewModels;
+using BlackBoxBuddy.ViewModels.Shell;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BlackBoxBuddy;
@@ -13,7 +16,14 @@ public static class AppServices
         platformServices?.Invoke(services);
 
         // Shared singletons — device and service registrations added in Plan 02
-        // Transient ViewModels — added as ViewModels are created in Plans 02-04
+        services.AddSingleton<INavigationService, NavigationService>();
+
+        // Transient ViewModels
+        services.AddTransient<AppShellViewModel>();
+        services.AddTransient<DashboardViewModel>();
+        services.AddTransient<RecordingsViewModel>();
+        services.AddTransient<LiveFeedViewModel>();
+        services.AddTransient<SettingsViewModel>();
 
         return services.BuildServiceProvider();
     }
