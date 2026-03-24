@@ -6,6 +6,8 @@ namespace BlackBoxBuddy.Views;
 
 public partial class SettingsPage : ContentPage
 {
+    protected override Type StyleKeyOverride => typeof(ContentPage);
+
     public SettingsPage()
     {
         InitializeComponent();
