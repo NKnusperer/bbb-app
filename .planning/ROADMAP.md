@@ -53,7 +53,7 @@ Plans:
 
 Plans:
 - [ ] 02-01-PLAN.md — Settings data models (typed records + enums), IDeviceCommands refactor, MockDashcamDevice update
-- [ ] 02-02-PLAN.md — DI refactor (remove Ioc.Default from Views), IDialogService + ConfirmDialog infrastructure
+- [x] 02-02-PLAN.md — DI refactor (remove Ioc.Default from Views), IDialogService + ConfirmDialog infrastructure
 - [ ] 02-03-PLAN.md — SettingsViewModel with all properties, dirty-state tracking, load/save/danger-zone commands, tests
 - [ ] 02-04-PLAN.md — SettingsPage XAML with 8 sections, sticky Save bar, Danger Zone styling, EnumBooleanConverter
 - [ ] 02-05-PLAN.md — Unsaved-changes navigation guard, visual verification checkpoint

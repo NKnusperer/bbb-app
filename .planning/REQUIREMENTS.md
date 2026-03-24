@@ -80,8 +80,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Settings — Danger Zone
 
-- [ ] **DNGR-01**: User can perform factory reset on device
-- [ ] **DNGR-02**: User can wipe SD card
+- [x] **DNGR-01**: User can perform factory reset on device
+- [x] **DNGR-02**: User can wipe SD card
 
 ### Live Feed
 
@@ -206,8 +206,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | OVRL-03 | Phase 2 | Pending |
 | OVRL-04 | Phase 2 | Pending |
 | OVRL-05 | Phase 2 | Pending |
-| DNGR-01 | Phase 2 | Pending |
-| DNGR-02 | Phase 2 | Pending |
+| DNGR-01 | Phase 2 | Complete |
+| DNGR-02 | Phase 2 | Complete |
 | RECD-01 | Phase 3 | Pending |
 | RECD-02 | Phase 3 | Pending |
 | RECD-03 | Phase 3 | Pending |
