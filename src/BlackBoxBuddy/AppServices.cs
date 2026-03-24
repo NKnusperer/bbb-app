@@ -6,6 +6,7 @@ using BlackBoxBuddy.ViewModels;
 using BlackBoxBuddy.ViewModels.Shell;
 using BlackBoxBuddy.ViewModels.Provisioning;
 using Microsoft.Extensions.DependencyInjection;
+using Avalonia.Controls.ApplicationLifetimes;
 
 namespace BlackBoxBuddy;
 
@@ -25,6 +26,13 @@ public static class AppServices
         // Services — singletons per D-23
         services.AddSingleton<IDeviceService, DeviceService>();
         services.AddSingleton<INavigationService, NavigationService>();
+        services.AddSingleton<IDialogService>(sp =>
+        {
+            return new DialogService(() =>
+                Avalonia.Application.Current?.ApplicationLifetime is
+                    IClassicDesktopStyleApplicationLifetime desktop
+                        ? desktop.MainWindow : null);
+        });
 
         // Transient ViewModels per D-23
         services.AddTransient<AppShellViewModel>();

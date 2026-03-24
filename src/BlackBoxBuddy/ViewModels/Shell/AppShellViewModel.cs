@@ -27,10 +27,28 @@ public partial class AppShellViewModel : ViewModelBase
     [ObservableProperty]
     private ManualConnectionViewModel? _manualConnectionViewModel;
 
-    public AppShellViewModel(IDeviceService deviceService, INavigationService navigationService)
+    public DashboardViewModel DashboardVm { get; }
+    public RecordingsViewModel RecordingsVm { get; }
+    public LiveFeedViewModel LiveFeedVm { get; }
+    public SettingsViewModel SettingsVm { get; }
+    public IDialogService DialogService { get; }
+
+    public AppShellViewModel(
+        IDeviceService deviceService,
+        INavigationService navigationService,
+        IDialogService dialogService,
+        DashboardViewModel dashboardVm,
+        RecordingsViewModel recordingsVm,
+        LiveFeedViewModel liveFeedVm,
+        SettingsViewModel settingsVm)
     {
         _deviceService = deviceService;
         _navigationService = navigationService;
+        DialogService = dialogService;
+        DashboardVm = dashboardVm;
+        RecordingsVm = recordingsVm;
+        LiveFeedVm = liveFeedVm;
+        SettingsVm = settingsVm;
         _deviceService.ConnectionStateChanged += OnConnectionStateChanged;
     }
 

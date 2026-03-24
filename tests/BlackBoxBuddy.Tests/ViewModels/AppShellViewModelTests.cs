@@ -12,15 +12,23 @@ public class AppShellViewModelTests
 {
     private readonly IDeviceService _deviceService;
     private readonly INavigationService _navigationService;
+    private readonly IDialogService _dialogService;
     private readonly AppShellViewModel _viewModel;
 
     public AppShellViewModelTests()
     {
         _deviceService = Substitute.For<IDeviceService>();
         _navigationService = Substitute.For<INavigationService>();
+        _dialogService = Substitute.For<IDialogService>();
         _deviceService.ConnectionState.Returns(ConnectionState.Disconnected);
         _deviceService.ConnectedDevice.Returns((DeviceInfo?)null);
-        _viewModel = new AppShellViewModel(_deviceService, _navigationService);
+        var dashboardVm = new DashboardViewModel();
+        var recordingsVm = new RecordingsViewModel();
+        var liveFeedVm = new LiveFeedViewModel();
+        var settingsVm = new SettingsViewModel();
+        _viewModel = new AppShellViewModel(
+            _deviceService, _navigationService, _dialogService,
+            dashboardVm, recordingsVm, liveFeedVm, settingsVm);
     }
 
     private void RaiseConnectionStateChanged(ConnectionState state)
