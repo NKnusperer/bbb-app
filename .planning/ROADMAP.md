@@ -32,7 +32,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 4 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — DI bootstrap, AOT-safe ViewLocator, NuGet packages, device interface contracts
+- [x] 01-01-PLAN.md — DI bootstrap, AOT-safe ViewLocator, NuGet packages, device interface contracts
 - [ ] 01-02-PLAN.md — MockDashcamDevice implementation, DeviceService with auto-discovery, unit tests
 - [ ] 01-03-PLAN.md — App shell UI with TabbedPage, connection indicator, responsive layout, placeholder pages
 - [ ] 01-04-PLAN.md — Connection flow (auto-discovery, manual connection), provisioning wizard, visual verification
