@@ -1,3 +1,9 @@
+using BlackBoxBuddy.Device;
+using BlackBoxBuddy.Device.Mock;
+using BlackBoxBuddy.Navigation;
+using BlackBoxBuddy.Services;
+using BlackBoxBuddy.ViewModels;
+using BlackBoxBuddy.ViewModels.Shell;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BlackBoxBuddy;
@@ -12,8 +18,19 @@ public static class AppServices
         // Platform-specific registrations first
         platformServices?.Invoke(services);
 
-        // Shared singletons — device and service registrations added in Plan 02
-        // Transient ViewModels — added as ViewModels are created in Plans 02-04
+        // Device layer — singleton mock device (swapped for real device in future phases)
+        services.AddSingleton<IDashcamDevice, MockDashcamDevice>();
+
+        // Services — singletons per D-23
+        services.AddSingleton<IDeviceService, DeviceService>();
+        services.AddSingleton<INavigationService, NavigationService>();
+
+        // Transient ViewModels per D-23
+        services.AddTransient<AppShellViewModel>();
+        services.AddTransient<DashboardViewModel>();
+        services.AddTransient<RecordingsViewModel>();
+        services.AddTransient<LiveFeedViewModel>();
+        services.AddTransient<SettingsViewModel>();
 
         return services.BuildServiceProvider();
     }
