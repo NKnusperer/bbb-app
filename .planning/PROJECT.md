@@ -24,11 +24,11 @@ Users can effortlessly manage their dashcam footage — browse recordings, combi
 - [x] Configure video overlays (date, time, GPS position, speed in km/h or mph) — Phase 2
 - [x] Danger zone: factory reset, wipe SD card — Phase 2
 - [x] Mock/demo device for development and testing — Phase 1
+- [x] Dashboard showing recent recordings, trips, and events — Phase 4
+- [x] Live video feed from front or rear camera with toggle — Phase 4
 
 ### Active
 
-- [ ] Dashboard showing recent recordings, trips, and events
-- [ ] Live video feed from front or rear camera with toggle
 - [ ] List recordings filterable by event type (radar, g-shock, parking)
 - [ ] Show recording metadata: thumbnail, date/time, duration, file size, avg speed, peak G-force, distance
 - [ ] Recording detail view with video player and full metadata
@@ -95,4 +95,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-24 after Phase 2 completion*
+*Last updated: 2026-03-25 after Phase 4 completion*
