@@ -12,51 +12,49 @@ Users can effortlessly manage their dashcam footage — browse recordings, combi
 
 ### Validated
 
-- [x] Auto-discover dashcam on startup; fall back to manual connection if discovery fails — Phase 1
-- [x] Guide unconfigured devices through provisioning — Phase 1
-- [x] Configure WiFi (2.4/5 GHz, AP client or AP mode) — Phase 2
-- [x] Configure recording modes (driving: standard/racing; parking: standard/event-only) — Phase 2
-- [x] Configure recording channels (front only, front+rear) — Phase 2
-- [x] Configure rear camera orientation (0/180 degrees) — Phase 2
-- [x] Configure shock sensor sensitivity (driving 1-5, parking 1-5) — Phase 2
-- [x] Configure radar sensor sensitivity (1-5) — Phase 2
-- [x] Configure system settings (GPS, microphone, speaker volume) — Phase 2
-- [x] Configure video overlays (date, time, GPS position, speed in km/h or mph) — Phase 2
-- [x] Danger zone: factory reset, wipe SD card — Phase 2
-- [x] Mock/demo device for development and testing — Phase 1
-- [x] Dashboard showing recent recordings, trips, and events — Phase 4
-- [x] Live video feed from front or rear camera with toggle — Phase 4
+- [x] Auto-discover dashcam on startup; fall back to manual connection if discovery fails — v1.0
+- [x] Guide unconfigured devices through provisioning — v1.0
+- [x] Configure WiFi (2.4/5 GHz, AP client or AP mode) — v1.0
+- [x] Configure recording modes (driving: standard/racing; parking: standard/event-only) — v1.0
+- [x] Configure recording channels (front only, front+rear) — v1.0
+- [x] Configure rear camera orientation (0/180 degrees) — v1.0
+- [x] Configure shock sensor sensitivity (driving 1-5, parking 1-5) — v1.0
+- [x] Configure radar sensor sensitivity (1-5) — v1.0
+- [x] Configure system settings (GPS, microphone, speaker volume) — v1.0
+- [x] Configure video overlays (date, time, GPS position, speed in km/h or mph) — v1.0
+- [x] Danger zone: factory reset, wipe SD card — v1.0
+- [x] Mock/demo device for development and testing — v1.0
+- [x] Dashboard showing recent recordings, trips, and events — v1.0
+- [x] Live video feed from front or rear camera with toggle — v1.0
+- [x] List recordings filterable by event type (radar, g-shock, parking) — v1.0
+- [x] Show recording metadata: thumbnail, date/time, duration, file size, avg speed, peak G-force, distance — v1.0
+- [x] Recording detail view with video player and full metadata — v1.0
+- [x] Combine consecutive recordings into virtual trips — v1.0
+- [x] Archive recordings/trips to local storage — v1.0
+- [x] Dark mode only, responsive layout (desktop + mobile) — v1.0
+- [x] Icon-only nav bar (vertical in portrait, horizontal in landscape) with device connection indicator — v1.0
+- [x] SD Card mode entry point from connection indicator — v1.0
 
 ### Active
 
-- [ ] List recordings filterable by event type (radar, g-shock, parking)
-- [ ] Show recording metadata: thumbnail, date/time, duration, file size, avg speed, peak G-force, distance
-- [ ] Recording detail view with video player and full metadata
-- [ ] Combine consecutive recordings into virtual trips with same UI as single recordings
-- [ ] Archive recordings/trips to local storage
-- [ ] Dark mode only, responsive layout (desktop + mobile)
-- [ ] Icon-only nav bar (vertical in portrait, horizontal in landscape) with device connection indicator
-- [ ] SD Card mode entry point from connection indicator
+(None — next milestone requirements defined via `/gsd:new-milestone`)
 
 ### Out of Scope
 
-- Cloud sync or remote access — local-only by design
-- Light mode — dark mode only for v1
+- Cloud sync or remote access — local-only by design; privacy-first positioning
+- Light mode — dark mode only for v1; revisit based on user feedback
 - iOS support — Android and desktop only for v1
-- Real device communication protocol — using mock device for now
+- Real device communication protocol — using mock device; deferred to v2
 - Multi-device simultaneous connection — one device at a time for v1
+- AI-powered event detection — dashcam hardware handles detection
+- Video editing / trimming — out of core value; users archive raw footage
 
 ## Context
 
-- GPS and accelerometer data are embedded in the video files (not separate metadata)
-- Dashcam recordings are short clips (seconds each); virtual trips combine consecutive clips
-- Dashcams overwrite old recordings, making archiving time-sensitive
-- The skeleton project (BlackBoxBuddy.slnx) already exists with dependencies configured
-- Must support multiple vendors in the future — abstractions needed now
-- Avalonia UI 12 RC1 introduces page-based navigation (ContentPage, NavigationPage, TabbedPage, DrawerPage, CommandBar)
-- Community Toolkit MVVM for data binding and commands
-- Impeccable design plugin for UI design guidelines
-- Stitch MCP server for UI prototyping; Avalonia DevTools MCP for implementation verification
+Shipped v1.0 with 8,336 LOC (C# + AXAML) across 185 files.
+Tech stack: C# 14 / .NET 10, AvaloniaUI 12 RC1, CommunityToolkit.Mvvm, LibVLCSharp, xunit.v3.
+192 unit tests passing (1 pre-existing ArchiveService test failure tracked).
+All functionality uses a mock dashcam device — real hardware protocol deferred to v2.
 
 ## Constraints
 
@@ -65,34 +63,37 @@ Users can effortlessly manage their dashcam footage — browse recordings, combi
 - **Testing**: Comprehensive test suite using xunit.v3; mock devices for unit testing
 - **Multi-vendor**: Device abstractions must support future vendor additions
 - **UI toolkit**: Must use Avalonia 12's new page-based navigation system
-- **Design**: Impeccable plugin guidelines; Stitch for prototyping; DevTools for verification
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Mock device first, real protocol later | Decouple app development from hardware specifics | — Pending |
-| Dark mode only for v1 | Simplify initial design; dashcam users often in low-light | — Pending |
-| AvaloniaUI 12 RC1 | Page-based navigation system ideal for mobile + desktop | — Pending |
-| Vendor abstraction layer | Multiple device vendors planned for future | — Pending |
-| Local-only, no cloud | Privacy-first; dashcam data stays on user's device | — Pending |
+| Mock device first, real protocol later | Decouple app development from hardware specifics | Good — enabled full v1.0 without hardware |
+| Dark mode only for v1 | Simplify initial design; dashcam users often in low-light | Good — consistent aesthetic |
+| AvaloniaUI 12 RC1 | Page-based navigation system ideal for mobile + desktop | Good — ContentPage/TabbedPage worked well |
+| Vendor abstraction layer | Multiple device vendors planned for future | Good — IDashcamDevice composes 5 narrow interfaces |
+| Local-only, no cloud | Privacy-first; dashcam data stays on user's device | Good — simplifies architecture |
+| VideoView inlined from LibVLCSharp | LibVLCSharp.Avalonia uses removed VisualRoot API | Good — TopLevel.GetTopLevel port works on Avalonia 12 |
+| DashboardViewModel manual construction | Requires per-instance Action callbacks for cross-tab wiring | Good — same pattern as ManualConnectionViewModel |
+| C# record types for settings | Value equality enables dirty-state comparison without custom comparers | Good — clean OnPropertyChanged override pattern |
+| RecordingDetail as inline overlay | Avoids NavigationService push; keeps recording list context | Good — faster UX, simpler state management |
 
 ## Evolution
 
 This document evolves at phase transitions and milestone boundaries.
 
-**After each phase transition** (via `/gsd:transition`):
+**After each phase transition:**
 1. Requirements invalidated? → Move to Out of Scope with reason
 2. Requirements validated? → Move to Validated with phase reference
 3. New requirements emerged? → Add to Active
 4. Decisions to log? → Add to Key Decisions
 5. "What This Is" still accurate? → Update if drifted
 
-**After each milestone** (via `/gsd:complete-milestone`):
+**After each milestone:**
 1. Full review of all sections
 2. Core Value check — still the right priority?
 3. Audit Out of Scope — reasons still valid?
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-25 after Phase 4 completion*
+*Last updated: 2026-03-25 after v1.0 milestone*
