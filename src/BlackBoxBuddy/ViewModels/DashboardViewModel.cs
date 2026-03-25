@@ -21,6 +21,11 @@ public partial class DashboardViewModel : ViewModelBase
     [ObservableProperty] private bool _isLoading;
     [ObservableProperty] private bool _isDeviceConnected;
 
+    public bool IsEmptyState => !IsDeviceConnected && !IsDashboardLoaded;
+
+    partial void OnIsDeviceConnectedChanged(bool value) => OnPropertyChanged(nameof(IsEmptyState));
+    partial void OnIsDashboardLoadedChanged(bool value) => OnPropertyChanged(nameof(IsEmptyState));
+
     public ObservableCollection<Recording> RecentRecordings { get; } = new();
     public ObservableCollection<TripGroup> RecentTrips { get; } = new();
     public ObservableCollection<Recording> RecentEvents { get; } = new();
