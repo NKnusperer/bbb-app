@@ -14,6 +14,7 @@ public class ViewLocator : IDataTemplate
         AppShellViewModel => new Views.Shell.AppShellView(),
         DashboardViewModel => new Views.DashboardPage(),
         RecordingsViewModel => new Views.RecordingsPage(),
+        RecordingDetailViewModel => new Views.RecordingDetailPage(),
         LiveFeedViewModel => new Views.LiveFeedPage(),
         SettingsViewModel => new Views.SettingsPage(),
         ManualConnectionViewModel => new Views.Shell.ManualConnectionDialog(),

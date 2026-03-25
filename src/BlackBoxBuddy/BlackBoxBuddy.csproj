@@ -17,5 +17,6 @@
     <PackageReference Include="Xaml.Behaviors.Avalonia"/>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection"/>
     <PackageReference Include="Bogus"/>
+    <PackageReference Include="LibVLCSharp.Avalonia"/>
   </ItemGroup>
 </Project>

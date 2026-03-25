@@ -1,4 +1,7 @@
 using Avalonia;
+using BlackBoxBuddy.Desktop.Services;
+using BlackBoxBuddy.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BlackBoxBuddy.Desktop;
 
@@ -17,8 +20,7 @@ sealed class Program
         // Desktop-specific service registrations per D-22
         App.PlatformServices = services =>
         {
-            // Desktop-specific services added here in future phases
-            // e.g., LibVLCSharp video playback in Phase 4
+            services.AddSingleton<IMediaPlayerService, DesktopMediaPlayerService>();
         };
 
         return AppBuilder.Configure<App>()
