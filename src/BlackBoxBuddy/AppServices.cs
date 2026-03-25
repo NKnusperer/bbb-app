@@ -26,6 +26,8 @@ public static class AppServices
         // Services — singletons per D-23
         services.AddSingleton<IDeviceService, DeviceService>();
         services.AddSingleton<INavigationService, NavigationService>();
+        services.AddSingleton<ITripGroupingService, TripGroupingService>();
+        services.AddSingleton<IArchiveService, ArchiveService>();
         services.AddSingleton<IDialogService>(sp =>
         {
             return new DialogService(() =>
