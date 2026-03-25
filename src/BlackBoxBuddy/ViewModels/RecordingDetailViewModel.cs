@@ -157,11 +157,15 @@ public partial class RecordingDetailViewModel : ViewModelBase, IDisposable
     // ── Commands ──────────────────────────────────────────────────────────────
 
     [RelayCommand]
-    private void PlayPause()
+    private async Task PlayPauseAsync()
     {
         IsPlaying = !IsPlaying;
         if (IsPlaying)
         {
+            // Yield so the UI thread can run a layout pass — the VideoView's
+            // NativeControlHost needs one cycle to create its native window
+            // handle before VLC can render into it.
+            await Task.Delay(1);
             if (CurrentRecording is not null && _frontPlayer is not null)
                 _mediaPlayerService.Play(_frontPlayer, new Uri(CurrentRecording.FileName, UriKind.RelativeOrAbsolute));
             if (IsDualCamera && _rearPlayer is not null && CurrentRecording is not null)
