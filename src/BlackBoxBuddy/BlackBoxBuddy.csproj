@@ -4,7 +4,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AvaloniaResource Include="Assets\**"/>
+    <AvaloniaResource Include="Assets\**" Exclude="Assets\sample.mp4"/>
+    <EmbeddedResource Include="Assets/sample.mp4" LogicalName="BlackBoxBuddy.Assets.sample.mp4"/>
   </ItemGroup>
 
   <ItemGroup>
@@ -15,5 +16,6 @@
     <PackageReference Include="CommunityToolkit.Mvvm"/>
     <PackageReference Include="Xaml.Behaviors.Avalonia"/>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection"/>
+    <PackageReference Include="Bogus"/>
   </ItemGroup>
 </Project>

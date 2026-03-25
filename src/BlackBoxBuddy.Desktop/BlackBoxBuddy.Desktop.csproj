@@ -13,6 +13,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="LibVLCSharp"/>
+    <PackageReference Include="LibVLCSharp.Avalonia"/>
+    <PackageReference Include="VideoLAN.LibVLC.Windows" Condition="$([MSBuild]::IsOSPlatform('Windows'))"/>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BlackBoxBuddy\BlackBoxBuddy.csproj"/>
   </ItemGroup>
 </Project>

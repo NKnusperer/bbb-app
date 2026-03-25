@@ -1,3 +1,4 @@
+using Bogus;
 using BlackBoxBuddy.Models;
 using BlackBoxBuddy.Models.Settings;
 
@@ -41,24 +42,63 @@ public class MockDashcamDevice : IDashcamDevice
 
     private static List<Recording> GenerateMockRecordings()
     {
-        // Temporary minimal recordings — will be replaced with Bogus in Task 2
+        var faker = new Faker { Random = new Randomizer(42) };
         var baseTime = new DateTime(2026, 3, 20, 8, 0, 0);
-        var thumbnailData = MockThumbnailGenerator.GenerateSolidColor(160, 90, EventType.None);
         var recordings = new List<Recording>();
-        for (int i = 0; i < 3; i++)
+
+        // First 6 recordings: consecutive sequence (timestamps 60 seconds apart) for trip grouping
+        for (int i = 0; i < 6; i++)
         {
-            recordings.Add(new Recording(
-                $"CLIP_20260320_0{8 + i * 3:D2}0000_F.mp4",
-                baseTime.AddMinutes(i * 3),
-                TimeSpan.FromMinutes(2),
-                100000L,
-                60.0,
-                1.0,
-                1.0,
-                EventType.None,
-                CameraChannel.Front,
-                thumbnailData));
+            var eventType = EventType.None;
+            var channel = i % 2 == 0 ? CameraChannel.Front : CameraChannel.Rear;
+            var duration = TimeSpan.FromSeconds(faker.Random.Int(60, 180));
+            var fileSize = (long)(duration.TotalSeconds * faker.Random.Double(800000, 1200000));
+            var avgSpeed = faker.Random.Double(0, 120);
+            var peakGForce = faker.Random.Double(0.1, 3.5);
+            var distance = duration.TotalSeconds * faker.Random.Double(5, 30) / 3600.0;
+            var thumbnail = MockThumbnailGenerator.GenerateSolidColor(160, 90, eventType);
+            var dt = baseTime.AddSeconds(i * 20);
+            var fileName = $"CLIP_{dt:yyyyMMdd_HHmmss}_{(channel == CameraChannel.Front ? "F" : "R")}.mp4";
+
+            recordings.Add(new Recording(fileName, dt, duration, fileSize, avgSpeed, peakGForce, distance, eventType, channel, thumbnail));
         }
+
+        // Remaining 12: spread randomly across 3 days with mixed event types
+        var eventWeights = new[] {
+            (EventType.None, 50),
+            (EventType.Radar, 20),
+            (EventType.GShock, 20),
+            (EventType.Parking, 10)
+        };
+
+        var channels = new[] { CameraChannel.Front, CameraChannel.Rear };
+
+        for (int i = 0; i < 12; i++)
+        {
+            var dayOffset = faker.Random.Int(0, 2);
+            var hourOffset = faker.Random.Int(0, 23);
+            var minOffset = faker.Random.Int(0, 59);
+            var dt = baseTime.AddDays(dayOffset).AddHours(hourOffset).AddMinutes(minOffset);
+
+            // Weighted event type selection
+            var roll = faker.Random.Int(1, 100);
+            var eventType = roll <= 50 ? EventType.None :
+                            roll <= 70 ? EventType.Radar :
+                            roll <= 90 ? EventType.GShock :
+                            EventType.Parking;
+
+            var channel = faker.Random.ArrayElement(channels);
+            var duration = TimeSpan.FromSeconds(faker.Random.Int(60, 180));
+            var fileSize = (long)(duration.TotalSeconds * faker.Random.Double(800000, 1200000));
+            var avgSpeed = faker.Random.Double(0, 120);
+            var peakGForce = faker.Random.Double(0.1, 3.5);
+            var distance = duration.TotalSeconds * faker.Random.Double(5, 30) / 3600.0;
+            var thumbnail = MockThumbnailGenerator.GenerateSolidColor(160, 90, eventType);
+            var fileName = $"CLIP_{dt:yyyyMMdd_HHmmss}_{(channel == CameraChannel.Front ? "F" : "R")}.mp4";
+
+            recordings.Add(new Recording(fileName, dt, duration, fileSize, avgSpeed, peakGForce, distance, eventType, channel, thumbnail));
+        }
+
         return recordings;
     }
 
