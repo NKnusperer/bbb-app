@@ -1,0 +1,281 @@
+<ContentPage xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:BlackBoxBuddy.ViewModels"
+             xmlns:vlc="using:LibVLCSharp.Avalonia"
+             xmlns:conv="using:BlackBoxBuddy.Converters"
+             x:Class="BlackBoxBuddy.Views.RecordingDetailPage"
+             x:DataType="vm:RecordingDetailViewModel">
+
+  <ContentPage.Resources>
+    <conv:BytesToBitmapConverter x:Key="BytesToBitmap"/>
+  </ContentPage.Resources>
+
+  <!-- Root: video area (not scrollable) + scrollable metadata below -->
+  <Grid RowDefinitions="Auto,*">
+
+    <!-- Row 0: Video Player Area (outside ScrollViewer — VideoView is NativeControlHost) -->
+    <Panel Grid.Row="0" Background="#111111">
+
+      <!-- Single camera layout (full width) — hidden when dual camera -->
+      <Panel IsVisible="{Binding !IsDualCamera}" Height="400">
+        <!-- VideoView — shown when playing -->
+        <vlc:VideoView IsVisible="{Binding IsPlaying}"
+                       MediaPlayer="{Binding FrontPlayer}"
+                       HorizontalAlignment="Stretch"
+                       Height="400"/>
+
+        <!-- Thumbnail shown before playback starts (RDTL-02) -->
+        <Image IsVisible="{Binding !IsPlaying}"
+               Source="{Binding CurrentRecording.ThumbnailData, Converter={StaticResource BytesToBitmap}, ConverterParameter=160x90}"
+               Stretch="UniformToFill"
+               Height="400"
+               HorizontalAlignment="Stretch"/>
+
+        <!-- Play button overlay on thumbnail -->
+        <Button IsVisible="{Binding !IsPlaying}"
+                Command="{Binding PlayPauseCommand}"
+                Background="#88000000"
+                Width="64" Height="64"
+                CornerRadius="32"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                ToolTip.Tip="Play">
+          <PathIcon Data="M8,5.14V19.14L19,12.14L8,5.14Z"
+                    Width="28" Height="28"
+                    Foreground="White"/>
+        </Button>
+      </Panel>
+
+      <!-- Dual camera layout — side-by-side on desktop (>=600px) -->
+      <Grid IsVisible="{Binding IsDualCamera}" Height="300"
+            ColumnDefinitions="*,*" ColumnSpacing="4">
+
+        <!-- Front camera panel -->
+        <Panel Grid.Column="0" Background="#222222">
+          <vlc:VideoView IsVisible="{Binding IsPlaying}"
+                         MediaPlayer="{Binding FrontPlayer}"
+                         HorizontalAlignment="Stretch"
+                         Height="300"/>
+          <Image IsVisible="{Binding !IsPlaying}"
+                 Source="{Binding CurrentRecording.ThumbnailData, Converter={StaticResource BytesToBitmap}, ConverterParameter=160x90}"
+                 Stretch="UniformToFill"
+                 Height="300"
+                 HorizontalAlignment="Stretch"/>
+          <TextBlock Text="Front" FontSize="11" Opacity="0.6"
+                     HorizontalAlignment="Left" VerticalAlignment="Top"
+                     Margin="8,4"/>
+        </Panel>
+
+        <!-- Rear camera panel -->
+        <Panel Grid.Column="1" Background="#222222">
+          <vlc:VideoView IsVisible="{Binding IsPlaying}"
+                         MediaPlayer="{Binding RearPlayer}"
+                         HorizontalAlignment="Stretch"
+                         Height="300"/>
+          <TextBlock Text="Rear" FontSize="11" Opacity="0.6"
+                     HorizontalAlignment="Left" VerticalAlignment="Top"
+                     Margin="8,4"/>
+        </Panel>
+
+      </Grid>
+
+      <!-- Archive progress overlay with cancel (wired to CancelArchiveCommand) -->
+      <Border IsVisible="{Binding IsArchiving}"
+              Background="#CC000000"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="16">
+          <TextBlock Text="Archiving..." FontSize="14" Foreground="White"
+                     HorizontalAlignment="Center"/>
+          <ProgressBar Value="{Binding ArchiveProgress}"
+                       Minimum="0" Maximum="1"
+                       Height="4" Width="200"/>
+          <Button Content="Stop Archiving"
+                  Command="{Binding CancelArchiveCommand}"
+                  HorizontalAlignment="Center"
+                  Padding="12,8"/>
+        </StackPanel>
+      </Border>
+
+    </Panel>
+
+    <!-- Row 1: Player controls + metadata (scrollable) -->
+    <ScrollViewer Grid.Row="1">
+      <StackPanel Spacing="0">
+
+        <!-- Player Controls -->
+        <StackPanel Margin="16,8" Spacing="8">
+
+          <!-- Seek bar row: currentTime, slider, totalTime -->
+          <Grid ColumnDefinitions="Auto,*,Auto">
+            <TextBlock Grid.Column="0"
+                       Text="{Binding CurrentTimeFormatted}"
+                       FontSize="12" Opacity="0.7"
+                       VerticalAlignment="Center"/>
+            <Slider x:Name="SeekSlider"
+                    Grid.Column="1"
+                    Minimum="0" Maximum="1"
+                    Value="{Binding SeekPosition, Mode=OneWay}"
+                    Margin="8,0"/>
+            <TextBlock Grid.Column="2"
+                       Text="{Binding TotalDurationFormatted}"
+                       FontSize="12" Opacity="0.7"
+                       VerticalAlignment="Center"/>
+          </Grid>
+
+          <!-- Playback buttons row -->
+          <StackPanel Orientation="Horizontal" Spacing="8"
+                      HorizontalAlignment="Center">
+            <Button Command="{Binding PreviousFrameCommand}"
+                    ToolTip.Tip="Previous frame"
+                    AutomationProperties.Name="Previous frame"
+                    Width="44" Height="44" CornerRadius="22">
+              <PathIcon Data="M6,18V6H8V18H6M9.5,12L18,6V18L9.5,12Z"
+                        Width="20" Height="20"/>
+            </Button>
+
+            <Button Command="{Binding PlayPauseCommand}"
+                    Width="44" Height="44" CornerRadius="22"
+                    ToolTip.Tip="Play/Pause">
+              <Panel>
+                <PathIcon IsVisible="{Binding !IsPlaying}"
+                          Data="M8,5.14V19.14L19,12.14L8,5.14Z"
+                          Width="20" Height="20"/>
+                <PathIcon IsVisible="{Binding IsPlaying}"
+                          Data="M14,19H18V5H14M6,19H10V5H6V19Z"
+                          Width="20" Height="20"/>
+              </Panel>
+            </Button>
+
+            <Button Command="{Binding NextFrameCommand}"
+                    ToolTip.Tip="Next frame"
+                    AutomationProperties.Name="Next frame"
+                    Width="44" Height="44" CornerRadius="22">
+              <PathIcon Data="M16,18H18V6H16M6,18L14.5,12L6,6V18Z"
+                        Width="20" Height="20"/>
+            </Button>
+
+            <Button Command="{Binding ToggleFullscreenCommand}"
+                    ToolTip.Tip="Fullscreen"
+                    Width="44" Height="44" CornerRadius="22">
+              <PathIcon Data="M5,5H10V7H7V10H5V5M14,5H19V10H17V7H14V5M17,14H19V19H14V17H17V14M10,17V19H5V14H7V17H10Z"
+                        Width="20" Height="20"/>
+            </Button>
+          </StackPanel>
+
+          <!-- Speed buttons row -->
+          <StackPanel Orientation="Horizontal" Spacing="4"
+                      HorizontalAlignment="Center">
+            <Button Content="0.5x"
+                    Command="{Binding SetRateCommand}"
+                    CommandParameter="0.5"
+                    FontSize="12" Padding="8,4" CornerRadius="4"/>
+            <Button Content="1x"
+                    Command="{Binding SetRateCommand}"
+                    CommandParameter="1"
+                    FontSize="12" Padding="8,4" CornerRadius="4"/>
+            <Button Content="2x"
+                    Command="{Binding SetRateCommand}"
+                    CommandParameter="2"
+                    FontSize="12" Padding="8,4" CornerRadius="4"/>
+          </StackPanel>
+
+        </StackPanel>
+
+        <!-- Divider -->
+        <Border Height="1" Background="#33FFFFFF" Margin="16,0"/>
+
+        <!-- Metadata Section -->
+        <StackPanel Spacing="24" Margin="16">
+
+          <TextBlock Text="{Binding PageTitle}"
+                     FontSize="18" FontWeight="SemiBold"/>
+
+          <!-- Metadata grid -->
+          <Grid ColumnDefinitions="*,*"
+                RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+                ColumnSpacing="16" RowSpacing="8">
+
+            <TextBlock Grid.Row="0" Grid.Column="0"
+                       Text="Date / Time" FontSize="12" Opacity="0.7"/>
+            <TextBlock Grid.Row="0" Grid.Column="1"
+                       Text="{Binding DisplayDateTime}" FontSize="14"/>
+
+            <TextBlock Grid.Row="1" Grid.Column="0"
+                       Text="Duration" FontSize="12" Opacity="0.7"/>
+            <TextBlock Grid.Row="1" Grid.Column="1"
+                       Text="{Binding DisplayDuration}" FontSize="14"/>
+
+            <TextBlock Grid.Row="2" Grid.Column="0"
+                       Text="File Size" FontSize="12" Opacity="0.7"/>
+            <TextBlock Grid.Row="2" Grid.Column="1"
+                       Text="{Binding DisplayFileSize}" FontSize="14"/>
+
+            <TextBlock Grid.Row="3" Grid.Column="0"
+                       Text="Avg Speed" FontSize="12" Opacity="0.7"/>
+            <TextBlock Grid.Row="3" Grid.Column="1"
+                       Text="{Binding DisplayAvgSpeed}" FontSize="14"/>
+
+            <TextBlock Grid.Row="4" Grid.Column="0"
+                       Text="Peak G-Force" FontSize="12" Opacity="0.7"/>
+            <TextBlock Grid.Row="4" Grid.Column="1"
+                       Text="{Binding DisplayPeakGForce}" FontSize="14"/>
+
+            <TextBlock Grid.Row="5" Grid.Column="0"
+                       Text="Distance" FontSize="12" Opacity="0.7"/>
+            <TextBlock Grid.Row="5" Grid.Column="1"
+                       Text="{Binding DisplayDistance}" FontSize="14"/>
+
+          </Grid>
+
+          <!-- Trip clips section (visible only for trips) -->
+          <StackPanel IsVisible="{Binding IsTrip}" Spacing="8">
+            <TextBlock Text="Clips in this trip"
+                       FontSize="18" FontWeight="SemiBold"/>
+            <ItemsControl ItemsSource="{Binding CurrentClips}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Border Padding="8,6" Margin="0,2"
+                          Background="#1AFFFFFF" CornerRadius="4">
+                    <Grid ColumnDefinitions="*,Auto">
+                      <TextBlock Grid.Column="0"
+                                 Text="{Binding FileName}"
+                                 FontSize="13"
+                                 TextTrimming="CharacterEllipsis"/>
+                      <TextBlock Grid.Column="1"
+                                 Text="{Binding Duration}"
+                                 FontSize="12" Opacity="0.6"
+                                 Margin="8,0,0,0"/>
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </StackPanel>
+
+          <!-- Archive button - single recording -->
+          <Button IsVisible="{Binding !IsTrip}"
+                  HorizontalAlignment="Stretch"
+                  Content="Archive Recording"
+                  Command="{Binding ArchiveRecordingCommand}"
+                  IsEnabled="{Binding !IsArchived}"
+                  Padding="16,12"
+                  CornerRadius="8"/>
+
+          <!-- Archive button - trip -->
+          <Button IsVisible="{Binding IsTrip}"
+                  HorizontalAlignment="Stretch"
+                  Content="Archive Entire Trip"
+                  Command="{Binding ArchiveRecordingCommand}"
+                  IsEnabled="{Binding !IsArchived}"
+                  Padding="16,12"
+                  CornerRadius="8"/>
+
+        </StackPanel>
+
+      </StackPanel>
+    </ScrollViewer>
+
+  </Grid>
+
+</ContentPage>
