@@ -20,12 +20,7 @@ public class MockDashcamDevice : IDashcamDevice
 
     private DeviceSettings _currentSettings = DefaultSettings;
 
-    private List<string> _recordings = new()
-    {
-        "/recordings/2026-03-24_08-30-00_front.mp4",
-        "/recordings/2026-03-24_08-33-00_front.mp4",
-        "/recordings/2026-03-24_08-30-00_rear.mp4"
-    };
+    private List<Recording> _recordings;
 
     public MockDashcamDevice(
         TimeSpan? discoveryDelay = null,
@@ -41,6 +36,30 @@ public class MockDashcamDevice : IDashcamDevice
             IsProvisioned = isProvisioned,
             IpAddress = "192.168.1.254"
         };
+        _recordings = GenerateMockRecordings();
+    }
+
+    private static List<Recording> GenerateMockRecordings()
+    {
+        // Temporary minimal recordings — will be replaced with Bogus in Task 2
+        var baseTime = new DateTime(2026, 3, 20, 8, 0, 0);
+        var thumbnailData = MockThumbnailGenerator.GenerateSolidColor(160, 90, EventType.None);
+        var recordings = new List<Recording>();
+        for (int i = 0; i < 3; i++)
+        {
+            recordings.Add(new Recording(
+                $"CLIP_20260320_0{8 + i * 3:D2}0000_F.mp4",
+                baseTime.AddMinutes(i * 3),
+                TimeSpan.FromMinutes(2),
+                100000L,
+                60.0,
+                1.0,
+                1.0,
+                EventType.None,
+                CameraChannel.Front,
+                thumbnailData));
+        }
+        return recordings;
     }
 
     // IDeviceDiscovery
@@ -96,11 +115,17 @@ public class MockDashcamDevice : IDashcamDevice
     }
 
     // IDeviceFileSystem
-    public Task<IReadOnlyList<string>> ListRecordingsAsync(CancellationToken ct = default)
-        => Task.FromResult<IReadOnlyList<string>>(_recordings.AsReadOnly());
+    public Task<IReadOnlyList<Recording>> ListRecordingsAsync(CancellationToken ct = default)
+        => Task.FromResult<IReadOnlyList<Recording>>(_recordings.AsReadOnly());
 
     public Task<Stream> DownloadFileAsync(string path, CancellationToken ct = default)
-        => Task.FromResult<Stream>(new MemoryStream(new byte[1024]));
+    {
+        var assembly = typeof(MockDashcamDevice).Assembly;
+        var stream = assembly.GetManifestResourceStream("BlackBoxBuddy.Assets.sample.mp4");
+        if (stream is null)
+            throw new FileNotFoundException("Embedded resource sample.mp4 not found");
+        return Task.FromResult<Stream>(stream);
+    }
 
     public Task<bool> DeleteFileAsync(string path, CancellationToken ct = default)
         => Task.FromResult(true);
