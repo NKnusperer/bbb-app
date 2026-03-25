@@ -15,6 +15,7 @@ public partial class RecordingsViewModel : ViewModelBase
     private readonly ITripGroupingService _tripGroupingService;
     private readonly IArchiveService _archiveService;
     private readonly INavigationService _navigationService;
+    private readonly IMediaPlayerService? _mediaPlayerService;
     private IReadOnlyList<Recording> _allRecordings = Array.Empty<Recording>();
 
     // ── Observable Properties ─────────────────────────────────────────────────
@@ -47,13 +48,15 @@ public partial class RecordingsViewModel : ViewModelBase
         IDeviceService deviceService,
         ITripGroupingService tripGroupingService,
         IArchiveService archiveService,
-        INavigationService navigationService)
+        INavigationService navigationService,
+        IMediaPlayerService? mediaPlayerService = null)
     {
         _device = device;
         _deviceService = deviceService;
         _tripGroupingService = tripGroupingService;
         _archiveService = archiveService;
         _navigationService = navigationService;
+        _mediaPlayerService = mediaPlayerService;
 
         // Initialize connection state from current device service state
         IsDeviceConnected = _deviceService.ConnectionState == ConnectionState.Connected;
@@ -106,14 +109,16 @@ public partial class RecordingsViewModel : ViewModelBase
     [RelayCommand]
     private async Task OpenRecordingAsync(Recording recording)
     {
-        var detailVm = new RecordingDetailViewModel(recording);
+        if (_mediaPlayerService is null) return;
+        var detailVm = new RecordingDetailViewModel(recording, _mediaPlayerService, _archiveService, _navigationService);
         await _navigationService.PushAsync(detailVm);
     }
 
     [RelayCommand]
     private async Task OpenTripAsync(TripGroup trip)
     {
-        var detailVm = new RecordingDetailViewModel(trip);
+        if (_mediaPlayerService is null) return;
+        var detailVm = new RecordingDetailViewModel(trip, _mediaPlayerService, _archiveService, _navigationService);
         await _navigationService.PushAsync(detailVm);
     }
 

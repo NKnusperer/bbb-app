@@ -15,6 +15,7 @@ public class RecordingsViewModelTests
     private readonly ITripGroupingService _tripGroupingService;
     private readonly IArchiveService _archiveService;
     private readonly INavigationService _navigationService;
+    private readonly IMediaPlayerService _mediaPlayerService;
     private readonly RecordingsViewModel _viewModel;
 
     public RecordingsViewModelTests()
@@ -24,6 +25,7 @@ public class RecordingsViewModelTests
         _tripGroupingService = Substitute.For<ITripGroupingService>();
         _archiveService = Substitute.For<IArchiveService>();
         _navigationService = Substitute.For<INavigationService>();
+        _mediaPlayerService = Substitute.For<IMediaPlayerService>();
 
         // Default: returns empty list
         _device.ListRecordingsAsync(Arg.Any<CancellationToken>())
@@ -31,9 +33,10 @@ public class RecordingsViewModelTests
         _tripGroupingService.Group(Arg.Any<IReadOnlyList<Recording>>())
             .Returns(Array.Empty<object>());
         _deviceService.ConnectionState.Returns(ConnectionState.Disconnected);
+        _mediaPlayerService.CreatePlayer().Returns(new object());
 
         _viewModel = new RecordingsViewModel(
-            _device, _deviceService, _tripGroupingService, _archiveService, _navigationService);
+            _device, _deviceService, _tripGroupingService, _archiveService, _navigationService, _mediaPlayerService);
     }
 
     private static Recording MakeRecording(EventType eventType = EventType.None) => new(
