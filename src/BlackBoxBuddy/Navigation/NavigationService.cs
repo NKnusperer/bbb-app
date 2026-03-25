@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Controls.Templates;
 using BlackBoxBuddy.ViewModels;
 
 namespace BlackBoxBuddy.Navigation;
@@ -6,11 +7,11 @@ namespace BlackBoxBuddy.Navigation;
 public class NavigationService : INavigationService
 {
     private NavigationPage? _navigationPage;
-    private readonly IServiceProvider _serviceProvider;
+    private readonly IDataTemplate _viewLocator;
 
-    public NavigationService(IServiceProvider serviceProvider)
+    public NavigationService(IDataTemplate viewLocator)
     {
-        _serviceProvider = serviceProvider;
+        _viewLocator = viewLocator;
     }
 
     public void SetNavigationPage(NavigationPage page)
@@ -19,7 +20,21 @@ public class NavigationService : INavigationService
     public async Task PushAsync(ViewModelBase viewModel)
     {
         if (_navigationPage is null) return;
-        var page = new ContentPage { DataContext = viewModel };
+
+        // Resolve the page via ViewLocator so page-specific code-behind
+        // (VideoView wiring, lifecycle hooks, etc.) is used.
+        var view = _viewLocator.Build(viewModel);
+        ContentPage page;
+        if (view is ContentPage cp)
+        {
+            cp.DataContext = viewModel;
+            page = cp;
+        }
+        else
+        {
+            page = new ContentPage { Content = view, DataContext = viewModel };
+        }
+
         await _navigationPage.PushAsync(page);
     }
 

@@ -5,6 +5,7 @@ using BlackBoxBuddy.Services;
 using BlackBoxBuddy.ViewModels;
 using BlackBoxBuddy.ViewModels.Shell;
 using BlackBoxBuddy.ViewModels.Provisioning;
+using Avalonia.Controls.Templates;
 using Microsoft.Extensions.DependencyInjection;
 using Avalonia.Controls.ApplicationLifetimes;
 
@@ -25,6 +26,7 @@ public static class AppServices
 
         // Services — singletons per D-23
         services.AddSingleton<IDeviceService, DeviceService>();
+        services.AddSingleton<IDataTemplate, ViewLocator>();
         services.AddSingleton<INavigationService, NavigationService>();
         services.AddSingleton<ITripGroupingService, TripGroupingService>();
         services.AddSingleton<IArchiveService, ArchiveService>();
