@@ -124,7 +124,7 @@ New components required for this phase:
 - Icon: PathIcon with camera-off geometry, Width=48, Height=48, Opacity=0.5
 - Heading: "Connection lost" — 18px SemiBold
 - Body: "Check your dashcam connection and try again." — 14px Regular, Opacity=0.7
-- Retry button: Content="Retry Connection", Padding="24,10", CornerRadius=8, HorizontalAlignment=Center
+- Retry button: Content="Retry Connection", Padding="24,8", CornerRadius=8, HorizontalAlignment=Center
 - Camera toggle segmented control remains visible below the placeholder (segmented bar is sibling row, not inside the video Panel)
 
 **Loading Placeholder (live feed)**
