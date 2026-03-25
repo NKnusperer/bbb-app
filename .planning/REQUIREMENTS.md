@@ -91,17 +91,17 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Recordings
 
-- [ ] **RECD-01**: User can view list of all recordings
+- [x] **RECD-01**: User can view list of all recordings
 - [ ] **RECD-02**: User can filter recordings by Radar Event type
 - [ ] **RECD-03**: User can filter recordings by G-Shock Event type
 - [ ] **RECD-04**: User can filter recordings by Parking Event type
-- [ ] **RECD-05**: Each recording shows video thumbnail in list view
-- [ ] **RECD-06**: Each recording shows date and time
-- [ ] **RECD-07**: Each recording shows duration
-- [ ] **RECD-08**: Each recording shows file size
-- [ ] **RECD-09**: Each recording shows average speed
-- [ ] **RECD-10**: Each recording shows peak G-force
-- [ ] **RECD-11**: Each recording shows traveled distance
+- [x] **RECD-05**: Each recording shows video thumbnail in list view
+- [x] **RECD-06**: Each recording shows date and time
+- [x] **RECD-07**: Each recording shows duration
+- [x] **RECD-08**: Each recording shows file size
+- [x] **RECD-09**: Each recording shows average speed
+- [x] **RECD-10**: Each recording shows peak G-force
+- [x] **RECD-11**: Each recording shows traveled distance
 
 ### Recording Detail
 
@@ -208,17 +208,17 @@ Which phases cover which requirements. Updated during roadmap creation.
 | OVRL-05 | Phase 2 | Complete |
 | DNGR-01 | Phase 2 | Complete |
 | DNGR-02 | Phase 2 | Complete |
-| RECD-01 | Phase 3 | Pending |
+| RECD-01 | Phase 3 | Complete |
 | RECD-02 | Phase 3 | Pending |
 | RECD-03 | Phase 3 | Pending |
 | RECD-04 | Phase 3 | Pending |
-| RECD-05 | Phase 3 | Pending |
-| RECD-06 | Phase 3 | Pending |
-| RECD-07 | Phase 3 | Pending |
-| RECD-08 | Phase 3 | Pending |
-| RECD-09 | Phase 3 | Pending |
-| RECD-10 | Phase 3 | Pending |
-| RECD-11 | Phase 3 | Pending |
+| RECD-05 | Phase 3 | Complete |
+| RECD-06 | Phase 3 | Complete |
+| RECD-07 | Phase 3 | Complete |
+| RECD-08 | Phase 3 | Complete |
+| RECD-09 | Phase 3 | Complete |
+| RECD-10 | Phase 3 | Complete |
+| RECD-11 | Phase 3 | Complete |
 | RDTL-01 | Phase 3 | Pending |
 | RDTL-02 | Phase 3 | Pending |
 | RDTL-03 | Phase 3 | Pending |
