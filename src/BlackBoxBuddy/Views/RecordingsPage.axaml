@@ -472,12 +472,19 @@
         <ScrollViewer Grid.Row="1">
           <StackPanel Spacing="0">
 
-            <!-- Thumbnail preview area -->
+            <!-- Thumbnail / video area -->
             <Panel Background="#111111" Height="300">
-              <Image Source="{Binding CurrentRecording.ThumbnailData, Converter={StaticResource BytesToBitmap}, ConverterParameter=160x90}"
+              <!-- Thumbnail (shown when not playing) -->
+              <Image IsVisible="{Binding !IsPlaying}"
+                     Source="{Binding CurrentRecording.ThumbnailData, Converter={StaticResource BytesToBitmap}, ConverterParameter=160x90}"
                      Stretch="UniformToFill" Height="300" HorizontalAlignment="Stretch"/>
-              <!-- Play button overlay (visual only — playback needs LibVLCSharp Avalonia 12 compat) -->
-              <Button Command="{Binding PlayPauseCommand}"
+              <!-- VideoView host (populated in code-behind with Desktop VideoView) -->
+              <ContentControl x:Name="DetailVideoHost"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"/>
+              <!-- Play button overlay (shown when not playing) -->
+              <Button IsVisible="{Binding !IsPlaying}"
+                      Command="{Binding PlayPauseCommand}"
                       Background="#88000000" Width="64" Height="64" CornerRadius="32"
                       HorizontalAlignment="Center" VerticalAlignment="Center">
                 <PathIcon Data="M8,5.14V19.14L19,12.14L8,5.14Z" Width="28" Height="28" Foreground="White"/>
