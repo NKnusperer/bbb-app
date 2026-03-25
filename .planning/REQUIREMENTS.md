@@ -105,19 +105,19 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Recording Detail
 
-- [ ] **RDTL-01**: User can play back recording with video player
-- [ ] **RDTL-02**: Recording detail shows video thumbnail
-- [ ] **RDTL-03**: Recording detail shows date and time
-- [ ] **RDTL-04**: Recording detail shows duration
-- [ ] **RDTL-05**: Recording detail shows file size
-- [ ] **RDTL-06**: Recording detail shows average speed
-- [ ] **RDTL-07**: Recording detail shows peak G-force
-- [ ] **RDTL-08**: Recording detail shows traveled distance
+- [x] **RDTL-01**: User can play back recording with video player
+- [x] **RDTL-02**: Recording detail shows video thumbnail
+- [x] **RDTL-03**: Recording detail shows date and time
+- [x] **RDTL-04**: Recording detail shows duration
+- [x] **RDTL-05**: Recording detail shows file size
+- [x] **RDTL-06**: Recording detail shows average speed
+- [x] **RDTL-07**: Recording detail shows peak G-force
+- [x] **RDTL-08**: Recording detail shows traveled distance
 
 ### Virtual Trips
 
 - [x] **TRIP-01**: App automatically combines consecutive recordings into virtual trips
-- [ ] **TRIP-02**: Virtual trip uses same UI as single recording detail
+- [x] **TRIP-02**: Virtual trip uses same UI as single recording detail
 - [x] **TRIP-03**: Virtual trip shows aggregated metadata (duration, distance, avg speed, peak G-force)
 
 ### Archive
@@ -219,16 +219,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 | RECD-09 | Phase 3 | Complete |
 | RECD-10 | Phase 3 | Complete |
 | RECD-11 | Phase 3 | Complete |
-| RDTL-01 | Phase 3 | Pending |
-| RDTL-02 | Phase 3 | Pending |
-| RDTL-03 | Phase 3 | Pending |
-| RDTL-04 | Phase 3 | Pending |
-| RDTL-05 | Phase 3 | Pending |
-| RDTL-06 | Phase 3 | Pending |
-| RDTL-07 | Phase 3 | Pending |
-| RDTL-08 | Phase 3 | Pending |
+| RDTL-01 | Phase 3 | Complete |
+| RDTL-02 | Phase 3 | Complete |
+| RDTL-03 | Phase 3 | Complete |
+| RDTL-04 | Phase 3 | Complete |
+| RDTL-05 | Phase 3 | Complete |
+| RDTL-06 | Phase 3 | Complete |
+| RDTL-07 | Phase 3 | Complete |
+| RDTL-08 | Phase 3 | Complete |
 | TRIP-01 | Phase 3 | Complete |
-| TRIP-02 | Phase 3 | Pending |
+| TRIP-02 | Phase 3 | Complete |
 | TRIP-03 | Phase 3 | Complete |
 | ARCH-01 | Phase 3 | Complete |
 | ARCH-02 | Phase 3 | Complete |

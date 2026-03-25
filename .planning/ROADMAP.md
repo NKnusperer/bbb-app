@@ -76,7 +76,7 @@ Plans:
 - [x] 03-01-PLAN.md — Data models (Recording, EventType, TripGroup), IDeviceFileSystem refactor, MockDashcamDevice Bogus expansion, NuGet packages
 - [x] 03-02-PLAN.md — TripGroupingService, ArchiveService, NavigationService implementation, value converters, DI registrations
 - [x] 03-03-PLAN.md — RecordingsViewModel with filtering and trip grouping, RecordingsPage XAML with card list and filter chips
-- [ ] 03-04-PLAN.md — RecordingDetailViewModel with playback controls, RecordingDetailPage with LibVLCSharp VideoView, DesktopMediaPlayerService
+- [x] 03-04-PLAN.md — RecordingDetailViewModel with playback controls, RecordingDetailPage with LibVLCSharp VideoView, DesktopMediaPlayerService
 - [ ] 03-05-PLAN.md — Multi-select archive flow, archived badges, archive progress overlay, visual verification
 
 **UI hint**: yes
