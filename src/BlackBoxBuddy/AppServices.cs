@@ -38,7 +38,9 @@ public static class AppServices
 
         // Transient ViewModels per D-23
         services.AddTransient<AppShellViewModel>();
-        services.AddTransient<DashboardViewModel>();
+        // Note: DashboardViewModel is NOT registered in DI.
+        // It is constructed manually by AppShellViewModel with per-instance Action callbacks
+        // (same pattern as ManualConnectionViewModel).
         services.AddTransient<RecordingsViewModel>();
         services.AddTransient<LiveFeedViewModel>();
         services.AddTransient<SettingsViewModel>();

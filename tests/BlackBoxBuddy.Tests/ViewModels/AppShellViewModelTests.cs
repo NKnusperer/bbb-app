@@ -26,20 +26,20 @@ public class AppShellViewModelTests
         _dialogService = Substitute.For<IDialogService>();
         _deviceService.ConnectionState.Returns(ConnectionState.Disconnected);
         _deviceService.ConnectedDevice.Returns((DeviceInfo?)null);
-        var dashboardVm = new DashboardViewModel();
         var tripGroupingService = Substitute.For<ITripGroupingService>();
         var archiveService = Substitute.For<IArchiveService>();
         var recordingsNavService = Substitute.For<INavigationService>();
         var mockDevice = Substitute.For<IDashcamDevice>();
         var mediaPlayerService = Substitute.For<IMediaPlayerService>();
+        tripGroupingService.Group(Arg.Any<IReadOnlyList<Recording>>()).Returns(Array.Empty<object>());
         var recordingsVm = new RecordingsViewModel(
             mockDevice, _deviceService, tripGroupingService, archiveService, recordingsNavService, mediaPlayerService);
-        var liveFeedVm = new LiveFeedViewModel();
+        var liveFeedVm = new LiveFeedViewModel(mockDevice, mediaPlayerService, _deviceService);
         _device = Substitute.For<IDashcamDevice>();
         _settingsVm = new SettingsViewModel(_device, _dialogService);
         _viewModel = new AppShellViewModel(
             _deviceService, _navigationService, _dialogService,
-            dashboardVm, recordingsVm, liveFeedVm, _settingsVm);
+            mockDevice, tripGroupingService, recordingsVm, liveFeedVm, _settingsVm);
     }
 
     private static DeviceSettings CreateDefaultSettings() => new(

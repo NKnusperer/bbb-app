@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using BlackBoxBuddy.Device;
 using BlackBoxBuddy.Models;
 using BlackBoxBuddy.Navigation;
 using BlackBoxBuddy.Services;
@@ -43,7 +44,8 @@ public partial class AppShellViewModel : ViewModelBase
         IDeviceService deviceService,
         INavigationService navigationService,
         IDialogService dialogService,
-        DashboardViewModel dashboardVm,
+        IDashcamDevice device,
+        ITripGroupingService tripGroupingService,
         RecordingsViewModel recordingsVm,
         LiveFeedViewModel liveFeedVm,
         SettingsViewModel settingsVm)
@@ -51,10 +53,17 @@ public partial class AppShellViewModel : ViewModelBase
         _deviceService = deviceService;
         _navigationService = navigationService;
         DialogService = dialogService;
-        DashboardVm = dashboardVm;
         RecordingsVm = recordingsVm;
         LiveFeedVm = liveFeedVm;
         SettingsVm = settingsVm;
+
+        DashboardVm = new DashboardViewModel(
+            device, deviceService, tripGroupingService,
+            switchTab: idx => SelectedTabIndex = idx,
+            applyFilter: filter => RecordingsVm.SetFilterCommand.Execute(filter),
+            openRecording: r => { RecordingsVm.OpenRecordingCommand.Execute(r); SelectedTabIndex = 1; },
+            openTrip: t => { RecordingsVm.OpenTripCommand.Execute(t); SelectedTabIndex = 1; });
+
         _deviceService.ConnectionStateChanged += OnConnectionStateChanged;
     }
 
