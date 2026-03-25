@@ -22,9 +22,12 @@ public partial class LiveFeedPage : ContentPage
 
     private void OnLoaded(object? sender, RoutedEventArgs e)
     {
-        // Create the VideoView early so NativeControlHost has time to create
-        // its native window handle before any playback starts.
-        EnsureVideoView();
+        var host = this.FindControl<ContentControl>("VideoViewHost");
+        if (host is not null)
+            _videoView = VideoViewHelper.CreateInHost(host);
+
+        DataContextChanged += (_, _) => SubscribeToPlayerChanges();
+        SubscribeToPlayerChanges();
     }
 
     private void OnVisibilityChanged(bool isVisible)
@@ -40,38 +43,11 @@ public partial class LiveFeedPage : ContentPage
         }
     }
 
-    private void EnsureVideoView()
-    {
-        var host = this.FindControl<ContentControl>("VideoViewHost");
-        if (host is null || host.Content is not null) return;
-
-        var videoViewType = Type.GetType(
-            "BlackBoxBuddy.Desktop.Controls.VideoView, BlackBoxBuddy.Desktop");
-        if (videoViewType is null) return;
-
-        _videoView = Activator.CreateInstance(videoViewType) as Control;
-        if (_videoView is null) return;
-
-        host.Content = _videoView;
-
-        // Subscribe to Player property changes to wire MediaPlayer
-        DataContextChanged += (_, _) => SubscribeToPlayerChanges();
-        SubscribeToPlayerChanges();
-    }
-
     private void SubscribeToPlayerChanges()
     {
         if (Vm is null) return;
         Vm.PropertyChanged += OnVmPropertyChanged;
-        // Wire immediately if player already exists
-        SetMediaPlayerOnVideoView(_videoView, Vm.Player);
-    }
-
-    private static void SetMediaPlayerOnVideoView(object? videoView, object? player)
-    {
-        if (videoView is null || player is null) return;
-        var prop = videoView.GetType().GetProperty("MediaPlayer");
-        prop?.SetValue(videoView, player);
+        VideoViewHelper.SetMediaPlayer(_videoView, Vm.Player);
     }
 
     private void UpdateSegmentStyles()
@@ -99,6 +75,6 @@ public partial class LiveFeedPage : ContentPage
         if (e.PropertyName == nameof(LiveFeedViewModel.SelectedCamera))
             UpdateSegmentStyles();
         else if (e.PropertyName == nameof(LiveFeedViewModel.Player))
-            SetMediaPlayerOnVideoView(_videoView, Vm?.Player);
+            VideoViewHelper.SetMediaPlayer(_videoView, Vm?.Player);
     }
 }
