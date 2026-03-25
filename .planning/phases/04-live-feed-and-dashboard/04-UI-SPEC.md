@@ -100,6 +100,8 @@ New components required for this phase:
 
 ### Live Feed Page
 
+**Primary focal point:** The video area Panel — it occupies the dominant vertical space on both portrait and landscape layouts and is the reason the user visits this page.
+
 **Camera Segmented Toggle**
 - Two-button pill group: "Front" | "Rear"
 - Placement: fixed bar below the video area
@@ -122,13 +124,15 @@ New components required for this phase:
 - Icon: PathIcon with camera-off geometry, Width=48, Height=48, Opacity=0.5
 - Heading: "Connection lost" — 18px SemiBold
 - Body: "Check your dashcam connection and try again." — 14px Regular, Opacity=0.7
-- Retry button: Content="Retry", Padding="24,10", CornerRadius=8, HorizontalAlignment=Center
+- Retry button: Content="Retry Connection", Padding="24,10", CornerRadius=8, HorizontalAlignment=Center
 - Camera toggle segmented control remains visible below the placeholder (segmented bar is sibling row, not inside the video Panel)
 
 **Loading Placeholder (live feed)**
 - Centered `StackPanel`: `ProgressBar IsIndeterminate="True"` (Width=160, Height=4) + `TextBlock` "Connecting to camera..." — 14px, same pattern as SettingsPage and RecordingsPage loading states
 
 ### Dashboard Page
+
+**Primary focal point:** The scrollable section list — Recent Recordings, Recent Trips, and Recent Events are the primary content surface; the user arrives here to see what happened recently.
 
 **Section Header Row**
 - `Grid ColumnDefinitions="*,Auto"` per section
@@ -141,7 +145,7 @@ New components required for this phase:
 - `Grid ColumnDefinitions="88,*" ColumnSpacing="8"`
 - Left: `Image` Width=88, Height=50, Stretch=UniformToFill (16:9 at compact size)
   - Event type badge overlaid top-right (same `EventTypeToBrushConverter` + `EventTypeToVisibilityConverter` as RecordingsPage)
-- Right: `StackPanel Spacing="2" VerticalAlignment="Center"`
+- Right: `StackPanel Spacing="4" VerticalAlignment="Center"`
   - Line 1: date/time — 12px Regular, Opacity=0.85, format `MMM dd  HH:mm`
   - Line 2: duration — 12px Regular, Opacity=0.7, format `mm:ss`
 - Full card is a `Button` (Background=Transparent, Padding=0) wrapping the Border — tap navigates to RecordingDetailPage
@@ -180,7 +184,7 @@ All copy is prescriptive. Do not alter wording during implementation.
 | Live feed loading | "Connecting to camera..." |
 | Live feed connection loss heading | "Connection lost" |
 | Live feed connection loss body | "Check your dashcam connection and try again." |
-| Live feed retry button | "Retry" |
+| Live feed retry button | "Retry Connection" |
 | Dashboard loading | "Loading dashboard..." |
 | Dashboard empty state heading | "No dashcam connected" |
 | Dashboard empty state body | "Connect your dashcam to see recent recordings and trips." |
