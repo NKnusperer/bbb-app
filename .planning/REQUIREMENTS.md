@@ -92,9 +92,9 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Recordings
 
 - [x] **RECD-01**: User can view list of all recordings
-- [ ] **RECD-02**: User can filter recordings by Radar Event type
-- [ ] **RECD-03**: User can filter recordings by G-Shock Event type
-- [ ] **RECD-04**: User can filter recordings by Parking Event type
+- [x] **RECD-02**: User can filter recordings by Radar Event type
+- [x] **RECD-03**: User can filter recordings by G-Shock Event type
+- [x] **RECD-04**: User can filter recordings by Parking Event type
 - [x] **RECD-05**: Each recording shows video thumbnail in list view
 - [x] **RECD-06**: Each recording shows date and time
 - [x] **RECD-07**: Each recording shows duration
@@ -209,9 +209,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DNGR-01 | Phase 2 | Complete |
 | DNGR-02 | Phase 2 | Complete |
 | RECD-01 | Phase 3 | Complete |
-| RECD-02 | Phase 3 | Pending |
-| RECD-03 | Phase 3 | Pending |
-| RECD-04 | Phase 3 | Pending |
+| RECD-02 | Phase 3 | Complete |
+| RECD-03 | Phase 3 | Complete |
+| RECD-04 | Phase 3 | Complete |
 | RECD-05 | Phase 3 | Complete |
 | RECD-06 | Phase 3 | Complete |
 | RECD-07 | Phase 3 | Complete |

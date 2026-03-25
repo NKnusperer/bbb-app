@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Ready to execute
-stopped_at: Completed 03-recordings-03-02-PLAN.md
-last_updated: "2026-03-25T07:36:34.045Z"
+stopped_at: Completed 03-recordings-03-03-PLAN.md
+last_updated: "2026-03-25T07:44:49.134Z"
 progress:
   total_phases: 4
   completed_phases: 2
   total_plans: 14
-  completed_plans: 11
+  completed_plans: 12
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-24)
 ## Current Position
 
 Phase: 03 (recordings) — EXECUTING
-Plan: 3 of 5
+Plan: 4 of 5
 
 ## Performance Metrics
 
@@ -57,6 +57,7 @@ Plan: 3 of 5
 | Phase 02-settings P05 | 5min | 2 tasks | 4 files |
 | Phase 03-recordings P01 | 313s | 2 tasks | 14 files |
 | Phase 03-recordings P02 | 10min | 2 tasks | 11 files |
+| Phase 03-recordings P03 | 7min | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -94,6 +95,8 @@ Recent decisions affecting current work:
 - [Phase 03-recordings]: ArchiveService two-constructor pattern: production uses ~/BlackBoxBuddy/Archives/; tests inject temp dir for isolation
 - [Phase 03-recordings]: NSubstitute Returns lambda form prevents ObjectDisposedException when mock streams consumed across multiple using blocks
 - [Phase 03-recordings]: TripGroupingService emits standalone Recording (not single-clip TripGroup) to simplify ViewModel type discrimination
+- [Phase 03-recordings]: RecordingsViewModel accepts IDeviceService (connection state) separately from IDashcamDevice (recording list) for cleaner separation
+- [Phase 03-recordings]: ObservableCollection<object> for DisplayItems to support heterogeneous Recording/TripGroup with ListBox DataTemplate type dispatch
 
 ### Pending Todos
 
@@ -106,6 +109,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-25T07:36:34.043Z
-Stopped at: Completed 03-recordings-03-02-PLAN.md
+Last session: 2026-03-25T07:44:49.133Z
+Stopped at: Completed 03-recordings-03-03-PLAN.md
 Resume file: None

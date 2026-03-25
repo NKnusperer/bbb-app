@@ -75,7 +75,7 @@ Plans:
 Plans:
 - [x] 03-01-PLAN.md — Data models (Recording, EventType, TripGroup), IDeviceFileSystem refactor, MockDashcamDevice Bogus expansion, NuGet packages
 - [x] 03-02-PLAN.md — TripGroupingService, ArchiveService, NavigationService implementation, value converters, DI registrations
-- [ ] 03-03-PLAN.md — RecordingsViewModel with filtering and trip grouping, RecordingsPage XAML with card list and filter chips
+- [x] 03-03-PLAN.md — RecordingsViewModel with filtering and trip grouping, RecordingsPage XAML with card list and filter chips
 - [ ] 03-04-PLAN.md — RecordingDetailViewModel with playback controls, RecordingDetailPage with LibVLCSharp VideoView, DesktopMediaPlayerService
 - [ ] 03-05-PLAN.md — Multi-select archive flow, archived badges, archive progress overlay, visual verification
 
@@ -101,5 +101,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/4 | In Progress|  |
 | 2. Settings | 4/5 | In Progress|  |
-| 3. Recordings | 2/5 | In Progress|  |
+| 3. Recordings | 3/5 | In Progress|  |
 | 4. Live Feed and Dashboard | 0/TBD | Not started | - |
