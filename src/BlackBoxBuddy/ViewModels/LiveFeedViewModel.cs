@@ -45,6 +45,10 @@ public partial class LiveFeedViewModel : ViewModelBase, IDisposable
             {
                 _player = _mediaPlayerService.CreatePlayer();
                 OnPropertyChanged(nameof(Player));
+                // Yield so the UI thread can run a layout pass — the VideoView's
+                // NativeControlHost needs one cycle to create its native window
+                // handle before VLC can render into it.
+                await Task.Delay(1);
             }
             _mediaPlayerService.Play(_player, uri);
             IsStreamActive = true;
