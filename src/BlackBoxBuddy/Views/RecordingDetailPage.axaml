@@ -1,7 +1,6 @@
 <ContentPage xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:BlackBoxBuddy.ViewModels"
-             xmlns:vlc="using:LibVLCSharp.Avalonia"
              xmlns:conv="using:BlackBoxBuddy.Converters"
              x:Class="BlackBoxBuddy.Views.RecordingDetailPage"
              x:DataType="vm:RecordingDetailViewModel">
@@ -13,27 +12,19 @@
   <!-- Root: video area (not scrollable) + scrollable metadata below -->
   <Grid RowDefinitions="Auto,*">
 
-    <!-- Row 0: Video Player Area (outside ScrollViewer — VideoView is NativeControlHost) -->
+    <!-- Row 0: Video Preview Area -->
     <Panel Grid.Row="0" Background="#111111">
 
       <!-- Single camera layout (full width) — hidden when dual camera -->
       <Panel IsVisible="{Binding !IsDualCamera}" Height="400">
-        <!-- VideoView — shown when playing -->
-        <vlc:VideoView IsVisible="{Binding IsPlaying}"
-                       MediaPlayer="{Binding FrontPlayer}"
-                       HorizontalAlignment="Stretch"
-                       Height="400"/>
-
-        <!-- Thumbnail shown before playback starts (RDTL-02) -->
-        <Image IsVisible="{Binding !IsPlaying}"
-               Source="{Binding CurrentRecording.ThumbnailData, Converter={StaticResource BytesToBitmap}, ConverterParameter=160x90}"
+        <!-- Thumbnail preview -->
+        <Image Source="{Binding CurrentRecording.ThumbnailData, Converter={StaticResource BytesToBitmap}, ConverterParameter=160x90}"
                Stretch="UniformToFill"
                Height="400"
                HorizontalAlignment="Stretch"/>
 
-        <!-- Play button overlay on thumbnail -->
-        <Button IsVisible="{Binding !IsPlaying}"
-                Command="{Binding PlayPauseCommand}"
+        <!-- Play button overlay -->
+        <Button Command="{Binding PlayPauseCommand}"
                 Background="#88000000"
                 Width="64" Height="64"
                 CornerRadius="32"
@@ -44,42 +35,31 @@
                     Width="28" Height="28"
                     Foreground="White"/>
         </Button>
+
+        <!-- Playback notice -->
+        <TextBlock Text="Video playback requires LibVLCSharp compatible with Avalonia 12"
+                   FontSize="11" Opacity="0.5"
+                   HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                   Margin="0,0,0,8"
+                   IsVisible="{Binding IsPlaying}"/>
       </Panel>
 
-      <!-- Dual camera layout — side-by-side on desktop (>=600px) -->
+      <!-- Dual camera layout — side-by-side -->
       <Grid IsVisible="{Binding IsDualCamera}" Height="300"
             ColumnDefinitions="*,*" ColumnSpacing="4">
-
-        <!-- Front camera panel -->
         <Panel Grid.Column="0" Background="#222222">
-          <vlc:VideoView IsVisible="{Binding IsPlaying}"
-                         MediaPlayer="{Binding FrontPlayer}"
-                         HorizontalAlignment="Stretch"
-                         Height="300"/>
-          <Image IsVisible="{Binding !IsPlaying}"
-                 Source="{Binding CurrentRecording.ThumbnailData, Converter={StaticResource BytesToBitmap}, ConverterParameter=160x90}"
-                 Stretch="UniformToFill"
-                 Height="300"
-                 HorizontalAlignment="Stretch"/>
+          <Image Source="{Binding CurrentRecording.ThumbnailData, Converter={StaticResource BytesToBitmap}, ConverterParameter=160x90}"
+                 Stretch="UniformToFill" Height="300" HorizontalAlignment="Stretch"/>
           <TextBlock Text="Front" FontSize="11" Opacity="0.6"
-                     HorizontalAlignment="Left" VerticalAlignment="Top"
-                     Margin="8,4"/>
+                     HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,4"/>
         </Panel>
-
-        <!-- Rear camera panel -->
         <Panel Grid.Column="1" Background="#222222">
-          <vlc:VideoView IsVisible="{Binding IsPlaying}"
-                         MediaPlayer="{Binding RearPlayer}"
-                         HorizontalAlignment="Stretch"
-                         Height="300"/>
           <TextBlock Text="Rear" FontSize="11" Opacity="0.6"
-                     HorizontalAlignment="Left" VerticalAlignment="Top"
-                     Margin="8,4"/>
+                     HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,4"/>
         </Panel>
-
       </Grid>
 
-      <!-- Archive progress overlay with cancel (wired to CancelArchiveCommand) -->
+      <!-- Archive progress overlay with cancel -->
       <Border IsVisible="{Binding IsArchiving}"
               Background="#CC000000"
               HorizontalAlignment="Stretch"

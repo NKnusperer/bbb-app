@@ -15,7 +15,7 @@ public partial class RecordingsViewModel : ViewModelBase
     private readonly ITripGroupingService _tripGroupingService;
     private readonly IArchiveService _archiveService;
     private readonly INavigationService _navigationService;
-    private readonly IMediaPlayerService? _mediaPlayerService;
+    private readonly IMediaPlayerService _mediaPlayerService;
     private IReadOnlyList<Recording> _allRecordings = Array.Empty<Recording>();
     private CancellationTokenSource? _archiveCts;
 
@@ -64,6 +64,11 @@ public partial class RecordingsViewModel : ViewModelBase
     /// <summary>Set of archived file names for quick lookup in UI (archived badge visibility).</summary>
     public HashSet<string> ArchivedFileNames { get; } = new(StringComparer.OrdinalIgnoreCase);
 
+    [ObservableProperty]
+    private RecordingDetailViewModel? _activeDetailViewModel;
+
+    public bool IsDetailVisible => ActiveDetailViewModel is not null;
+
     public string Title => "Recordings";
 
     public RecordingsViewModel(
@@ -72,7 +77,7 @@ public partial class RecordingsViewModel : ViewModelBase
         ITripGroupingService tripGroupingService,
         IArchiveService archiveService,
         INavigationService navigationService,
-        IMediaPlayerService? mediaPlayerService = null)
+        IMediaPlayerService mediaPlayerService)
     {
         _device = device;
         _deviceService = deviceService;
@@ -135,19 +140,29 @@ public partial class RecordingsViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private async Task OpenRecordingAsync(Recording recording)
+    private void OpenRecording(Recording recording)
     {
-        if (_mediaPlayerService is null) return;
-        var detailVm = new RecordingDetailViewModel(recording, _mediaPlayerService, _archiveService, _navigationService);
-        await _navigationService.PushAsync(detailVm);
+        ActiveDetailViewModel = new RecordingDetailViewModel(recording, _mediaPlayerService, _archiveService, _navigationService);
+        OnPropertyChanged(nameof(IsDetailVisible));
     }
 
     [RelayCommand]
-    private async Task OpenTripAsync(TripGroup trip)
+    private void OpenTrip(TripGroup trip)
     {
-        if (_mediaPlayerService is null) return;
-        var detailVm = new RecordingDetailViewModel(trip, _mediaPlayerService, _archiveService, _navigationService);
-        await _navigationService.PushAsync(detailVm);
+        ActiveDetailViewModel = new RecordingDetailViewModel(trip, _mediaPlayerService, _archiveService, _navigationService);
+        OnPropertyChanged(nameof(IsDetailVisible));
+    }
+
+    [RelayCommand]
+    private void CloseDetail()
+    {
+        if (ActiveDetailViewModel is IDisposable d)
+            d.Dispose();
+        ActiveDetailViewModel = null;
+        OnPropertyChanged(nameof(IsDetailVisible));
+        // Refresh archived state in case user archived from detail page
+        RefreshArchivedState();
+        OnPropertyChanged(nameof(ArchivedFileNames));
     }
 
     // ── Multi-select Commands ─────────────────────────────────────────────────
@@ -220,6 +235,7 @@ public partial class RecordingsViewModel : ViewModelBase
             foreach (var r in selected)
                 if (_archiveService.IsArchived(r))
                     ArchivedFileNames.Add(r.FileName);
+            OnPropertyChanged(nameof(ArchivedFileNames));
             IsMultiSelectMode = false;
             SelectedRecordings.Clear();
             OnPropertyChanged(nameof(SelectedCount));
@@ -258,6 +274,7 @@ public partial class RecordingsViewModel : ViewModelBase
             if (_archiveService.IsArchived(recording))
                 ArchivedFileNames.Add(recording.FileName);
         }
+        OnPropertyChanged(nameof(ArchivedFileNames));
     }
 
     partial void OnSelectedFilterChanged(EventType? value)

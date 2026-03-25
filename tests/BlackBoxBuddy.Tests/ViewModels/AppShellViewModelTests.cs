@@ -31,8 +31,9 @@ public class AppShellViewModelTests
         var archiveService = Substitute.For<IArchiveService>();
         var recordingsNavService = Substitute.For<INavigationService>();
         var mockDevice = Substitute.For<IDashcamDevice>();
+        var mediaPlayerService = Substitute.For<IMediaPlayerService>();
         var recordingsVm = new RecordingsViewModel(
-            mockDevice, _deviceService, tripGroupingService, archiveService, recordingsNavService);
+            mockDevice, _deviceService, tripGroupingService, archiveService, recordingsNavService, mediaPlayerService);
         var liveFeedVm = new LiveFeedViewModel();
         _device = Substitute.For<IDashcamDevice>();
         _settingsVm = new SettingsViewModel(_device, _dialogService);

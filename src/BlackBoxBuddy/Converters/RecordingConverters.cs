@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
 using Avalonia.Data.Converters;
+using Avalonia.Media;
 using BlackBoxBuddy.Models;
 
 namespace BlackBoxBuddy.Converters;
@@ -75,17 +76,20 @@ public class NullFilterActiveBrushConverter : IValueConverter
 {
     public static readonly NullFilterActiveBrushConverter Instance = new();
 
+    private static readonly SolidColorBrush ActiveBrush = new(Color.Parse("#FF2196F3"));
+    private static readonly SolidColorBrush InactiveBrush = new(Color.Parse("#1EFFFFFF"));
+
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         // value is the SelectedFilter (EventType?), parameter is the EventType value to check
-        // If both null -> active. If value matches parameter -> active.
+        // If both null -> active ("All" chip). If value matches parameter -> active.
         if (parameter is null)
-            return value is null ? "#2196F3" : "#1EFFFFFF";
+            return value is null ? ActiveBrush : InactiveBrush;
 
         if (parameter is EventType paramType && value is EventType selectedType)
-            return selectedType == paramType ? "#2196F3" : "#1EFFFFFF";
+            return selectedType == paramType ? ActiveBrush : InactiveBrush;
 
-        return "#1EFFFFFF";
+        return InactiveBrush;
     }
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

@@ -189,8 +189,14 @@ public partial class RecordingDetailViewModel : ViewModelBase, IDisposable
     }
 
     [RelayCommand]
-    private void SetRate(float rate)
+    private void SetRate(object? rateParam)
     {
+        var rate = rateParam switch
+        {
+            float f => f,
+            string s when float.TryParse(s, System.Globalization.CultureInfo.InvariantCulture, out var parsed) => parsed,
+            _ => 1.0f
+        };
         PlaybackRate = rate;
         if (_frontPlayer is not null)
             _mediaPlayerService.SetRate(_frontPlayer, rate);
@@ -199,8 +205,15 @@ public partial class RecordingDetailViewModel : ViewModelBase, IDisposable
     }
 
     [RelayCommand]
-    private void SeekTo(float position)
+    private void SeekTo(object? posParam)
     {
+        var position = posParam switch
+        {
+            float f => f,
+            double d => (float)d,
+            string s when float.TryParse(s, System.Globalization.CultureInfo.InvariantCulture, out var parsed) => parsed,
+            _ => 0f
+        };
         SeekPosition = position;
         if (_frontPlayer is not null)
             _mediaPlayerService.Seek(_frontPlayer, position);

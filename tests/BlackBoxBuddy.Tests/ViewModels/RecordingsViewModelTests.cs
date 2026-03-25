@@ -207,25 +207,39 @@ public class RecordingsViewModelTests
     // ── Navigation Tests ──────────────────────────────────────────────────────
 
     [Fact]
-    public async Task OpenRecordingCommand_PushesRecordingDetailViewModel()
+    public void OpenRecordingCommand_SetsActiveDetailViewModel()
     {
         var recording = MakeRecording();
 
-        await _viewModel.OpenRecordingCommand.ExecuteAsync(recording);
+        _viewModel.OpenRecordingCommand.Execute(recording);
 
-        await _navigationService.Received(1).PushAsync(
-            Arg.Is<ViewModelBase>(vm => vm is RecordingDetailViewModel));
+        _viewModel.ActiveDetailViewModel.Should().NotBeNull();
+        _viewModel.ActiveDetailViewModel.Should().BeOfType<RecordingDetailViewModel>();
+        _viewModel.IsDetailVisible.Should().BeTrue();
     }
 
     [Fact]
-    public async Task OpenTripCommand_PushesRecordingDetailViewModelInTripMode()
+    public void OpenTripCommand_SetsActiveDetailViewModelInTripMode()
     {
         var trip = new TripGroup(new[] { MakeRecording() });
 
-        await _viewModel.OpenTripCommand.ExecuteAsync(trip);
+        _viewModel.OpenTripCommand.Execute(trip);
 
-        await _navigationService.Received(1).PushAsync(
-            Arg.Is<ViewModelBase>(vm => vm is RecordingDetailViewModel));
+        _viewModel.ActiveDetailViewModel.Should().NotBeNull();
+        _viewModel.ActiveDetailViewModel!.IsTrip.Should().BeTrue();
+        _viewModel.IsDetailVisible.Should().BeTrue();
+    }
+
+    [Fact]
+    public void CloseDetailCommand_ClearsActiveDetailViewModel()
+    {
+        var recording = MakeRecording();
+        _viewModel.OpenRecordingCommand.Execute(recording);
+
+        _viewModel.CloseDetailCommand.Execute(null);
+
+        _viewModel.ActiveDetailViewModel.Should().BeNull();
+        _viewModel.IsDetailVisible.Should().BeFalse();
     }
 
     // ── IsDeviceConnected Tests ───────────────────────────────────────────────
@@ -235,7 +249,7 @@ public class RecordingsViewModelTests
     {
         _deviceService.ConnectionState.Returns(ConnectionState.Disconnected);
         var vm = new RecordingsViewModel(
-            _device, _deviceService, _tripGroupingService, _archiveService, _navigationService);
+            _device, _deviceService, _tripGroupingService, _archiveService, _navigationService, _mediaPlayerService);
 
         vm.IsDeviceConnected.Should().BeFalse();
     }
@@ -245,7 +259,7 @@ public class RecordingsViewModelTests
     {
         _deviceService.ConnectionState.Returns(ConnectionState.Connected);
         var vm = new RecordingsViewModel(
-            _device, _deviceService, _tripGroupingService, _archiveService, _navigationService);
+            _device, _deviceService, _tripGroupingService, _archiveService, _navigationService, _mediaPlayerService);
 
         vm.IsDeviceConnected.Should().BeTrue();
     }
