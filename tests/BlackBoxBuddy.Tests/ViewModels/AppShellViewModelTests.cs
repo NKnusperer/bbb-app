@@ -27,7 +27,12 @@ public class AppShellViewModelTests
         _deviceService.ConnectionState.Returns(ConnectionState.Disconnected);
         _deviceService.ConnectedDevice.Returns((DeviceInfo?)null);
         var dashboardVm = new DashboardViewModel();
-        var recordingsVm = new RecordingsViewModel();
+        var tripGroupingService = Substitute.For<ITripGroupingService>();
+        var archiveService = Substitute.For<IArchiveService>();
+        var recordingsNavService = Substitute.For<INavigationService>();
+        var mockDevice = Substitute.For<IDashcamDevice>();
+        var recordingsVm = new RecordingsViewModel(
+            mockDevice, _deviceService, tripGroupingService, archiveService, recordingsNavService);
         var liveFeedVm = new LiveFeedViewModel();
         _device = Substitute.For<IDashcamDevice>();
         _settingsVm = new SettingsViewModel(_device, _dialogService);
