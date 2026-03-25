@@ -17,6 +17,7 @@ public partial class RecordingsViewModel : ViewModelBase
     private readonly INavigationService _navigationService;
     private readonly IMediaPlayerService? _mediaPlayerService;
     private IReadOnlyList<Recording> _allRecordings = Array.Empty<Recording>();
+    private CancellationTokenSource? _archiveCts;
 
     // ── Observable Properties ─────────────────────────────────────────────────
 
@@ -41,6 +42,28 @@ public partial class RecordingsViewModel : ViewModelBase
     [ObservableProperty]
     private string _errorMessage = string.Empty;
 
+    // ── Multi-select / Archive Properties ─────────────────────────────────────
+
+    [ObservableProperty]
+    private bool _isMultiSelectMode;
+
+    [ObservableProperty]
+    private ObservableCollection<Recording> _selectedRecordings = new();
+
+    [ObservableProperty]
+    private bool _isArchiving;
+
+    [ObservableProperty]
+    private double _archiveProgress;
+
+    [ObservableProperty]
+    private string _archiveStatusText = string.Empty;
+
+    public int SelectedCount => SelectedRecordings.Count;
+
+    /// <summary>Set of archived file names for quick lookup in UI (archived badge visibility).</summary>
+    public HashSet<string> ArchivedFileNames { get; } = new(StringComparer.OrdinalIgnoreCase);
+
     public string Title => "Recordings";
 
     public RecordingsViewModel(
@@ -63,6 +86,9 @@ public partial class RecordingsViewModel : ViewModelBase
 
         // Subscribe to connection state changes
         _deviceService.ConnectionStateChanged += OnConnectionStateChanged;
+
+        // Track SelectedCount when collection changes
+        SelectedRecordings.CollectionChanged += (_, _) => OnPropertyChanged(nameof(SelectedCount));
     }
 
     private void OnConnectionStateChanged(object? sender, ConnectionState state)
@@ -87,6 +113,8 @@ public partial class RecordingsViewModel : ViewModelBase
         try
         {
             _allRecordings = await _device.ListRecordingsAsync(ct);
+            // Populate archived state from service
+            RefreshArchivedState();
             ApplyFilter();
         }
         catch (Exception ex)
@@ -122,6 +150,88 @@ public partial class RecordingsViewModel : ViewModelBase
         await _navigationService.PushAsync(detailVm);
     }
 
+    // ── Multi-select Commands ─────────────────────────────────────────────────
+
+    [RelayCommand]
+    private void ToggleMultiSelect()
+    {
+        IsMultiSelectMode = !IsMultiSelectMode;
+        if (!IsMultiSelectMode)
+        {
+            SelectedRecordings.Clear();
+        }
+    }
+
+    [RelayCommand]
+    private void ToggleRecordingSelection(Recording recording)
+    {
+        if (SelectedRecordings.Contains(recording))
+            SelectedRecordings.Remove(recording);
+        else
+            SelectedRecordings.Add(recording);
+    }
+
+    [RelayCommand]
+    private void SelectAll()
+    {
+        // Flatten DisplayItems — add all Recording objects from DisplayItems
+        var recordingsToAdd = new List<Recording>();
+        foreach (var item in DisplayItems)
+        {
+            if (item is Recording r)
+                recordingsToAdd.Add(r);
+            else if (item is TripGroup trip)
+                recordingsToAdd.AddRange(trip.Clips);
+        }
+
+        SelectedRecordings.Clear();
+        foreach (var r in recordingsToAdd)
+            SelectedRecordings.Add(r);
+    }
+
+    [RelayCommand]
+    private async Task ArchiveSelected()
+    {
+        _archiveCts = new CancellationTokenSource();
+        IsArchiving = true;
+        var selected = SelectedRecordings.ToList();
+        try
+        {
+            for (int i = 0; i < selected.Count; i++)
+            {
+                _archiveCts.Token.ThrowIfCancellationRequested();
+                ArchiveStatusText = $"Archiving clip {i + 1} of {selected.Count}...";
+                ArchiveProgress = selected.Count > 0 ? (double)i / selected.Count : 0;
+                await _archiveService.ArchiveAsync(selected[i], null, _archiveCts.Token);
+            }
+            ArchiveProgress = 1.0;
+            ArchiveStatusText = "Archived successfully";
+        }
+        catch (OperationCanceledException)
+        {
+            ArchiveStatusText = "Archive cancelled";
+        }
+        finally
+        {
+            IsArchiving = false;
+            _archiveCts?.Dispose();
+            _archiveCts = null;
+            // Refresh archived state for all processed recordings
+            foreach (var r in selected)
+                if (_archiveService.IsArchived(r))
+                    ArchivedFileNames.Add(r.FileName);
+            IsMultiSelectMode = false;
+            SelectedRecordings.Clear();
+            OnPropertyChanged(nameof(SelectedCount));
+        }
+    }
+
+    [RelayCommand]
+    private void CancelArchive()
+    {
+        _archiveCts?.Cancel();
+    }
+
     // ── Private Methods ───────────────────────────────────────────────────────
 
     private void ApplyFilter()
@@ -138,6 +248,16 @@ public partial class RecordingsViewModel : ViewModelBase
 
         IsEmpty = DisplayItems.Count == 0;
         HasActiveFilter = SelectedFilter is not null;
+    }
+
+    private void RefreshArchivedState()
+    {
+        ArchivedFileNames.Clear();
+        foreach (var recording in _allRecordings)
+        {
+            if (_archiveService.IsArchived(recording))
+                ArchivedFileNames.Add(recording.FileName);
+        }
     }
 
     partial void OnSelectedFilterChanged(EventType? value)
