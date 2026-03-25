@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Globalization;
 using Avalonia.Data.Converters;
 using BlackBoxBuddy.Models;
@@ -89,4 +90,44 @@ public class NullFilterActiveBrushConverter : IValueConverter
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         => throw new NotSupportedException();
+}
+
+/// <summary>
+/// Multi-value converter for the "Archived" badge.
+/// values[0] = FileName (string)
+/// values[1] = ArchivedFileNames (HashSet&lt;string&gt;)
+/// Returns true when the filename is in the archived set.
+/// </summary>
+public class ArchivedMultiConverter : IMultiValueConverter
+{
+    public static readonly ArchivedMultiConverter Instance = new();
+
+    public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (values.Count < 2) return false;
+        var fileName = values[0] as string;
+        var archivedSet = values[1] as HashSet<string>;
+        if (fileName is null || archivedSet is null) return false;
+        return archivedSet.Contains(fileName);
+    }
+}
+
+/// <summary>
+/// Multi-value converter for the selection checkbox IsChecked state.
+/// values[0] = Recording (the item)
+/// values[1] = SelectedRecordings (ObservableCollection&lt;Recording&gt;)
+/// Returns true when the recording is in the selection collection.
+/// </summary>
+public class RecordingIsSelectedConverter : IMultiValueConverter
+{
+    public static readonly RecordingIsSelectedConverter Instance = new();
+
+    public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (values.Count < 2) return false;
+        var recording = values[0] as Recording;
+        var selected = values[1] as System.Collections.ObjectModel.ObservableCollection<Recording>;
+        if (recording is null || selected is null) return false;
+        return selected.Contains(recording);
+    }
 }

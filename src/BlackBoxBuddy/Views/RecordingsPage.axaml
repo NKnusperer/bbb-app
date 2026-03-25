@@ -12,217 +12,198 @@
     <conv:FileSizeConverter x:Key="FileSizeConverter"/>
     <conv:EventTypeToStringConverter x:Key="EventTypeToString"/>
     <conv:EventTypeToVisibilityConverter x:Key="EventTypeToVisibility"/>
+    <conv:ArchivedMultiConverter x:Key="ArchivedMultiConverter"/>
+    <conv:RecordingIsSelectedConverter x:Key="RecordingIsSelectedConverter"/>
   </ContentPage.Resources>
 
-  <Grid RowDefinitions="Auto,*">
+  <!-- Root Panel for overlay support -->
+  <Panel>
 
-    <!-- Row 0: Filter chip bar -->
-    <ScrollViewer Grid.Row="0"
-                  HorizontalScrollBarVisibility="Auto"
-                  VerticalScrollBarVisibility="Disabled"
-                  Margin="16,16,16,0">
-      <StackPanel Orientation="Horizontal" Spacing="8">
+    <Grid RowDefinitions="Auto,Auto,*">
 
-        <!-- All filter chip -->
-        <Button Content="All"
-                CornerRadius="16"
-                Padding="12,8"
-                FontSize="14"
-                FontWeight="Normal"
-                Foreground="White"
-                Background="#2196F3"
-                Command="{Binding SetFilterCommand}"
-                CommandParameter="{x:Null}"/>
+      <!-- Row 0: Filter chip bar + Select/Done button bar -->
+      <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="16,16,16,0">
 
-        <!-- Radar filter chip -->
-        <Button Content="Radar"
-                CornerRadius="16"
-                Padding="12,8"
-                FontSize="14"
-                FontWeight="Normal"
-                Foreground="White"
-                Background="#1EFFFFFF"
-                Command="{Binding SetFilterCommand}">
-          <Button.CommandParameter>
-            <models:EventType>Radar</models:EventType>
-          </Button.CommandParameter>
-        </Button>
+        <!-- Filter chips -->
+        <ScrollViewer Grid.Column="0"
+                      HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Disabled">
+          <StackPanel Orientation="Horizontal" Spacing="8">
 
-        <!-- G-Shock filter chip -->
-        <Button Content="G-Shock"
-                CornerRadius="16"
-                Padding="12,8"
-                FontSize="14"
-                FontWeight="Normal"
-                Foreground="White"
-                Background="#1EFFFFFF"
-                Command="{Binding SetFilterCommand}">
-          <Button.CommandParameter>
-            <models:EventType>GShock</models:EventType>
-          </Button.CommandParameter>
-        </Button>
+            <!-- All filter chip -->
+            <Button Content="All"
+                    CornerRadius="16"
+                    Padding="12,8"
+                    FontSize="14"
+                    FontWeight="Normal"
+                    Foreground="White"
+                    Background="#2196F3"
+                    Command="{Binding SetFilterCommand}"
+                    CommandParameter="{x:Null}"/>
 
-        <!-- Parking filter chip -->
-        <Button Content="Parking"
-                CornerRadius="16"
-                Padding="12,8"
-                FontSize="14"
-                FontWeight="Normal"
-                Foreground="White"
-                Background="#1EFFFFFF"
-                Command="{Binding SetFilterCommand}">
-          <Button.CommandParameter>
-            <models:EventType>Parking</models:EventType>
-          </Button.CommandParameter>
-        </Button>
-
-      </StackPanel>
-    </ScrollViewer>
-
-    <!-- Row 1: Content area -->
-    <Panel Grid.Row="1">
-
-      <!-- Loading state -->
-      <StackPanel IsVisible="{Binding IsLoading}"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center"
-                  Spacing="16">
-        <ProgressBar IsIndeterminate="True" Width="160" Height="4"/>
-        <TextBlock Text="Loading recordings..."
-                   FontSize="14"
-                   HorizontalAlignment="Center"/>
-      </StackPanel>
-
-      <!-- Empty state — no device connected -->
-      <StackPanel IsVisible="{Binding IsEmpty}"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center"
-                  Spacing="16">
-
-        <!-- No device connected -->
-        <StackPanel IsVisible="{Binding !IsDeviceConnected}"
-                    Spacing="8"
-                    HorizontalAlignment="Center">
-          <TextBlock Text="Your dashcam recordings will appear here"
-                     FontSize="24"
-                     FontWeight="SemiBold"
-                     HorizontalAlignment="Center"
-                     TextAlignment="Center"/>
-          <TextBlock Text="Connect your dashcam to browse recordings."
-                     FontSize="14"
-                     Opacity="0.7"
-                     HorizontalAlignment="Center"
-                     TextAlignment="Center"/>
-        </StackPanel>
-
-        <!-- Filter active but no matches -->
-        <StackPanel IsVisible="{Binding HasActiveFilter}"
-                    Spacing="8"
-                    HorizontalAlignment="Center">
-          <TextBlock Text="No matches for this filter"
-                     FontSize="24"
-                     FontWeight="SemiBold"
-                     HorizontalAlignment="Center"
-                     TextAlignment="Center"/>
-          <TextBlock Text="No recordings match this filter. Try selecting All."
-                     FontSize="14"
-                     Opacity="0.7"
-                     HorizontalAlignment="Center"
-                     TextAlignment="Center"/>
-        </StackPanel>
-
-      </StackPanel>
-
-      <!-- Recording list — hidden while loading -->
-      <ListBox ItemsSource="{Binding DisplayItems}"
-               SelectionMode="Single"
-               Margin="16"
-               IsVisible="{Binding !IsLoading}">
-
-        <ListBox.Styles>
-          <Style Selector="ListBoxItem">
-            <Setter Property="Margin" Value="0,0,0,8"/>
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="Background" Value="Transparent"/>
-          </Style>
-          <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-            <Setter Property="Background" Value="Transparent"/>
-          </Style>
-        </ListBox.Styles>
-
-        <ListBox.DataTemplates>
-
-          <!-- DataTemplate for standalone Recording items -->
-          <DataTemplate DataType="models:Recording">
-            <Button Command="{Binding $parent[ListBox].((vm:RecordingsViewModel)DataContext).OpenRecordingCommand}"
-                    CommandParameter="{Binding}"
-                    Background="Transparent"
-                    Padding="0"
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Stretch">
-              <Border CornerRadius="8"
-                      Padding="12"
-                      Background="#1EFFFFFF">
-                <Grid ColumnDefinitions="160,*" ColumnSpacing="12">
-
-                  <!-- Thumbnail with event badge overlay -->
-                  <Panel Grid.Column="0">
-                    <Image Source="{Binding ThumbnailData, Converter={StaticResource BytesToBitmap}}"
-                           Width="160"
-                           Height="90"
-                           Stretch="UniformToFill"/>
-                    <!-- Event badge — hidden for EventType.None -->
-                    <Border CornerRadius="4"
-                            Padding="4,2"
-                            Background="{Binding EventType, Converter={StaticResource EventTypeToBrush}}"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Top"
-                            Margin="4"
-                            IsVisible="{Binding EventType, Converter={StaticResource EventTypeToVisibility}}">
-                      <TextBlock Text="{Binding EventType, Converter={StaticResource EventTypeToString}}"
-                                 FontSize="11"
-                                 FontWeight="SemiBold"
-                                 Foreground="White"/>
-                    </Border>
-                  </Panel>
-
-                  <!-- Metadata column -->
-                  <StackPanel Grid.Column="1" Spacing="4" VerticalAlignment="Center">
-                    <TextBlock Text="{Binding DateTime, StringFormat='{}{0:MMM dd, yyyy  HH:mm}'}"
-                               FontSize="14"
-                               Opacity="0.85"/>
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                      <TextBlock Text="{Binding Duration, StringFormat='{}{0:mm\\:ss}'}"
-                                 FontSize="14"
-                                 Opacity="0.85"/>
-                      <TextBlock Text="{Binding FileSize, Converter={StaticResource FileSizeConverter}}"
-                                 FontSize="14"
-                                 Opacity="0.85"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                      <TextBlock Text="{Binding AvgSpeed, StringFormat='{}{0:F0} km/h'}"
-                                 FontSize="14"
-                                 Opacity="0.7"/>
-                      <TextBlock Text="{Binding PeakGForce, StringFormat='{}{0:F1}g'}"
-                                 FontSize="14"
-                                 Opacity="0.7"/>
-                      <TextBlock Text="{Binding Distance, StringFormat='{}{0:F1} km'}"
-                                 FontSize="14"
-                                 Opacity="0.7"/>
-                    </StackPanel>
-                  </StackPanel>
-
-                </Grid>
-              </Border>
+            <!-- Radar filter chip -->
+            <Button Content="Radar"
+                    CornerRadius="16"
+                    Padding="12,8"
+                    FontSize="14"
+                    FontWeight="Normal"
+                    Foreground="White"
+                    Background="#1EFFFFFF"
+                    Command="{Binding SetFilterCommand}">
+              <Button.CommandParameter>
+                <models:EventType>Radar</models:EventType>
+              </Button.CommandParameter>
             </Button>
-          </DataTemplate>
 
-          <!-- DataTemplate for TripGroup items -->
-          <DataTemplate DataType="models:TripGroup">
-            <StackPanel Spacing="4">
+            <!-- G-Shock filter chip -->
+            <Button Content="G-Shock"
+                    CornerRadius="16"
+                    Padding="12,8"
+                    FontSize="14"
+                    FontWeight="Normal"
+                    Foreground="White"
+                    Background="#1EFFFFFF"
+                    Command="{Binding SetFilterCommand}">
+              <Button.CommandParameter>
+                <models:EventType>GShock</models:EventType>
+              </Button.CommandParameter>
+            </Button>
 
-              <!-- Trip header card -->
-              <Button Command="{Binding $parent[ListBox].((vm:RecordingsViewModel)DataContext).OpenTripCommand}"
+            <!-- Parking filter chip -->
+            <Button Content="Parking"
+                    CornerRadius="16"
+                    Padding="12,8"
+                    FontSize="14"
+                    FontWeight="Normal"
+                    Foreground="White"
+                    Background="#1EFFFFFF"
+                    Command="{Binding SetFilterCommand}">
+              <Button.CommandParameter>
+                <models:EventType>Parking</models:EventType>
+              </Button.CommandParameter>
+            </Button>
+
+          </StackPanel>
+        </ScrollViewer>
+
+        <!-- Select/Done button bar (right side) -->
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" Margin="8,0,0,0">
+          <!-- Not in multi-select mode -->
+          <Button Content="Select Clips"
+                  Command="{Binding ToggleMultiSelectCommand}"
+                  IsVisible="{Binding !IsMultiSelectMode}"
+                  FontSize="14" Padding="12,8"/>
+          <!-- In multi-select mode -->
+          <Button Content="Select All"
+                  Command="{Binding SelectAllCommand}"
+                  IsVisible="{Binding IsMultiSelectMode}"
+                  FontSize="14" Padding="12,8"/>
+          <Button Content="Done Selecting"
+                  Command="{Binding ToggleMultiSelectCommand}"
+                  IsVisible="{Binding IsMultiSelectMode}"
+                  FontSize="14" Padding="12,8"/>
+        </StackPanel>
+
+      </Grid>
+
+      <!-- Row 1: Archive Selected bottom floating bar (shown in multi-select) -->
+      <!-- Placed in Row 1 as a fixed bar above the list -->
+      <Border Grid.Row="1"
+              IsVisible="{Binding IsMultiSelectMode}"
+              Background="#CC000000"
+              HorizontalAlignment="Stretch"
+              Padding="16,8">
+        <Button HorizontalAlignment="Stretch"
+                Background="#2196F3"
+                Command="{Binding ArchiveSelectedCommand}"
+                IsEnabled="{Binding SelectedCount}">
+          <TextBlock FontSize="14" Foreground="White">
+            <TextBlock.Text>
+              <MultiBinding StringFormat="Archive Selected ({0})">
+                <Binding Path="SelectedCount"/>
+              </MultiBinding>
+            </TextBlock.Text>
+          </TextBlock>
+        </Button>
+      </Border>
+
+      <!-- Row 2: Content area -->
+      <Panel Grid.Row="2">
+
+        <!-- Loading state -->
+        <StackPanel IsVisible="{Binding IsLoading}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="16">
+          <ProgressBar IsIndeterminate="True" Width="160" Height="4"/>
+          <TextBlock Text="Loading recordings..."
+                     FontSize="14"
+                     HorizontalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Empty state — no device connected -->
+        <StackPanel IsVisible="{Binding IsEmpty}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="16">
+
+          <!-- No device connected -->
+          <StackPanel IsVisible="{Binding !IsDeviceConnected}"
+                      Spacing="8"
+                      HorizontalAlignment="Center">
+            <TextBlock Text="Your dashcam recordings will appear here"
+                       FontSize="24"
+                       FontWeight="SemiBold"
+                       HorizontalAlignment="Center"
+                       TextAlignment="Center"/>
+            <TextBlock Text="Connect your dashcam to browse recordings."
+                       FontSize="14"
+                       Opacity="0.7"
+                       HorizontalAlignment="Center"
+                       TextAlignment="Center"/>
+          </StackPanel>
+
+          <!-- Filter active but no matches -->
+          <StackPanel IsVisible="{Binding HasActiveFilter}"
+                      Spacing="8"
+                      HorizontalAlignment="Center">
+            <TextBlock Text="No matches for this filter"
+                       FontSize="24"
+                       FontWeight="SemiBold"
+                       HorizontalAlignment="Center"
+                       TextAlignment="Center"/>
+            <TextBlock Text="No recordings match this filter. Try selecting All."
+                       FontSize="14"
+                       Opacity="0.7"
+                       HorizontalAlignment="Center"
+                       TextAlignment="Center"/>
+          </StackPanel>
+
+        </StackPanel>
+
+        <!-- Recording list — hidden while loading -->
+        <ListBox x:Name="RecordingList"
+                 ItemsSource="{Binding DisplayItems}"
+                 SelectionMode="Single"
+                 Margin="16"
+                 IsVisible="{Binding !IsLoading}">
+
+          <ListBox.Styles>
+            <Style Selector="ListBoxItem">
+              <Setter Property="Margin" Value="0,0,0,8"/>
+              <Setter Property="Padding" Value="0"/>
+              <Setter Property="Background" Value="Transparent"/>
+            </Style>
+            <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+              <Setter Property="Background" Value="Transparent"/>
+            </Style>
+          </ListBox.Styles>
+
+          <ListBox.DataTemplates>
+
+            <!-- DataTemplate for standalone Recording items -->
+            <DataTemplate DataType="models:Recording">
+              <Button Command="{Binding $parent[ListBox].((vm:RecordingsViewModel)DataContext).OpenRecordingCommand}"
                       CommandParameter="{Binding}"
                       Background="Transparent"
                       Padding="0"
@@ -230,96 +211,217 @@
                       HorizontalContentAlignment="Stretch">
                 <Border CornerRadius="8"
                         Padding="12"
-                        Background="#26FFFFFF">
-                  <Grid ColumnDefinitions="Auto,*,Auto">
+                        Background="#1EFFFFFF">
+                  <!-- Panel wraps the card to allow checkbox overlay -->
+                  <Panel>
+                    <Grid ColumnDefinitions="160,*" ColumnSpacing="12">
 
-                    <!-- Trip label and clip count -->
-                    <StackPanel Grid.Column="0"
-                                Orientation="Horizontal"
-                                Spacing="8"
-                                VerticalAlignment="Center">
-                      <TextBlock Text="Trip"
-                                 FontSize="14"
-                                 FontWeight="SemiBold"/>
-                      <TextBlock FontSize="12"
-                                 Opacity="0.7">
-                        <TextBlock.Text>
-                          <MultiBinding StringFormat="{}{0} clips">
-                            <Binding Path="Clips.Count"/>
-                          </MultiBinding>
-                        </TextBlock.Text>
-                      </TextBlock>
-                    </StackPanel>
+                      <!-- Thumbnail with event badge and archived badge overlay -->
+                      <Panel Grid.Column="0">
+                        <Image Source="{Binding ThumbnailData, Converter={StaticResource BytesToBitmap}}"
+                               Width="160"
+                               Height="90"
+                               Stretch="UniformToFill"/>
+                        <!-- Event badge — hidden for EventType.None -->
+                        <Border CornerRadius="4"
+                                Padding="4,2"
+                                Background="{Binding EventType, Converter={StaticResource EventTypeToBrush}}"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Margin="4"
+                                IsVisible="{Binding EventType, Converter={StaticResource EventTypeToVisibility}}">
+                          <TextBlock Text="{Binding EventType, Converter={StaticResource EventTypeToString}}"
+                                     FontSize="11"
+                                     FontWeight="SemiBold"
+                                     Foreground="White"/>
+                        </Border>
+                        <!-- Archived badge (green, bottom-right of thumbnail) -->
+                        <Border CornerRadius="4" Padding="4,2" Background="#4CAF50"
+                                HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="4">
+                          <Border.IsVisible>
+                            <MultiBinding Converter="{StaticResource ArchivedMultiConverter}">
+                              <Binding Path="FileName"/>
+                              <Binding Path="$parent[ListBox].((vm:RecordingsViewModel)DataContext).ArchivedFileNames"/>
+                            </MultiBinding>
+                          </Border.IsVisible>
+                          <StackPanel Orientation="Horizontal" Spacing="2">
+                            <TextBlock Text="Archived" FontSize="11" FontWeight="SemiBold" Foreground="White"/>
+                          </StackPanel>
+                        </Border>
+                      </Panel>
 
-                    <!-- Aggregated stats -->
-                    <StackPanel Grid.Column="1" Spacing="4" Margin="16,0">
-                      <TextBlock Text="{Binding StartTime, StringFormat='{}{0:MMM dd, yyyy  HH:mm}'}"
-                                 FontSize="14"
-                                 Opacity="0.85"/>
-                      <StackPanel Orientation="Horizontal" Spacing="8">
-                        <TextBlock Text="{Binding TotalDuration, StringFormat='{}{0:mm\\:ss}'}"
+                      <!-- Metadata column -->
+                      <StackPanel Grid.Column="1" Spacing="4" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding DateTime, StringFormat='{}{0:MMM dd, yyyy  HH:mm}'}"
                                    FontSize="14"
                                    Opacity="0.85"/>
-                        <TextBlock Text="{Binding TotalDistance, StringFormat='{}{0:F1} km'}"
-                                   FontSize="14"
-                                   Opacity="0.7"/>
-                        <TextBlock Text="{Binding AvgSpeed, StringFormat='{}{0:F0} km/h'}"
-                                   FontSize="14"
-                                   Opacity="0.7"/>
-                        <TextBlock Text="{Binding PeakGForce, StringFormat='{}{0:F1}g'}"
-                                   FontSize="14"
-                                   Opacity="0.7"/>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                          <TextBlock Text="{Binding Duration, StringFormat='{}{0:mm\\:ss}'}"
+                                     FontSize="14"
+                                     Opacity="0.85"/>
+                          <TextBlock Text="{Binding FileSize, Converter={StaticResource FileSizeConverter}}"
+                                     FontSize="14"
+                                     Opacity="0.85"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                          <TextBlock Text="{Binding AvgSpeed, StringFormat='{}{0:F0} km/h'}"
+                                     FontSize="14"
+                                     Opacity="0.7"/>
+                          <TextBlock Text="{Binding PeakGForce, StringFormat='{}{0:F1}g'}"
+                                     FontSize="14"
+                                     Opacity="0.7"/>
+                          <TextBlock Text="{Binding Distance, StringFormat='{}{0:F1} km'}"
+                                     FontSize="14"
+                                     Opacity="0.7"/>
+                        </StackPanel>
                       </StackPanel>
-                    </StackPanel>
 
-                  </Grid>
+                    </Grid>
+
+                    <!-- Multi-select checkbox overlay (top-left of card) -->
+                    <CheckBox IsVisible="{Binding $parent[ListBox].((vm:RecordingsViewModel)DataContext).IsMultiSelectMode}"
+                              Command="{Binding $parent[ListBox].((vm:RecordingsViewModel)DataContext).ToggleRecordingSelectionCommand}"
+                              CommandParameter="{Binding}"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              Margin="4">
+                      <CheckBox.IsChecked>
+                        <MultiBinding Converter="{StaticResource RecordingIsSelectedConverter}" Mode="OneWay">
+                          <Binding Path="."/>
+                          <Binding Path="$parent[ListBox].((vm:RecordingsViewModel)DataContext).SelectedRecordings"/>
+                        </MultiBinding>
+                      </CheckBox.IsChecked>
+                    </CheckBox>
+
+                  </Panel>
                 </Border>
               </Button>
+            </DataTemplate>
 
-              <!-- Nested clips indented 24px per UI-SPEC -->
-              <ItemsControl ItemsSource="{Binding Clips}" Margin="24,0,0,0">
-                <ItemsControl.ItemTemplate>
-                  <DataTemplate DataType="models:Recording">
-                    <Button Command="{Binding $parent[ListBox].((vm:RecordingsViewModel)DataContext).OpenRecordingCommand}"
-                            CommandParameter="{Binding}"
-                            Background="Transparent"
-                            Padding="0"
-                            Margin="0,4"
-                            HorizontalAlignment="Stretch"
-                            HorizontalContentAlignment="Stretch">
-                      <Border CornerRadius="8"
-                              Padding="8"
-                              Background="#1EFFFFFF">
-                        <Grid ColumnDefinitions="120,*" ColumnSpacing="8">
-                          <Image Grid.Column="0"
-                                 Source="{Binding ThumbnailData, Converter={StaticResource BytesToBitmap}, ConverterParameter=120x68}"
-                                 Width="120"
-                                 Height="68"
-                                 Stretch="UniformToFill"/>
-                          <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
-                            <TextBlock Text="{Binding DateTime, StringFormat='{}{0:HH:mm}'}"
-                                       FontSize="14"
-                                       Opacity="0.85"/>
-                            <TextBlock Text="{Binding Duration, StringFormat='{}{0:mm\\:ss}'}"
-                                       FontSize="12"
-                                       Opacity="0.7"/>
-                          </StackPanel>
-                        </Grid>
-                      </Border>
-                    </Button>
-                  </DataTemplate>
-                </ItemsControl.ItemTemplate>
-              </ItemsControl>
+            <!-- DataTemplate for TripGroup items -->
+            <DataTemplate DataType="models:TripGroup">
+              <StackPanel Spacing="4">
 
-            </StackPanel>
-          </DataTemplate>
+                <!-- Trip header card -->
+                <Button Command="{Binding $parent[ListBox].((vm:RecordingsViewModel)DataContext).OpenTripCommand}"
+                        CommandParameter="{Binding}"
+                        Background="Transparent"
+                        Padding="0"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch">
+                  <Border CornerRadius="8"
+                          Padding="12"
+                          Background="#26FFFFFF">
+                    <Grid ColumnDefinitions="Auto,*,Auto">
 
-        </ListBox.DataTemplates>
+                      <!-- Trip label and clip count -->
+                      <StackPanel Grid.Column="0"
+                                  Orientation="Horizontal"
+                                  Spacing="8"
+                                  VerticalAlignment="Center">
+                        <TextBlock Text="Trip"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"/>
+                        <TextBlock FontSize="12"
+                                   Opacity="0.7">
+                          <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0} clips">
+                              <Binding Path="Clips.Count"/>
+                            </MultiBinding>
+                          </TextBlock.Text>
+                        </TextBlock>
+                      </StackPanel>
 
-      </ListBox>
+                      <!-- Aggregated stats -->
+                      <StackPanel Grid.Column="1" Spacing="4" Margin="16,0">
+                        <TextBlock Text="{Binding StartTime, StringFormat='{}{0:MMM dd, yyyy  HH:mm}'}"
+                                   FontSize="14"
+                                   Opacity="0.85"/>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                          <TextBlock Text="{Binding TotalDuration, StringFormat='{}{0:mm\\:ss}'}"
+                                     FontSize="14"
+                                     Opacity="0.85"/>
+                          <TextBlock Text="{Binding TotalDistance, StringFormat='{}{0:F1} km'}"
+                                     FontSize="14"
+                                     Opacity="0.7"/>
+                          <TextBlock Text="{Binding AvgSpeed, StringFormat='{}{0:F0} km/h'}"
+                                     FontSize="14"
+                                     Opacity="0.7"/>
+                          <TextBlock Text="{Binding PeakGForce, StringFormat='{}{0:F1}g'}"
+                                     FontSize="14"
+                                     Opacity="0.7"/>
+                        </StackPanel>
+                      </StackPanel>
 
-    </Panel>
+                    </Grid>
+                  </Border>
+                </Button>
 
-  </Grid>
+                <!-- Nested clips indented 24px per UI-SPEC -->
+                <ItemsControl ItemsSource="{Binding Clips}" Margin="24,0,0,0">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="models:Recording">
+                      <Button Command="{Binding $parent[ListBox].((vm:RecordingsViewModel)DataContext).OpenRecordingCommand}"
+                              CommandParameter="{Binding}"
+                              Background="Transparent"
+                              Padding="0"
+                              Margin="0,4"
+                              HorizontalAlignment="Stretch"
+                              HorizontalContentAlignment="Stretch">
+                        <Border CornerRadius="8"
+                                Padding="8"
+                                Background="#1EFFFFFF">
+                          <Grid ColumnDefinitions="120,*" ColumnSpacing="8">
+                            <Image Grid.Column="0"
+                                   Source="{Binding ThumbnailData, Converter={StaticResource BytesToBitmap}, ConverterParameter=120x68}"
+                                   Width="120"
+                                   Height="68"
+                                   Stretch="UniformToFill"/>
+                            <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
+                              <TextBlock Text="{Binding DateTime, StringFormat='{}{0:HH:mm}'}"
+                                         FontSize="14"
+                                         Opacity="0.85"/>
+                              <TextBlock Text="{Binding Duration, StringFormat='{}{0:mm\\:ss}'}"
+                                         FontSize="12"
+                                         Opacity="0.7"/>
+                            </StackPanel>
+                          </Grid>
+                        </Border>
+                      </Button>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+              </StackPanel>
+            </DataTemplate>
+
+          </ListBox.DataTemplates>
+
+        </ListBox>
+
+      </Panel>
+
+    </Grid>
+
+    <!-- Archive progress overlay (full-screen, shown during batch archive) -->
+    <Border IsVisible="{Binding IsArchiving}"
+            Background="#CC000000"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="16">
+        <TextBlock Text="{Binding ArchiveStatusText}"
+                   FontSize="14" Foreground="White"
+                   HorizontalAlignment="Center"/>
+        <ProgressBar Value="{Binding ArchiveProgress}"
+                     Minimum="0" Maximum="1"
+                     Height="4" Width="200"/>
+        <Button Content="Stop Archiving"
+                Command="{Binding CancelArchiveCommand}"
+                HorizontalAlignment="Center"
+                Padding="12,8"/>
+      </StackPanel>
+    </Border>
+
+  </Panel>
 
 </ContentPage>
