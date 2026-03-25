@@ -89,7 +89,13 @@ Plans:
   1. User can navigate to a Live Feed screen and see a real-time video stream from the front camera
   2. User can toggle between front and rear camera feeds without leaving the Live Feed screen
   3. User can view a Dashboard showing recent recordings, recent trips, and recent events at a glance
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — VideoView.cs Avalonia 12 port, NuGet cleanup, LiveFeedViewModel + DashboardViewModel with tests, DI rewiring
+- [ ] 04-02-PLAN.md — LiveFeedPage XAML with video area, camera toggle, loading/connection-loss states, code-behind lifecycle
+- [ ] 04-03-PLAN.md — DashboardPage XAML with three sections (recordings, trips, events), compact cards, See All navigation
+
 **UI hint**: yes
 
 ## Progress
@@ -102,4 +108,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Foundation | 2/4 | In Progress|  |
 | 2. Settings | 4/5 | In Progress|  |
 | 3. Recordings | 3/5 | In Progress|  |
-| 4. Live Feed and Dashboard | 0/TBD | Not started | - |
+| 4. Live Feed and Dashboard | 0/3 | Not started | - |
