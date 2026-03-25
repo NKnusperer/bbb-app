@@ -77,7 +77,7 @@ Plans:
 - [x] 03-02-PLAN.md — TripGroupingService, ArchiveService, NavigationService implementation, value converters, DI registrations
 - [x] 03-03-PLAN.md — RecordingsViewModel with filtering and trip grouping, RecordingsPage XAML with card list and filter chips
 - [x] 03-04-PLAN.md — RecordingDetailViewModel with playback controls, RecordingDetailPage with LibVLCSharp VideoView, DesktopMediaPlayerService
-- [ ] 03-05-PLAN.md — Multi-select archive flow, archived badges, archive progress overlay, visual verification
+- [x] 03-05-PLAN.md — Multi-select archive flow, archived badges, archive progress overlay, visual verification
 
 **UI hint**: yes
 
