@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Ready to execute
-stopped_at: Completed 03-recordings-03-01-PLAN.md
-last_updated: "2026-03-25T07:29:46.984Z"
+stopped_at: Completed 03-recordings-03-02-PLAN.md
+last_updated: "2026-03-25T07:36:34.045Z"
 progress:
   total_phases: 4
   completed_phases: 2
   total_plans: 14
-  completed_plans: 10
+  completed_plans: 11
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-24)
 ## Current Position
 
 Phase: 03 (recordings) — EXECUTING
-Plan: 2 of 5
+Plan: 3 of 5
 
 ## Performance Metrics
 
@@ -56,6 +56,7 @@ Plan: 2 of 5
 | Phase 02-settings P04 | 15min | 2 tasks | 6 files |
 | Phase 02-settings P05 | 5min | 2 tasks | 4 files |
 | Phase 03-recordings P01 | 313s | 2 tasks | 14 files |
+| Phase 03-recordings P02 | 10min | 2 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -90,6 +91,9 @@ Recent decisions affecting current work:
 - [Phase 02-settings]: DiscardChanges() is a public method on SettingsViewModel (not a command) consumed by AppShellViewModel directly
 - [Phase 03-recordings]: Recording uses C# record for value equality; TripGroup computes aggregates on-demand from clips list; IMediaPlayerService uses object player handle for platform agnosticism
 - [Phase 03-recordings]: Bogus seed 42 for deterministic mock data; sample.mp4 bundled as EmbeddedResource for test environment compatibility; first 6 recordings spaced 20s apart for trip grouping tests
+- [Phase 03-recordings]: ArchiveService two-constructor pattern: production uses ~/BlackBoxBuddy/Archives/; tests inject temp dir for isolation
+- [Phase 03-recordings]: NSubstitute Returns lambda form prevents ObjectDisposedException when mock streams consumed across multiple using blocks
+- [Phase 03-recordings]: TripGroupingService emits standalone Recording (not single-clip TripGroup) to simplify ViewModel type discrimination
 
 ### Pending Todos
 
@@ -102,6 +106,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-25T07:29:46.983Z
-Stopped at: Completed 03-recordings-03-01-PLAN.md
+Last session: 2026-03-25T07:36:34.043Z
+Stopped at: Completed 03-recordings-03-02-PLAN.md
 Resume file: None

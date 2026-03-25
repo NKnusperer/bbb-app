@@ -116,15 +116,15 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Virtual Trips
 
-- [ ] **TRIP-01**: App automatically combines consecutive recordings into virtual trips
+- [x] **TRIP-01**: App automatically combines consecutive recordings into virtual trips
 - [ ] **TRIP-02**: Virtual trip uses same UI as single recording detail
-- [ ] **TRIP-03**: Virtual trip shows aggregated metadata (duration, distance, avg speed, peak G-force)
+- [x] **TRIP-03**: Virtual trip shows aggregated metadata (duration, distance, avg speed, peak G-force)
 
 ### Archive
 
-- [ ] **ARCH-01**: User can archive a single recording to local storage
-- [ ] **ARCH-02**: User can archive a virtual trip to local storage
-- [ ] **ARCH-03**: Archive operation downloads content from dashcam to device storage
+- [x] **ARCH-01**: User can archive a single recording to local storage
+- [x] **ARCH-02**: User can archive a virtual trip to local storage
+- [x] **ARCH-03**: Archive operation downloads content from dashcam to device storage
 
 ## v2 Requirements
 
@@ -227,12 +227,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | RDTL-06 | Phase 3 | Pending |
 | RDTL-07 | Phase 3 | Pending |
 | RDTL-08 | Phase 3 | Pending |
-| TRIP-01 | Phase 3 | Pending |
+| TRIP-01 | Phase 3 | Complete |
 | TRIP-02 | Phase 3 | Pending |
-| TRIP-03 | Phase 3 | Pending |
-| ARCH-01 | Phase 3 | Pending |
-| ARCH-02 | Phase 3 | Pending |
-| ARCH-03 | Phase 3 | Pending |
+| TRIP-03 | Phase 3 | Complete |
+| ARCH-01 | Phase 3 | Complete |
+| ARCH-02 | Phase 3 | Complete |
+| ARCH-03 | Phase 3 | Complete |
 | LIVE-01 | Phase 4 | Pending |
 | LIVE-02 | Phase 4 | Pending |
 | LIVE-03 | Phase 4 | Pending |
