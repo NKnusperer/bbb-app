@@ -31,9 +31,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Dashboard
 
-- [ ] **DASH-01**: Dashboard shows recent recordings
-- [ ] **DASH-02**: Dashboard shows recent trips
-- [ ] **DASH-03**: Dashboard shows recent events
+- [x] **DASH-01**: Dashboard shows recent recordings
+- [x] **DASH-02**: Dashboard shows recent trips
+- [x] **DASH-03**: Dashboard shows recent events
 
 ### Settings — WiFi
 
@@ -236,9 +236,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | LIVE-01 | Phase 4 | Complete |
 | LIVE-02 | Phase 4 | Complete |
 | LIVE-03 | Phase 4 | Complete |
-| DASH-01 | Phase 4 | Pending |
-| DASH-02 | Phase 4 | Pending |
-| DASH-03 | Phase 4 | Pending |
+| DASH-01 | Phase 4 | Complete |
+| DASH-02 | Phase 4 | Complete |
+| DASH-03 | Phase 4 | Complete |
 
 **Coverage:**
 - v1 requirements: 68 total

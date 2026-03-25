@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 1: Foundation** - App shell, device abstractions, mock device, connection flow, and provisioning wizard
 - [ ] **Phase 2: Settings** - Full device configuration — WiFi, recording modes, channels, sensors, overlays, and danger zone
 - [ ] **Phase 3: Recordings** - Recording list with filtering, detail view with playback, virtual trips, and archive to local storage
-- [ ] **Phase 4: Live Feed and Dashboard** - Live camera feed with front/rear toggle and dashboard summary of recent activity
+- [x] **Phase 4: Live Feed and Dashboard** - Live camera feed with front/rear toggle and dashboard summary of recent activity (completed 2026-03-25)
 
 ## Phase Details
 
@@ -93,8 +93,8 @@ Plans:
 
 Plans:
 - [x] 04-01-PLAN.md — VideoView.cs Avalonia 12 port, NuGet cleanup, LiveFeedViewModel + DashboardViewModel with tests, DI rewiring
-- [ ] 04-02-PLAN.md — LiveFeedPage XAML with video area, camera toggle, loading/connection-loss states, code-behind lifecycle
-- [ ] 04-03-PLAN.md — DashboardPage XAML with three sections (recordings, trips, events), compact cards, See All navigation
+- [x] 04-02-PLAN.md — LiveFeedPage XAML with video area, camera toggle, loading/connection-loss states, code-behind lifecycle
+- [x] 04-03-PLAN.md — DashboardPage XAML with three sections (recordings, trips, events), compact cards, See All navigation
 
 **UI hint**: yes
 
@@ -108,4 +108,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Foundation | 2/4 | In Progress|  |
 | 2. Settings | 4/5 | In Progress|  |
 | 3. Recordings | 3/5 | In Progress|  |
-| 4. Live Feed and Dashboard | 1/3 | In Progress|  |
+| 4. Live Feed and Dashboard | 3/3 | Complete   | 2026-03-25 |
