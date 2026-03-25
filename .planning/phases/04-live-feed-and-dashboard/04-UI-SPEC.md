@@ -105,13 +105,13 @@ New components required for this phase:
 **Camera Segmented Toggle**
 - Two-button pill group: "Front" | "Rear"
 - Placement: fixed bar below the video area
-- Height: 44px (touch target requirement)
+- Height: 44px (touch target requirement — enforced by the outer Border/container height constraint, not by button padding alone)
 - Active segment: Background `#2196F3`, Foreground White
 - Inactive segment: Background `#1AFFFFFF`, Foreground White at 0.7 opacity
 - CornerRadius: outer pill 22px; each button 0px (contained by outer Border)
 - Margin from video bottom: 8px
 - Full width with equal split: `Grid ColumnDefinitions="*,*"`
-- Padding per button: `12,10`
+- Padding per button: `Padding="12,8"` (horizontal 12px, vertical 8px — both multiples of 4)
 
 **Video Area**
 - `Panel` with black background (`#111111`) filling available space
@@ -177,22 +177,22 @@ New components required for this phase:
 
 All copy is prescriptive. Do not alter wording during implementation.
 
-| Element | Copy |
-|---------|------|
-| Primary CTA — live feed toggle (front) | "Front" |
-| Primary CTA — live feed toggle (rear) | "Rear" |
-| Live feed loading | "Connecting to camera..." |
-| Live feed connection loss heading | "Connection lost" |
-| Live feed connection loss body | "Check your dashcam connection and try again." |
-| Live feed retry button | "Retry Connection" |
-| Dashboard loading | "Loading dashboard..." |
-| Dashboard empty state heading | "No dashcam connected" |
-| Dashboard empty state body | "Connect your dashcam to see recent recordings and trips." |
-| Dashboard section — Recent Recordings | "Recent Recordings" |
-| Dashboard section — Recent Trips | "Recent Trips" |
-| Dashboard section — Recent Events | "Recent Events" |
-| Dashboard "See All" link | "See All" |
-| Error — stream failed (non-connection-loss) | "Stream unavailable" / "Could not start the camera feed. Try toggling to the other camera." |
+| Element | Copy | Notes |
+|---------|------|-------|
+| Camera toggle — front selector | "Front" | Selector label, not an action CTA — identifies the active camera channel |
+| Camera toggle — rear selector | "Rear" | Selector label, not an action CTA — identifies the active camera channel |
+| Live feed loading | "Connecting to camera..." | — |
+| Live feed connection loss heading | "Connection lost" | — |
+| Live feed connection loss body | "Check your dashcam connection and try again." | — |
+| Live feed retry button | "Retry Connection" | Action CTA |
+| Dashboard loading | "Loading dashboard..." | — |
+| Dashboard empty state heading | "No dashcam connected" | — |
+| Dashboard empty state body | "Connect your dashcam to see recent recordings and trips." | — |
+| Dashboard section — Recent Recordings | "Recent Recordings" | Section label |
+| Dashboard section — Recent Trips | "Recent Trips" | Section label |
+| Dashboard section — Recent Events | "Recent Events" | Section label |
+| Dashboard "See All" link | "See All" | Navigation action |
+| Error — stream failed (non-connection-loss) | "Stream unavailable" / "Could not start the camera feed. Try toggling to the other camera." | — |
 
 Destructive actions: none in this phase. No confirmation dialogs required.
 
