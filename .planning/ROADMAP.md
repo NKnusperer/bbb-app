@@ -92,7 +92,7 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — VideoView.cs Avalonia 12 port, NuGet cleanup, LiveFeedViewModel + DashboardViewModel with tests, DI rewiring
+- [x] 04-01-PLAN.md — VideoView.cs Avalonia 12 port, NuGet cleanup, LiveFeedViewModel + DashboardViewModel with tests, DI rewiring
 - [ ] 04-02-PLAN.md — LiveFeedPage XAML with video area, camera toggle, loading/connection-loss states, code-behind lifecycle
 - [ ] 04-03-PLAN.md — DashboardPage XAML with three sections (recordings, trips, events), compact cards, See All navigation
 
@@ -108,4 +108,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Foundation | 2/4 | In Progress|  |
 | 2. Settings | 4/5 | In Progress|  |
 | 3. Recordings | 3/5 | In Progress|  |
-| 4. Live Feed and Dashboard | 0/3 | Not started | - |
+| 4. Live Feed and Dashboard | 1/3 | In Progress|  |

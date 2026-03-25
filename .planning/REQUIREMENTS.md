@@ -85,9 +85,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Live Feed
 
-- [ ] **LIVE-01**: User can view live video feed from front camera
-- [ ] **LIVE-02**: User can view live video feed from rear camera
-- [ ] **LIVE-03**: User can toggle between front and rear camera feeds
+- [x] **LIVE-01**: User can view live video feed from front camera
+- [x] **LIVE-02**: User can view live video feed from rear camera
+- [x] **LIVE-03**: User can toggle between front and rear camera feeds
 
 ### Recordings
 
@@ -233,9 +233,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ARCH-01 | Phase 3 | Complete |
 | ARCH-02 | Phase 3 | Complete |
 | ARCH-03 | Phase 3 | Complete |
-| LIVE-01 | Phase 4 | Pending |
-| LIVE-02 | Phase 4 | Pending |
-| LIVE-03 | Phase 4 | Pending |
+| LIVE-01 | Phase 4 | Complete |
+| LIVE-02 | Phase 4 | Complete |
+| LIVE-03 | Phase 4 | Complete |
 | DASH-01 | Phase 4 | Pending |
 | DASH-02 | Phase 4 | Pending |
 | DASH-03 | Phase 4 | Pending |
