@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using BlackBoxBuddy.ViewModels;
 
 namespace BlackBoxBuddy.Views;
@@ -12,15 +13,24 @@ public partial class DashboardPage : ContentPage
     {
         InitializeComponent();
         IsVisibleProperty.Changed.AddClassHandler<DashboardPage>((page, _) => page.OnVisibilityChanged());
+        Loaded += OnLoaded;
     }
 
     private DashboardViewModel? Vm => DataContext as DashboardViewModel;
+
+    private void OnLoaded(object? sender, RoutedEventArgs e)
+    {
+        // First tab (Dashboard) is visible from construction — IsVisible never
+        // changes, so AddClassHandler never fires. Loaded guarantees DataContext
+        // is set and the visual tree is ready.
+        if (IsVisible)
+            Vm?.LoadDashboardCommand.Execute(null);
+    }
 
     private void OnVisibilityChanged()
     {
         if (IsVisible)
         {
-            // Load dashboard data on first visible (IsDashboardLoaded guard prevents reload)
             Vm?.LoadDashboardCommand.Execute(null);
         }
     }

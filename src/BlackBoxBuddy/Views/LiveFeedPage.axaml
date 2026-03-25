@@ -13,7 +13,6 @@
            ContentControl x:Name="VideoViewHost" is populated via reflection in LiveFeedPage.axaml.cs
            to avoid compile-time dependency on BlackBoxBuddy.Desktop.Controls. -->
       <ContentControl x:Name="VideoViewHost"
-                      IsVisible="{Binding IsStreamActive}"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch"/>
 
